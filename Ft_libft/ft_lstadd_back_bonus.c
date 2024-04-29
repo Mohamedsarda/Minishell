@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:13:37 by eel-ghal         ###   ########.fr       */
+/*   Created: 2023/11/08 02:26:30 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/01/22 16:48:22 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../push.h"
 
-int main(int ac, char **av)
+void	ft_lstadd_back(t_list **head, t_list *node)
 {
-	t_words *words;
-	char *string;
+	t_list	*last;
 
-	words = NULL;
-	while (1)
+	if (*head == NULL)
 	{
-		string = readline("zaml > ");
-		char *str_sp = ft_parsing(string);
-		add_struct(str_sp, &words);
-		printf("%s\n", str_sp);
+		*head = node;
+		return ;
 	}
-	return (0);
+	if (!head || !node)
+		return ;
+	last = *head;
+	while (last->next)
+		last = last->next;
+	last->next = node;
 }
