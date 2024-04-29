@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-int main(int ac, char **av)
+
+int main()
 {
 	t_words *words;
 	char *string;
@@ -20,6 +21,7 @@ int main(int ac, char **av)
 	words = NULL;
 	while (1)
 	{
+		// signal(SIGINT, ft_sighandler);
 		string = readline("zaml > ");
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
