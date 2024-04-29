@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:50:50 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 14:14:59 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:05:09 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int	ft_add(t_words **head, char *a)
 	ft_lstadd_back(head, node);
 	return (0);
 }
-
 
 static void	free_split(char **tmp)
 {
