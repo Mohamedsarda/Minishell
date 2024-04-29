@@ -6,8 +6,8 @@ SRCS	= ./Ft_libft/ft_strlen.c  ./Ft_libft/ft_lstadd_back_bonus.c \
 			./Parsing/parsing.c \
 		main.c
 
-LDFLAGS="-L/Users/($USER)/.brew/opt/readline/lib"
-CPPFLAGS="-I/Users/($USER)/.brew/opt/readline/include"
+LDFLAGS="-L/Users/$(USER)/.brew/opt/readline/lib"
+CPPFLAGS="-I/Users/$(USER)/.brew/opt/readline/include"
 
 OBJS	= $(SRCS:.c=.o)
 NAME	= minishell
@@ -15,10 +15,10 @@ NAME	= minishell
 all: $(NAME)
 
 %.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS)  -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS) -lreadline $(OBJS) -o $@
+	$(CC) $(CFLAGS) -lreadline  $(LDFLAGS) $(CPPFLAGS) $(OBJS) -o $@
 
 	
 clean:
