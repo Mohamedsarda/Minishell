@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:32 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 15:01:41 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:17:49 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "readline/readline.h"
+# include "readline/history.h"
 # include <signal.h>
 
 typedef struct s_words
