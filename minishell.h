@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 typedef struct s_words
 {
@@ -36,7 +37,8 @@ size_t	ft_strlen(char *s);
 
 //split
 char	**ft_split(char const *s, char c);
-
+void	ft_bzero(void *dst, size_t n);
+void	ft_lstadd_back(t_words **head, t_words *node);
 //
 
 
