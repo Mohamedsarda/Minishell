@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:13:37 by eel-ghal         ###   ########.fr       */
+/*   Created: 2023/11/08 02:46:12 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/01/22 16:19:38 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../push.h"
 
-int main(int ac, char **av)
+void	ft_lstdelone(t_list *lst)
 {
-	t_words *words;
-	char *string;
-
-	words = NULL;
-	while (1)
-	{
-		string = readline("zaml > ");
-		char *str_sp = ft_parsing(string);
-		add_struct(str_sp, &words);
-		printf("%s\n", str_sp);
-	}
-	return (0);
+	if (lst == NULL)
+		return ;
+	free(lst);
 }

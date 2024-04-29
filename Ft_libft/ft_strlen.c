@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:13:37 by eel-ghal         ###   ########.fr       */
+/*   Created: 2023/10/31 02:53:29 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/04/29 13:21:28 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int main(int ac, char **av)
+size_t	ft_strlen(char *s)
 {
-	t_words *words;
-	char *string;
+	size_t	i;
 
-	words = NULL;
-	while (1)
-	{
-		string = readline("zaml > ");
-		char *str_sp = ft_parsing(string);
-		add_struct(str_sp, &words);
-		printf("%s\n", str_sp);
-	}
-	return (0);
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
