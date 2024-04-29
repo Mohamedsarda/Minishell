@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:13:37 by eel-ghal         ###   ########.fr       */
+/*   Created: 2023/11/07 01:35:37 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/04/29 13:18:46 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int main(int ac, char **av)
+t_words	*ft_lstnew(char *content)
 {
-	t_words *words;
-	char *string;
+	t_words	*new_node;
 
-	words = NULL;
-	while (1)
-	{
-		string = readline("zaml > ");
-		char *str_sp = ft_parsing(string);
-		add_struct(str_sp, &words);
-		printf("%s\n", str_sp);
-	}
-	return (0);
+	new_node = NULL;
+	new_node = (t_words *)malloc(sizeof(t_words));
+	if (!new_node)
+		return (NULL);
+	new_node->word = content;
+	new_node->next = NULL;
+	return (new_node);
 }
