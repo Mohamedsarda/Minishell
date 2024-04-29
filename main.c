@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 16:25:12 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:38:59 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ int main()
 	{
 		signal(SIGINT, ft_sighandler);
 		string = readline("jjjj > ");
-		// if(!hundle_error(string))
-		// 	return 0;
+		if(!string)
+			break;
+		if(!hundle_error(string))
+			return 0;
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
 	}
