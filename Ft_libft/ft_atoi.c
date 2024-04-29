@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:13:37 by eel-ghal         ###   ########.fr       */
+/*   Created: 2023/11/05 18:53:59 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/01/22 16:54:18 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../push.h"
 
-int main(int ac, char **av)
+int	ft_atoi(char *str)
 {
-	t_words *words;
-	char *string;
+	long	nbr;
+	int		sign;
+	int		n;
 
-	words = NULL;
-	while (1)
+	nbr = 0;
+	sign = 1;
+	if (*str == '-' || *str == '+')
 	{
-		string = readline("zaml > ");
-		char *str_sp = ft_parsing(string);
-		add_struct(str_sp, &words);
-		printf("%s\n", str_sp);
+		if (*str == '-')
+			sign *= -1;
+		str++;
 	}
-	return (0);
+	while (*str >= '0' && *str <= '9')
+	{
+		nbr = nbr * 10 + (*str - '0');
+		str++;
+	}
+	n = nbr * sign;
+	return (n);
 }
