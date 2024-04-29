@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 10:52:38 by eel-ghal         ###   ########.fr       */
+/*   Created: 2024/04/29 10:50:50 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/04/29 10:56:28 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int main(int ac, char **av)
+void    ft_parsing(char *str)
 {
-	char *string;
-	while (1)
-	{
-		string = readline("zaml > ");
-		ft_parsing(string);
-	}
-	
-	return (0);
+    while (*str)
+    {
+        write(1, str, 1);
+        str++;
+    }
+        
 }
