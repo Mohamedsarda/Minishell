@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 02:12:46 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:21:18 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:45:57 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	**ft_split(char const *s, char c)
 	while (*s == ' ' || *s == '\t')
 		s++;
 	if (*s == '\0')
-		ft_exit();
+		exit(0);
 	words = ft_words_counter(s, c);
 	dst = (char **)malloc((words + 1) * sizeof(char *));
 	if (!dst)

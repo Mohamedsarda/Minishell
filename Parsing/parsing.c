@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:50:50 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:36:36 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:14:59 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,25 @@ char	*ft_parsing(char *str)
 	return (str_sp);
 }
 
-// 
-// static int	ft_add(t_words **head, char *a)
-// {
-// 	t_words	*node;
+static int	ft_add(t_words **head, char *a)
+{
+	t_words	*node;
 
-// 	node = ft_lstnew(a);
-// 	ft_lstadd_back(head, node);
-// 	return (0);
-// }
+	node = ft_lstnew(a);
+	ft_lstadd_back(head, node);
+	return (0);
+}
 
 
+static void	free_split(char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+		free(tmp[i++]);
+	free(tmp);
+}
 
 void	add_struct(char *str, t_words **words)
 {
@@ -83,7 +91,7 @@ void	add_struct(char *str, t_words **words)
 	tmp = ft_split(str, ' ');
 	if (tmp == NULL || *tmp == NULL)
 		return ;
-	printf("%s\n", *tmp);
-	// while (tmp[++j])
-	// 	ft_add(words, tmp[j]);
+	while (tmp[++j])
+		ft_add(words, tmp[j]);
+	free_split(tmp);
 }
