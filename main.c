@@ -15,11 +15,12 @@
 void ft_sighandler(int i)
 {
 	(void)i;
-	rl_catch_signals = 0;
-	write(1, "\n", 1); // Print a newline to ensure a new prompt starts on a new line
-	rl_replace_line("", 0);
-	rl_on_new_line(); // Reset readline's internal state
-	rl_redisplay();
+    rl_catch_signals = 0;
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    // rl_catch_signals = 1;
 }
 
 int main()
@@ -28,14 +29,15 @@ int main()
 	char *string;
 
 	words = NULL;
+	signal(SIGINT, ft_sighandler);
+    rl_catch_signals = 0;
 	while (1)
 	{
-		signal(SIGINT, ft_sighandler);
-		string = readline("jjjj > ");
-		if(!string)
-			break;
-		if(!hundle_error(string))
-			return 0;
+		string = readline("minishell > ");
+		if (!string)
+			break ;
+		// if(!hundle_error(string))
+		// 	return 0;
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
 	}

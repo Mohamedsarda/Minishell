@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:32 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 16:17:49 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:16:33 by msarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include "readline/readline.h"
 # include "readline/history.h"
 # include <signal.h>
+
+# define WORD 0
+# define REDIN 1 // <
+# define REDOU 2 // >
+# define PIPE 3 // |
+# define HERD 4 // <<
+# define APPEND 5 // >>
+# define ENVV 6 // $
 
 typedef struct s_words
 {
@@ -39,6 +47,7 @@ size_t	ft_strlen(char *s);
 char	**ft_split(char const *s, char c);
 void	ft_bzero(void *dst, size_t n);
 void	ft_lstadd_back(t_words **head, t_words *node);
+int	ft_strcmp(char *s1, char *s2);
 //
 
 #endif
