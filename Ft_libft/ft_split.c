@@ -12,78 +12,94 @@
 
 #include "../minishell.h"
 
-static int	count_words(char const *s, char c)
+static int	ft_words_counter(char const *str, char c)
 {
 	int	i;
-	int	check;
-	int	count;
+	int	words;
+	int	is_word;
 
 	i = 0;
-	count = 0;
-	while (s[i])
+	words = 0;
+	is_word = 0;
+	while (str[i])
 	{
-		check = 0;
-		while (s[i] && s[i] == c)
-			i++;
-		while (s[i] && s[i] != c)
+		if (str[i] == c || str[i] == '\t')
+			is_word = 0;
+		else if (!is_word)
 		{
-			check = 1;
-			i++;
+			words++;
+			is_word = 1;
 		}
-		if (check == 1)
-			count++;
+		i++;
 	}
-	return (count);
+	return (words);
 }
 
-static void	ft_free(char **res, int i)
+static int	ft_word_len(char const *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && (str[i] != c && str[i] != '\t'))
+		i++;
+	return (i);
+}
+
+static void	*ft_free(char **arr, int i)
 {
 	int	j;
 
 	j = 0;
 	while (j < i)
 	{
-		free(res[j]);
+		free(arr[j]);
 		j++;
 	}
-	free(res);
+	free(arr);
+	return (NULL);
 }
 
-static char	**ft_loop( char *s, char **res, char c)
+static char	**ft_putword(char const *str, char c, int words, char **dst)
 {
-	char	*start;
-	int		i;
+	int	i;
+	int	len;
+	int	j;
 
 	i = 0;
-	while (*s)
+	len = 0;
+	while (i < words)
 	{
-		start = s;
-		if (*s != c)
-		{
-			while (*s != c && *s)
-				s++;
-			res[i] = ft_substr(start, 0, s - start);
-			if (res[i] == NULL)
-				return (ft_free (res, i), NULL);
-			i++;
-		}
-		else
-			s++;
+		while (*str == c || *str == '\t')
+			str++;
+		len = ft_word_len(str, c);
+		dst[i] = (char *)malloc(len * sizeof(char) + 1);
+		if (!dst[i])
+			return (ft_free(dst, i));
+		j = 0;
+		while (j < len)
+			dst[i][j++] = *str++;
+		dst[i][j] = '\0';
+		i++;
 	}
-	res[i] = NULL;
-	return (res);
+	dst[i] = NULL;
+	return (dst);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	char	**res;
-	int		worlds;
+	char	**dst;
+	int		words;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	worlds = count_words(s, c);
-	res = malloc((worlds + 1) * sizeof(char *));
-	if (res == NULL)
+	while (*s == ' ' || *s == '\t')
+		s++;
+	if (*s == '\0')
+		ft_exit();
+	words = ft_words_counter(s, c);
+	dst = (char **)malloc((words + 1) * sizeof(char *));
+	if (!dst)
 		return (NULL);
-	return (ft_loop (s, res, c));
+	dst = ft_putword(s, c, words, dst);
+	return (dst);
 }
