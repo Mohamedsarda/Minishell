@@ -4,15 +4,16 @@
 int	ft_stack_words(t_words *words)
 {
 	int	i;
-	// int	flag;
 
 	i = 0;
-	// flag = 0;
 	while (words)
 	{
 		if (words->type == 0) 
 			i++;
-		else if (words->type == 2)
+		else if (words->type == 2 || words->type == 1 ||
+			words->type == 4 || words->type == 5)
+			words = words->next;
+		if (words->type == 3)
 			break ;
 		words = words->next;
 	}
@@ -54,7 +55,6 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	char	**dst;
 	int		words;
 	int		i;
-	// t_words	*tmp;
 
 	words = ft_stack_words(*head);
 	printf("words : {%d}\n", words);
@@ -62,24 +62,30 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	if (!dst)
 		return (NULL);
 	i = 0;
-	while ((*head))
+	while ((*head) && (*head)->type != PIPE)
 	{
-		if ((*head)->type == 0)
+		if ((*head)->type == WORD)
 		{
 			dst[i] = ft_putword((*head)->word);
 			i++;
 			ft_next_node(head);
 		}
-		else if ((*head)->type == 2)
+		else if ((*head)->type == REDOU)
 		{
 			ft_next_node(head);
 			stack_2->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
 			ft_next_node(head);
 		}
-		else if ((*head)->type == 1)
+		else if ((*head)->type == REDIN)
 		{
 			ft_next_node(head);
 			stack_2->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
+			ft_next_node(head);
+		}
+		else if ((*head)->type == APPEND)
+		{
+			ft_next_node(head);
+			stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
 			ft_next_node(head);
 		}
 	}
