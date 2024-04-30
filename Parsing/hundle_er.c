@@ -1,17 +1,13 @@
 
-int	hundle_error(char *str)
+#include "../minishell.h"
+
+int	hundle_error(t_words *words)
 {
-	int i = 0;
-	
-	while (str[i])
+	t_words *a = words;
+	while(a)
 	{
-		if (str[i] == '|' && str[i + 1] == '|')
-			return (0);
-		if (str[i] == '>' && (str[i + 1] == '|' || str[i + 1] == '<'))
-			return (0);
-		if (str[i] == '>' && (str[i + 1] == '|' || str[i + 1] == '<'))
-			return (0);
-		i++;
+		
+		a = a->next;
 	}
 	
 }
