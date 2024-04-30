@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:50:50 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 13:23:01 by eel-ghal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -145,9 +134,7 @@ void    check_right_symbols(char **str, char **str_sp)
 char    *ft_parsing(char *str)
 {
     char    *str_sp;
-    int        j;
 
-    j = 0;
     str_sp = malloc(ft_strlen_str_sp(str) + 1);
     char *t = str_sp;
     while (*str)

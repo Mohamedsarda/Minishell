@@ -1,18 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: medsarda <medsarda@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/30 12:50:47 by medsarda         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/30 13:09:38 by eel-ghal         ###   ########.fr       */
->>>>>>> eel-ghal
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -47,7 +32,6 @@ int main()
 		// 	return 0;
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
-<<<<<<< HEAD
 		tmp = ft_parse_stack(&words);
 		// t_words *test = tmp;
 		// while (test)
@@ -55,14 +39,6 @@ int main()
 		// 	printf("[%s] ", test->word);
 		// 	test = test->next;
 		// }
-=======
-		t_words *a = words;
-		while (a)
-		{
-			printf("%s | %d\n", a->word, a->type);
-			a = a->next;
-		}
->>>>>>> eel-ghal
 	}
 	return (0);
 }
