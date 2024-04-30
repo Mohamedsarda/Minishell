@@ -44,9 +44,30 @@ void multiple(char **str)
 				i++;
 			}
 		}
+		else if(str[0][i] == '\'')
+		{
+			i++;
+			while(str[0][i] != '\'')
+			{
+				str[0][i] *= -1;
+				i++;
+			}
+		}
 		i++;
 	}
 }
+
+void	back_to_string(t_words *words)
+{
+	while (words)
+	{
+		if(words->word[0] == '\'' || words->word[0] == '\"')
+			multiple(&words->word);
+		words = words->next;
+	}
+	
+}
+
 
 int main()
 {
@@ -71,6 +92,7 @@ int main()
 		add_struct(str_sp, &words);
 		if (!hundle_error(words))
 			return (1);
+		back_to_string(words);
 		tmp = ft_parse_stack(&words);
 	}
 	return (0);

@@ -139,7 +139,12 @@ t_joins *ft_parse_stack(t_words **words)
 	}
 	while (stack_2)
 	{
-		printf("{%s}\n", stack_2->content[0]);
+		int i = 0;
+		while (stack_2->content[i])
+		{
+			printf("{%s}\n", stack_2->content[i]);
+			i++;
+		}
 		stack_2 = stack_2->next;
 	}
 	return (stack_2);
