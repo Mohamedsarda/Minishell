@@ -6,7 +6,7 @@
 /*   By: medsarda <medsarda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:32 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 09:45:34 by medsarda         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:50:43 by medsarda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ typedef struct s_words
 	struct s_words	*next;
 }	t_words;
 
+typedef struct s_joins
+{
+	char		**content;
+	int			in;
+	int			out;
+	struct s_joins *next;
+}	t_joins;
+
 int		ft_strlen_str_sp(char *str);
 char	*ft_parsing(char *str);
 void	add_struct(char *str, t_words **words);
@@ -51,6 +59,6 @@ int	ft_strcmp(char *s1, char *s2);
 //
 void	ft_lstclear(t_words **lst);
 void	ft_lstdelone(t_words *lst);
-t_words *ft_parse_stack(t_words **words);
+t_joins *ft_parse_stack(t_words **words);
 
 #endif
