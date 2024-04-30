@@ -21,7 +21,6 @@ char	*ft_putword(char *str)
 	int		i;
 	char	*dst;
 
-	// printf("%s --", str);ake
 	len = ft_strlen(str);
 	i = 0;
 	dst = (char *)malloc(len + 1);
@@ -51,10 +50,10 @@ char	**ft_create_list(t_words *head)
 	{
 		if (head->type == 0)
 		{
-			// printf("[%s]\n", head->word);
 			dst[i] = ft_putword(head->word);
 			i++;
 		}
+		else if (head)
 		head = head->next;
 	}
 	dst[i] = NULL;
