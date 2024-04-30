@@ -69,7 +69,7 @@ int main()
 			return (0);
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
-		hundle_error(words);
+		// hundle_error(words);
 		tmp = ft_parse_stack(&words);
 	}
 	return (0);
