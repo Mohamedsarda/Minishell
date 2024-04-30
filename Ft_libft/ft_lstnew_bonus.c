@@ -27,8 +27,6 @@ static int	ft_check_type(char *content)
 		return (1);
 	else if (*content == '|')
 		return (3);
-	else if (*content == '$')
-		return (6);
 	else
 		return (0);
 }
