@@ -6,16 +6,23 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:07:34 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 15:42:46 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:06:41 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	hundle_error(char *str)
 {
-	while (*str)
+	int i = 0;
+	
+	while (str[i])
 	{
-		if(*str == '|')
-		str++;
+		if (str[i] == '|' && str[i + 1] == '|')
+			return (0);
+		if (str[i] == '>' && (str[i + 1] == '|' || str[i + 1] == '<'))
+			return (0);
+		if (str[i] == '>' && (str[i + 1] == '|' || str[i + 1] == '<'))
+			return (0);
+		i++;
 	}
 	
 }
