@@ -6,7 +6,7 @@
 /*   By: medsarda <medsarda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 09:48:07 by medsarda         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:50:47 by medsarda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void ft_sighandler(int i)
 int main()
 {
 	t_words *words;
-	t_words *tmp;
+	t_joins *tmp;
 	char *string;
 
 	words = NULL;
@@ -35,9 +35,10 @@ int main()
     rl_catch_signals = 0;
 	while (1)
 	{
-		string = readline("minishell > ");
-		if (!string)
-			break ;
+		signal(SIGINT, ft_sighandler);
+		string = readline("jjjj > ");
+		if(!string)
+			break;
 		// if(!hundle_error(string))
 		// 	return 0;
 		char *str_sp = ft_parsing(string);
