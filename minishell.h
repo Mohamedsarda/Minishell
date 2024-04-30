@@ -35,7 +35,7 @@ typedef struct s_joins
 int		ft_strlen_str_sp(char *str);
 char	*ft_parsing(char *str);
 void	add_struct(char *str, t_words **words);
-int	hundle_error(t_words *words);
+int		hundle_error(t_words *words);
 t_words	*ft_lstnew(char *content);
 void	ft_lstadd_back(t_words **head, t_words *node);
 size_t	ft_strlen(char *s);
@@ -44,10 +44,10 @@ size_t	ft_strlen(char *s);
 char	**ft_split(char const *s, char c);
 void	ft_bzero(void *dst, size_t n);
 void	ft_lstadd_back(t_words **head, t_words *node);
-int	ft_strcmp(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
 //
 void	ft_lstclear(t_words **lst);
 void	ft_lstdelone(t_words *lst);
-t_joins *ft_parse_stack(t_words **words);
+t_joins	*ft_parse_stack(t_words **words);
 
 #endif

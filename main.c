@@ -1,53 +1,58 @@
-
 #include "minishell.h"
 
-void ft_sighandler(int i)
+void	ft_sighandler(int i)
 {
 	(void)i;
-    rl_catch_signals = 0;
-    write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	rl_catch_signals = 0;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-
-int quotes(char **str)
+int	quotes(char **str)
 {
-	int a = 0;
-	int b = 0;
-	int i = 0;
+	int	a;
+	int	b;
+	int	i;
+
+	a = 0;
+	b = 0;
+	i = 0;
 	while (str[0][i])
 	{
-		if(str[0][i] == '\"')
+		if (str[0][i] == '\"')
 			a++;
-		if(str[0][i] == '\'')
+		if (str[0][i] == '\'')
 			b++;
 		i++;
 	}
-	if(a % 2 != 0 || b % 2 != 0 )
-		return 0;
+	if (a % 2 != 0 || b % 2 != 0)
+		return (0);
 	else
-		return 1;
+		return (1);
 }
-void multiple(char **str)
+
+void	multiple(char **str)
 {
-	int i = 0;
-	while(str[0][i])
+	int	i;
+
+	i = 0;
+	while (str[0][i])
 	{
-		if(str[0][i] == '\"')
+		if (str[0][i] == '\"')
 		{
 			i++;
-			while(str[0][i] != '\"')
+			while (str[0][i] != '\"')
 			{
 				str[0][i] *= -1;
 				i++;
 			}
 		}
-		else if(str[0][i] == '\'')
+		else if (str[0][i] == '\'')
 		{
 			i++;
-			while(str[0][i] != '\'')
+			while (str[0][i] != '\'')
 			{
 				str[0][i] *= -1;
 				i++;
@@ -58,7 +63,7 @@ void multiple(char **str)
 }
 // trime
 
-static void	*ft_memcpy(void *dest,  void *src, size_t n)
+static void	*ft_memcpy(void *dest, void *src, size_t n)
 {
 	unsigned char	*d;
 	unsigned char	*s;
@@ -72,8 +77,7 @@ static void	*ft_memcpy(void *dest,  void *src, size_t n)
 	return (dest);
 }
 
-
-static size_t	ft_strlcpy(char *dst,  char *src, size_t size)
+static size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
 	size_t	srclen;
 	size_t	copy;
@@ -93,7 +97,7 @@ static size_t	ft_strlcpy(char *dst,  char *src, size_t size)
 	return (srclen);
 }
 
-static int	check_in_set(char c, char  *set)
+static int	check_in_set(char c, char *set)
 {
 	while (*set)
 	{
@@ -104,7 +108,7 @@ static int	check_in_set(char c, char  *set)
 	return (0);
 }
 
-char	*ft_strtrim(char  *s1, char  *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	size_t	start;
 	size_t	end;
@@ -127,13 +131,12 @@ char	*ft_strtrim(char  *s1, char  *set)
 	return (t_str);
 }
 
-
 //end trime
 void	back_to_string(t_words *words)
 {
 	while (words)
 	{
-		if(words->word[0] == '\'' || words->word[0] == '\"')
+		if (words->word[0] == '\'' || words->word[0] == '\"')
 		{
 			multiple(&words->word);
 			words->word = ft_strtrim(words->word, "\'");
@@ -141,30 +144,28 @@ void	back_to_string(t_words *words)
 		}
 		words = words->next;
 	}
-	
 }
 
-
-int main()
+int	main(void)
 {
-	t_words *words;
-	t_joins *tmp;
-	char *string;
+	t_words	*words;
+	t_joins	*tmp;
+	char	*string;
+	char	*str_sp;
 
 	words = NULL;
-	(void)tmp;
 	signal(SIGINT, ft_sighandler);
-    rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	while (1)
 	{
 		signal(SIGINT, ft_sighandler);
 		string = readline("Minishell$ ");
-		if(!string)
-			break;
+		if (!string)
+			break ;
 		multiple(&string);
-		if(quotes(&string) == 0)
+		if (quotes(&string) == 0)
 			return (0);
-		char *str_sp = ft_parsing(string);
+		str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
 		if (!hundle_error(words))
 			return (1);
