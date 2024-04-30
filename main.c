@@ -28,17 +28,9 @@ int main()
 		string = readline("jjjj > ");
 		if(!string)
 			break;
-		// if(!hundle_error(string))
-		// 	return 0;
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
 		tmp = ft_parse_stack(&words);
-		// t_words *test = tmp;
-		// while (test)
-		// {
-		// 	printf("[%s] ", test->word);
-		// 	test = test->next;
-		// }
 	}
 	return (0);
 }
