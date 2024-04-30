@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 17:23:03 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/30 08:58:06 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 void ft_sighandler(int i)
 {
 	(void)i;
-	rl_catch_signals = 0;
-	write(1, "\n", 1); // Print a newline to ensure a new prompt starts on a new line
-	rl_replace_line("", 0);
-	rl_on_new_line(); // Reset readline's internal state
-	rl_redisplay();
+    rl_catch_signals = 0;
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    // rl_catch_signals = 1;
 }
 
 int main()
