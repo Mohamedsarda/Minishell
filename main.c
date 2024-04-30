@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medsarda <medsarda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 16:38:59 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/30 09:48:07 by medsarda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ void ft_sighandler(int i)
 int main()
 {
 	t_words *words;
+	t_words *tmp;
 	char *string;
 
 	words = NULL;
+	(void)tmp;
 	signal(SIGINT, ft_sighandler);
     rl_catch_signals = 0;
 	while (1)
@@ -40,6 +42,13 @@ int main()
 		// 	return 0;
 		char *str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
+		tmp = ft_parse_stack(&words);
+		// t_words *test = tmp;
+		// while (test)
+		// {
+		// 	printf("[%s] ", test->word);
+		// 	test = test->next;
+		// }
 	}
 	return (0);
 }

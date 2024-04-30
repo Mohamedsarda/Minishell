@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: medsarda <medsarda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:32 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 08:48:59 by msarda           ###   ########.fr       */
+/*   Updated: 2024/04/30 09:45:34 by medsarda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 typedef struct s_words
 {
 	char			*word;
-	char			*type;
+	int				type;
 	struct s_words	*next;
 }	t_words;
 
@@ -49,5 +49,8 @@ void	ft_bzero(void *dst, size_t n);
 void	ft_lstadd_back(t_words **head, t_words *node);
 int	ft_strcmp(char *s1, char *s2);
 //
+void	ft_lstclear(t_words **lst);
+void	ft_lstdelone(t_words *lst);
+t_words *ft_parse_stack(t_words **words);
 
 #endif
