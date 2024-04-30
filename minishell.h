@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:32 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 16:17:49 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:12:58 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # include "readline/readline.h"
 # include "readline/history.h"
 # include <signal.h>
+
+# define WORD 0
+# define REDIN 1 // <
+# define REDOU 2 // >
+# define PIPE 3 // |
+# define HERD 3 // <<
+# define APPEND 4 // >>
+# define ENVV 5 // $
+
 
 typedef struct s_words
 {
