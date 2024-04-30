@@ -50,6 +50,26 @@ void	ft_next_node(t_words **head)
 	(*head) = tmp;
 }
 
+// void	ft_skip_open(t_words **head, t_joins *stack)
+// {
+// 	if ((*head)->type == REDOU)
+// 	{
+// 		ft_next_node(head);
+// 		stack->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
+// 	}
+// 	else if ((*head)->type == REDIN)
+// 	{
+// 		ft_next_node(head);
+// 		stack->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
+// 	}
+// 	else if ((*head)->type == APPEND)
+// 	{
+// 		ft_next_node(head);
+// 		stack->out = open((*head)->word, O_CREAT
+// 				| O_RDWR | O_APPEND, 0777);
+// 	}
+// }
+
 char	**ft_create_list(t_joins *stack_2, t_words **head)
 {
 	char	**dst;
@@ -57,7 +77,6 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	int		i;
 
 	words = ft_stack_words(*head);
-	printf("words : {%d}\n", words);
 	dst = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!dst)
 		return (NULL);
@@ -65,29 +84,24 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	while ((*head) && (*head)->type != PIPE)
 	{
 		if ((*head)->type == WORD)
-		{
-			dst[i] = ft_putword((*head)->word);
-			i++;
-			ft_next_node(head);
-		}
+			dst[i++] = ft_putword((*head)->word);
 		else if ((*head)->type == REDOU)
 		{
 			ft_next_node(head);
 			stack_2->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
-			ft_next_node(head);
 		}
 		else if ((*head)->type == REDIN)
 		{
 			ft_next_node(head);
 			stack_2->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
-			ft_next_node(head);
 		}
 		else if ((*head)->type == APPEND)
 		{
 			ft_next_node(head);
-			stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
-			ft_next_node(head);
+			stack_2->out = open((*head)->word, O_CREAT
+					| O_RDWR | O_APPEND, 0777);
 		}
+		ft_next_node(head);
 	}
 	dst[i] = NULL;
 	return (dst);
@@ -95,7 +109,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 
 t_joins	*ft_lstnew_joins(t_words **words)
 {
-	t_joins *stack_2;
+	t_joins	*stack_2;
 
 	stack_2 = (t_joins *)malloc(sizeof(t_joins));
 	stack_2->in = 0;
@@ -122,10 +136,10 @@ void	ft_lstaddback_joins(t_joins **head, t_joins *node)
 	last->next = node;
 }
 
-t_joins *ft_parse_stack(t_words **words)
+t_joins	*ft_parse_stack(t_words **words)
 {
-	t_joins *stack_2;
-	t_joins *new;
+	t_joins	*stack_2;
+	t_joins	*new;
 
 	stack_2 = ft_lstnew_joins(words);
 	while ((*words))

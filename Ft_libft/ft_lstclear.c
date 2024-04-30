@@ -4,10 +4,9 @@ void	ft_lstdelone(t_words *lst)
 {
 	if (!lst)
 		return ;
-    free(lst->word);
+	free(lst->word);
 	free(lst);
 }
-
 
 void	ft_lstclear(t_words **lst)
 {

@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 static void	*ft_memcpy(void *dest, const void *src, size_t n)
@@ -11,11 +10,7 @@ static void	*ft_memcpy(void *dest, const void *src, size_t n)
 	d = (unsigned char *)dest;
 	s = (unsigned char *)src;
 	while (n--)
-	{
-		// if(*s == '\"' || *s == '\'')
-		// 	s++;
 		*d++ = *s++;
-	}
 	*d = '\0';
 	return (dest);
 }
@@ -44,7 +39,6 @@ t_words	*ft_lstnew(char *content)
 
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
-
 	new_node->word = malloc(ft_strlen(content) + 1);
 	new_node->type = ft_check_type(content);
 	if (!new_node || !new_node->word)
