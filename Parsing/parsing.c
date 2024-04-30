@@ -131,10 +131,10 @@ void    check_right_symbols(char **str, char **str_sp)
     }
 } 
 
+
 char    *ft_parsing(char *str)
 {
     char    *str_sp;
-
     str_sp = malloc(ft_strlen_str_sp(str) + 1);
     char *t = str_sp;
     while (*str)
@@ -155,9 +155,6 @@ char    *ft_parsing(char *str)
 }
 
 // endparsing
-
-
-
 
 // add to 1_stuck
 static int	ft_add(t_words **head, char *a)
