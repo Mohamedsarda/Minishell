@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 02:53:29 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 13:21:28 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:50:40 by msarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@ size_t	ft_strlen(char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && (s1[i] == s2[i]))
+		i++;
+	return (s1[i] - s2[i]);
 }

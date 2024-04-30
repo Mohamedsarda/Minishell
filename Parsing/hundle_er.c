@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   hundle_er.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 01:45:37 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/01/20 14:36:23 by eel-ghal         ###   ########.fr       */
+/*   Created: 2024/04/29 15:07:34 by eel-ghal          #+#    #+#             */
+/*   Updated: 2024/04/29 15:42:46 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push.h"
-
-int	ft_lstsize(t_list *lst)
+int	hundle_error(char *str)
 {
-	t_list	*curr;
-	int		i;
-
-	i = 0;
-	curr = lst;
-	while (curr != NULL)
+	while (*str)
 	{
-		i++;
-		curr = curr->next;
+		if(*str == '|')
+		str++;
 	}
-	return (i);
+	
 }

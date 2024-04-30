@@ -6,15 +6,15 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 02:26:30 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/01/22 16:48:22 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:01:32 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push.h"
+#include "../minishell.h"
 
-void	ft_lstadd_back(t_list **head, t_list *node)
+void	ft_lstadd_back(t_words **head, t_words *node)
 {
-	t_list	*last;
+	t_words	*last;
 
 	if (*head == NULL)
 	{
