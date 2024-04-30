@@ -101,22 +101,46 @@ t_joins	*ft_lstnew_joins(t_words **words)
 	stack_2->in = 0;
 	stack_2->out = 1;
 	stack_2->content = ft_create_list(stack_2, words);
+	stack_2->next = NULL;
 	return (stack_2);
+}
+
+void	ft_lstaddback_joins(t_joins **head, t_joins *node)
+{
+	t_joins	*last;
+
+	if (*head == NULL)
+	{
+		*head = node;
+		return ;
+	}
+	if (!head || !node)
+		return ;
+	last = *head;
+	while (last->next)
+		last = last->next;
+	last->next = node;
 }
 
 t_joins *ft_parse_stack(t_words **words)
 {
 	t_joins *stack_2;
+	t_joins *new;
 
-	int i = 0;
 	stack_2 = ft_lstnew_joins(words);
-	while (stack_2->content[i])
+	while ((*words))
 	{
-		printf("{%s}\n", stack_2->content[i]);
-		i++;
+		if ((*words)->type == PIPE)
+		{
+			ft_next_node(words);
+			new = ft_lstnew_joins(words);
+			ft_lstaddback_joins(&stack_2, new);
+		}
 	}
-	printf("in : %d\n", stack_2->in);
-	printf("out : %d\n", stack_2->out);
-	// ft_lstclear(words);
+	while (stack_2)
+	{
+		printf("{%s}\n", stack_2->content[0]);
+		stack_2 = stack_2->next;
+	}
 	return (stack_2);
 }
