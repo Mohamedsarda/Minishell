@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:07:26 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 08:58:06 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/30 13:09:38 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,13 @@ int main()
 		// if(!hundle_error(string))
 		// 	return 0;
 		char *str_sp = ft_parsing(string);
-		add_st ruct(str_sp, &words);
+		add_struct(str_sp, &words);
 		t_words *a = words;
 		while (a)
 		{
-			printf("%s\n", a->word);
+			printf("%s | %d\n", a->word, a->type);
 			a = a->next;
 		}
-		
 	}
 	return (0);
 }

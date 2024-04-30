@@ -6,7 +6,7 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 01:35:37 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 09:05:39 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/30 13:13:01 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ static void	*ft_memcpy(void *dest, const void *src, size_t n)
 
 static int	ft_check_type(char *content)
 {
-	if (*content == '>')
+	if (*content == '>' && *(content + 1) == '>')
+		return (5);
+	else if (*content == '<' && *(content + 1) == '<')
+		return (4);
+	else if (*content == '>')
 		return (2);
 	else if (*content == '<')
 		return (1);
@@ -37,10 +41,6 @@ static int	ft_check_type(char *content)
 		return (3);
 	else if (*content == '$')
 		return (6);
-	else if (*content == '>' && *content + 1 == '>')
-		return (5);
-	else if (*content == '<' && *content == '<')
-		return (4);
 	else
 		return (0);
 }

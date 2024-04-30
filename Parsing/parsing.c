@@ -6,62 +6,173 @@
 /*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 10:50:50 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 16:39:08 by eel-ghal         ###   ########.fr       */
+/*   Updated: 2024/04/30 13:23:01 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strlen_str_sp(char *str)
+//strlen(string)
+void    check_symbols(char *str, int *i)
 {
-	int	i;
-	int	a;
+	if (*str == '|')
+	{
+		if (*(str - 1) != ' ')
+			*i += 1;
+		if (*(str + 1) != ' ')
+			*i += 1;
+	}
+	if (*str == '$')
+	{
+		if (*(str - 1) != ' ')
+			*i += 1;
+		if (*(str + 1) != ' ')
+			*i += 1;
+	}
+}
+
+void check_REDIN_OU(char *str, int *i)
+{
+	if (*str == '>')
+	{
+		if (*(str - 1) != ' ' && *(str - 1) != '>')
+			*i += 1;
+		if (*(str + 1) != ' ' && *(str + 1) != '>')
+			*i += 1;
+	}
+	else if (*str == '<')
+	{
+		if (*(str - 1) != ' ' && *(str + 1) != '<')
+			*i += 1;
+		if (*(str + 1) != ' ' && *(str + 1) != '<')
+			*i += 1;
+	}
+}
+
+int    ft_strlen_str_sp(char *str)
+{
+	int    i;
 
 	i = 0;
-	a = 0;
-	while (str[a])
+	while (*str)
 	{
-		if (str[a] == '|' || str[a] == '>'
-			|| str[a] == '<')
-		{
-			if (str[a - 1] != ' ')
-				i++;
-			if (str[a + 1] != ' ')
-				i++;
-		}
-		a++;
+	  if(*str == '|' || *str == '>'|| *str == '<' || *str == '$')
+	  {
+		check_symbols(str, &i);
+		check_REDIN_OU(str, &i);
+	  }
+	  str++;
 		i++;
 	}
 	return (i);
 }
+//end strlen(string)
 
-char	*ft_parsing(char *str)
+// parsing
+
+void    check_left_symbols(char **str, char **str_sp)
 {
-	char	*str_sp;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	str_sp = malloc(ft_strlen_str_sp(str) + 1);
-	while (str[i])
-	{
-		if (str[i] == '|' || str[i] == '>'
-			|| str[i] == '<')
-			if (str[i - 1] != ' ')
-				str_sp[j++] = ' ';
-		str_sp[j] = str[i];
-		j++;
-		if (str[i] == '|' || str[i] == '>'
-			|| str[i] == '<')
-			if (str[i + 1] != ' ')
-				str_sp[j++] = ' ';
-		i++;
-	}
-	str_sp[j] = '\0';
-	return (str_sp);
+    if (**str == '|')
+    {
+        if (*((*str) - 1) != ' ' && *((*str) - 1) != '\0')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+    else if (**str == '$')
+    {
+        if (*((*str) - 1) != ' ' && *((*str) - 1) != '\0')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+    else if (**str == '>')
+    {
+        if (*((*str) - 1) != ' ' && *((*str) - 1) != '\0' && *((*str) - 1) != '>')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+    else if (**str == '<')
+    {
+        if (*((*str) - 1) != ' ' && *((*str) - 1) != '\0' && *((*str) - 1) != '<')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
 }
 
+void    check_right_symbols(char **str, char **str_sp)
+{
+    if (**str == '|')
+    {
+        if (*((*str) + 1) != ' ' && *((*str) + 1) != '\0')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+    else if (**str == '$')
+    {
+        if (*((*str) + 1) != ' ' && *((*str) + 1) != '\0')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+    else if (**str == '>')
+    {
+        if (*((*str) + 1) != ' ' && *((*str) + 1) != '\0' && *((*str) + 1) != '>')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+    else if (**str == '<')
+    {
+        if (*((*str) + 1) != ' ' && *((*str) + 1) != '\0' && *((*str) + 1) != '<')
+        {
+            **str_sp = ' ';
+            (*str_sp)++;
+        }
+    }
+} 
+
+char    *ft_parsing(char *str)
+{
+    char    *str_sp;
+    int        j;
+
+    j = 0;
+    str_sp = malloc(ft_strlen_str_sp(str) + 1);
+    char *t = str_sp;
+    while (*str)
+    {
+        if(*str == '|' || *str == '>'|| *str == '<' || *str == '$')
+            check_left_symbols(&str, &str_sp);
+            
+        *str_sp = *str;
+        str_sp++;
+        if(*str == '|' || *str == '>'|| *str == '<' || *str == '$')
+        {
+            check_right_symbols(&str, &str_sp);
+        }
+        str++;
+    }
+    *str_sp = '\0';
+    return (t);
+}
+
+// endparsing
+
+
+
+
+// add to 1_stuck
 static int	ft_add(t_words **head, char *a)
 {
 	t_words	*node;
@@ -94,3 +205,6 @@ void	add_struct(char *str, t_words **words)
 		ft_add(words, tmp[j]);
 	free_split(tmp);
 }
+// end add to 1_stuck
+
+
