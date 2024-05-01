@@ -77,7 +77,7 @@ static void	*ft_memcpy(void *dest, void *src, size_t n)
 	return (dest);
 }
 
-static size_t	ft_strlcpy(char *dst, char *src, size_t size)
+static size_t	ft_strlcpy_t(char *dst, char *src, size_t size)
 {
 	size_t	srclen;
 	size_t	copy;
@@ -127,7 +127,7 @@ char	*ft_strtrim(char *s1, char *set)
 	t_str = (char *)malloc(t_len + 1);
 	if (!t_str)
 		return (NULL);
-	ft_strlcpy(t_str, s1 + start, t_len + 1);
+	ft_strlcpy_t(t_str, s1 + start, t_len + 1);
 	return (t_str);
 }
 
@@ -173,7 +173,7 @@ int	main(int ac, char **ar, char **env)
 		if (quotes(&string) == 0)
 			return (0);
 		str_sp = ft_parsing(string);
-		add_struct(str_sp, &words);
+		add_struct(str_sp, &words, env_stack);
 		back_to_string(words);
 		if (!hundle_error(words))
 			return (1);

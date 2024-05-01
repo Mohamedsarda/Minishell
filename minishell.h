@@ -41,9 +41,9 @@ typedef struct s_env
 
 int		ft_strlen_str_sp(char *str);
 char	*ft_parsing(char *str);
-void	add_struct(char *str, t_words **words);
+void	add_struct(char *str, t_words **words, t_env *env_stack);
 int		hundle_error(t_words *words);
-t_words	*ft_lstnew(char *content);
+t_words	*ft_lstnew(char *content, t_env *env_stack);
 void	ft_lstadd_back(t_words **head, t_words *node);
 size_t	ft_strlen(char *s);
 
@@ -63,5 +63,7 @@ char	*ft_strdup(char *s1);
 t_env	*ft_lstnew_env(char *val_1, char *val_2);
 void	ft_lstadd_back_env(t_env **head, t_env *node);
 void	ft_sighandler(int i);
+int	ft_get_env_len(char *str, char c);
+char	*ft_strlcpy(char **str, int len);
 
 #endif

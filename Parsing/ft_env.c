@@ -53,14 +53,14 @@ void	ft_lstadd_back_env(t_env **head, t_env *node)
 	last->next = node;
 }
 
-int	ft_get_env_len(char *str)
+int	ft_get_env_len(char *str, char c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '=')
+		if (str[i] == c)
 			return (i);
 		i++;
 	}
@@ -92,7 +92,7 @@ t_env	*ft_create_env_stack(char **env)
 	node = NULL;
 	while (*env && **env)
 	{
-		node = ft_lstnew_env(ft_strlcpy(env, ft_get_env_len(*env)), *env);
+		node = ft_lstnew_env(ft_strlcpy(env, ft_get_env_len(*env, '=')), *env);
 		if (!node)
 			return (NULL);
 		ft_lstadd_back_env(&head, node);
