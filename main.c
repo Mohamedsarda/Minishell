@@ -19,7 +19,7 @@ int	quotes(char **str)
 	a = 0;
 	b = 0;
 	i = 0;
-	while (str[0][i])
+	while (*str && str[0][i])
 	{
 		if (str[0][i] == '\"')
 			a++;
@@ -38,7 +38,7 @@ void	multiple(char **str)
 	int	i;
 
 	i = 0;
-	while (str[0][i])
+	while (*str && str[0][i])
 	{
 		if (str[0][i] == '\"')
 		{
@@ -165,14 +165,16 @@ int	main(int ac, char **ar, char **env)
 		string = readline("Minishell$ ");
 		if (!string)
 			break ;
+		else if(!string[0])
+			continue;
 		multiple(&string);
 		if (quotes(&string) == 0)
 			return (0);
 		str_sp = ft_parsing(string);
 		add_struct(str_sp, &words);
+		back_to_string(words);
 		if (!hundle_error(words))
 			return (1);
-		back_to_string(words);
 		tmp = ft_parse_stack(&words);
 	}
 	return (0);

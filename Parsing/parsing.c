@@ -36,7 +36,7 @@ int	ft_strlen_str_sp(char *str)
 	int	i;
 
 	i = 0;
-	while (*str)
+	while (str && *str)
 	{
 		if (*str == '|' || *str == '>' || *str == '<')
 		{
@@ -100,7 +100,7 @@ char	*ft_parsing(char *str)
 
 	str_sp = malloc(ft_strlen_str_sp(str) + 1);
 	t = str_sp;
-	while (*str)
+	while (str && *str)
 	{
 		if (*str == '|' || *str == '>' || *str == '<')
 			check_left_symbols(&str, &str_sp);
