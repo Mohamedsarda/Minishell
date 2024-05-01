@@ -83,19 +83,26 @@ char	*ft_strlcpy(char **str, int len)
 t_env	*ft_create_env_stack(char **env)
 {
 	t_env	*head;
+	t_env	*node;
 
 	(void)env;
 	head = NULL;
+	node = NULL;
 	while (*env && **env)
 	{
-		head = ft_lstnew_env(ft_strlcpy(env, ft_get_env_len(*env)), *env);
-		if (!head)
+		node = ft_lstnew_env(ft_strlcpy(env, ft_get_env_len(*env)), *env);
+		if (!node)
 			return (NULL);
 		// printf("{%s}\n(%d)\n", *env, ft_get_env_len(*env));
 		// printf("%s ", ft_strlcpy(env, ft_get_env_len(*env)));
 		// printf("%s\n", *env);
-		ft_lstadd_back(&head, head);
+		ft_lstadd_back_env(&head, node);
 		env++;
+	}
+	while (head)
+	{
+		printf("{%s}  :  {%s}\n", head->key, head->value);
+		head = head->next;
 	}
 	return (head);
 }
