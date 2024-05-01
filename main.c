@@ -167,8 +167,8 @@ int	main(int ac, char **ar, char **env)
 		string = readline("Minishell$ ");
 		if (!string)
 			break ;
-		else if(!string[0])
-			continue;
+		// else if(!string[0])
+		// 	continue;
 		multiple(&string);
 		if (quotes(&string) == 0)
 			return (0);
