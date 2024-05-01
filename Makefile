@@ -5,6 +5,7 @@ SRCS	= ./Ft_libft/ft_strlen.c  ./Ft_libft/ft_lstadd_back_bonus.c \
 			./Ft_libft/ft_lstnew_bonus.c ./Ft_libft/ft_split.c\
 			./Ft_libft/ft_lstclear.c \
 			./Parsing/parsing.c ./Parsing/ft_parsing_stack.c ./Parsing/hundle_er.c \
+			./Parsing/ft_env.c \
 			main.c
 
 LDFLAGS  = "-L/Users/$(USER)/.brew/opt/readline/lib"
