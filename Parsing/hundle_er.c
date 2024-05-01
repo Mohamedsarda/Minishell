@@ -20,13 +20,13 @@ int	hundle_error(t_words *words)
 		if((a->type == 5 && check_length(a->word) == 0) || (a->type == 4 && check_length(a->word) == 0))
 			return (0);
 		if (a->type == REDOU || a->type == REDIN || a->type == PIPE
-			|| a->type == HERD || a->type == APPEND)
+			|| a->type == HERD || a->type == APPEND || a->word != NULL)
 		{
 			if (!a->next)
 				return (0);
 			else if (a->next->type == REDOU || a->next->type == REDIN
 				|| a->next->type == PIPE || a->next->type == HERD
-				|| a->next->type == APPEND)
+				|| a->next->type == APPEND || a->next->word != NULL)
 				return (0);
 		}
 		a = a->next;
