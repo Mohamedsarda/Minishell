@@ -1,0 +1,3 @@
+ls >>> out          creats the file out and the **dst = {ls}
+ls -la <<< m        doesn't create the file "m" and the **dst = {ls, -la, m}
+ls <<< m            running this command the first time sets the **dst = { ,m}

@@ -50,25 +50,27 @@ void	ft_next_node(t_words **head)
 	(*head) = tmp;
 }
 
-// void	ft_skip_open(t_words **head, t_joins *stack)
-// {
-// 	if ((*head)->type == REDOU)
-// 	{
-// 		ft_next_node(head);
-// 		stack->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
-// 	}
-// 	else if ((*head)->type == REDIN)
-// 	{
-// 		ft_next_node(head);
-// 		stack->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
-// 	}
-// 	else if ((*head)->type == APPEND)
-// 	{
-// 		ft_next_node(head);
-// 		stack->out = open((*head)->word, O_CREAT
-// 				| O_RDWR | O_APPEND, 0777);
-// 	}
-// }
+void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
+{
+	if ((*head)->type == WORD)
+		dst[(*i)++] = ft_putword((*head)->word);
+	else if ((*head)->type == REDOU)
+	{
+		ft_next_node(head);
+		stack_2->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
+	}
+	else if ((*head)->type == REDIN)
+	{
+		ft_next_node(head);
+		stack_2->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
+	}
+	else if ((*head)->type == APPEND)
+	{
+		ft_next_node(head);
+		stack_2->out = open((*head)->word, O_CREAT
+				| O_RDWR | O_APPEND, 0777);
+	}
+}
 
 char	**ft_create_list(t_joins *stack_2, t_words **head)
 {
@@ -83,24 +85,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	i = 0;
 	while ((*head) && (*head)->type != PIPE)
 	{
-		if ((*head)->type == WORD)
-			dst[i++] = ft_putword((*head)->word);
-		else if ((*head)->type == REDOU)
-		{
-			ft_next_node(head);
-			stack_2->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
-		}
-		else if ((*head)->type == REDIN)
-		{
-			ft_next_node(head);
-			stack_2->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
-		}
-		else if ((*head)->type == APPEND)
-		{
-			ft_next_node(head);
-			stack_2->out = open((*head)->word, O_CREAT
-					| O_RDWR | O_APPEND, 0777);
-		}
+		ft_check_word_type(stack_2, head, &i, dst);
 		ft_next_node(head);
 	}
 	dst[i] = NULL;
@@ -159,6 +144,7 @@ t_joins	*ft_parse_stack(t_words **words)
 			printf("{%s}\n", stack_2->content[i]);
 			i++;
 		}
+		puts("\n|\n");
 		stack_2 = stack_2->next;
 	}
 	return (stack_2);
