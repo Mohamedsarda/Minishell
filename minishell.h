@@ -26,11 +26,18 @@ typedef struct s_words
 
 typedef struct s_joins
 {
-	char		**content;
-	int			in;
-	int			out;
-	struct s_joins *next;
+	char			**content;
+	int				in;
+	int				out;
+	struct s_joins	*next;
 }	t_joins;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 int		ft_strlen_str_sp(char *str);
 char	*ft_parsing(char *str);
@@ -50,5 +57,10 @@ void	ft_lstclear(t_words **lst);
 void	ft_lstdelone(t_words *lst);
 t_joins	*ft_parse_stack(t_words **words);
 char	*ft_strjoin(char *s1, char *s2);
+//env
+t_env	*ft_create_env_stack(char **env);
+char	*ft_strdup(char *s1);
+t_env	*ft_lstnew_env(char *val_1, char *val_2);
+void	ft_lstadd_back_env(t_env **head, t_env *node);
 
 #endif
