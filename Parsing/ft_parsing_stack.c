@@ -62,7 +62,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	else if ((*head)->type == REDIN)
 	{
 		ft_next_node(head);
-		stack_2->in = open((*head)->word, O_CREAT | O_RDONLY, 0777);
+		stack_2->in = open((*head)->word, O_RDONLY, 0777);
 	}
 	else if ((*head)->type == APPEND)
 	{
@@ -72,9 +72,34 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	}
 }
 
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*dst;
+
+	if (!s1 || !s2)
+		return (NULL);
+	i = 0;
+	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!dst)
+		return (NULL);
+	while (s1[i])
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		dst[i++] = s2[j++];
+	dst[i] = '\0';
+	return (dst);
+}
+
 char	**ft_create_list(t_joins *stack_2, t_words **head)
 {
 	char	**dst;
+	char	*err;
 	int		words;
 	int		i;
 
@@ -86,6 +111,14 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	while ((*head) && (*head)->type != PIPE)
 	{
 		ft_check_word_type(stack_2, head, &i, dst);
+		if (stack_2->in == -1 || stack_2->out == -1)
+		{
+			err = ft_strjoin("Minishell$ : ", (*head)->word);
+			perror(err);
+			while ((*head) && (*head)->type != PIPE)
+				ft_next_node(head);
+			break ;
+		}
 		ft_next_node(head);
 	}
 	dst[i] = NULL;
@@ -136,16 +169,18 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	while (stack_2)
-	{
-		int i = 0;
-		while (stack_2->content[i])
-		{
-			printf("{%s}\n", stack_2->content[i]);
-			i++;
-		}
-		puts("\n|\n");
-		stack_2 = stack_2->next;
-	}
+	// while (stack_2)
+	// {
+	// 	int i = 0;
+	// 	while (stack_2->content[i])
+	// 	{
+	// 		printf("{%s}\n", stack_2->content[i]);
+	// 		i++;
+	// 	}
+	// 	printf("in : {%d}\n", stack_2->in);
+	// 	printf("out : {%d}", stack_2->out);
+	// 	puts("\n|\n");
+	// 	stack_2 = stack_2->next;
+	// }
 	return (stack_2);
 }
