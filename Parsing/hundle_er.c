@@ -5,9 +5,9 @@ int	check_length(char *str)
 	int i = 0;
 	while (str[i])
 		i++;
-	if(i != 1)
-		return (1);
-	return (0);
+	if(i != 2)
+		return (0);
+	return (1);
 	
 }
 int	hundle_error(t_words *words)

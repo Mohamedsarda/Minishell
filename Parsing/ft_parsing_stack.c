@@ -55,7 +55,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {
 	if ((*head)->type == WORD)
 		dst[(*i)++] = ft_putword((*head)->word);
-	else if ((*head)->type == HERD)
+	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);
 		stack_2->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
@@ -69,23 +69,27 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	{
 		ft_next_node(head);
 		stack_2->out = open((*head)->word, O_CREAT
-				| O_RDWR | O_APPEND, 0777);
+				| O_RDWR | O_APPEND , 0777);
 	}
-	else if ((*head)->type == REDOU)
+	else if ((*head)->type == HERD)
 	{
 		char	*str;
 		ft_next_node(head);
-		stack_2->out = open(".herd_file", O_CREAT | O_WRONLY, 0777);
-		printf("{%d}\n", stack_2->out);
+		stack_2->out = open(".herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		while (1)
 		{
 			str = readline("> ");
-			printf("{%d}\n", stack_2->out);
 			if (!str || ft_strcmp((*head)->word, str) == 0)
 				break ;
+			while (*str)
+			{
+				write(stack_2->out, str, 1);
+				str++;
+			}
+			write(stack_2->out, "\n", 1);
 		}
-		stack_2->out = open(".herd_file", O_CREAT | O_RDONLY, 0777);
-		printf("{%d}\n", stack_2->out);
+		close(stack_2->out);
+		stack_2->in = open(".herd_file", O_CREAT | O_RDONLY , 0777);
 	}
 }
 
@@ -186,18 +190,18 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	// while (stack_2)
-	// {
-	// 	int i = 0;
-	// 	while (stack_2->content[i])
-	// 	{
-	// 		printf("{%s}\n", stack_2->content[i]);
-	// 		i++;
-	// 	}
-	// 	printf("in : {%d}\n", stack_2->in);
-	// 	printf("out : {%d}", stack_2->out);
-	// 	puts("\n|\n");
-	// 	stack_2 = stack_2->next;
-	// }
+	while (stack_2)
+	{
+		int i = 0;
+		while (stack_2->content[i])
+		{
+			printf("{%s}\n", stack_2->content[i]);
+			i++;
+		}
+		printf("in : {%d}\n", stack_2->in);
+		printf("out : {%d}", stack_2->out);
+		puts("\n|\n");
+		stack_2 = stack_2->next;
+	}
 	return (stack_2);
 }
