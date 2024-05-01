@@ -153,12 +153,14 @@ int	main(int ac, char **ar, char **env)
 	(void)env;
 	t_words	*words;
 	t_joins	*tmp;
+	t_env	*env_stack;
 	char	*string;
 	char	*str_sp;
 
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
+	env_stack = ft_create_env_stack(env);
 	while (1)
 	{
 		signal(SIGINT, ft_sighandler);
