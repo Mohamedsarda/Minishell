@@ -1,0 +1,101 @@
+#include "../minishell.h"
+
+char	*ft_strdup(char *s1)
+{
+	int		i;
+	char	*dst;
+
+	if (!s1)
+		return (NULL);
+	i = ft_strlen(s1);
+	dst = (char *)malloc(i + 1);
+	if (!dst)
+		return (NULL);
+	dst[i] = '\0';
+	i--;
+	while (i >= 0)
+	{
+		dst[i] = s1[i];
+		i--;
+	}
+	return (dst);
+}
+
+t_env	*ft_lstnew_env(char *val_1, char *val_2)
+{
+	t_env	*head;
+
+	head = (t_env *)malloc(sizeof(t_env));
+	if (!head)
+		return (NULL);
+	head->key = ft_strdup(val_1);
+	head->value = ft_strdup(val_2);
+	head->next = NULL;
+	return (head);
+}
+
+void	ft_lstadd_back_env(t_env **head, t_env *node)
+{
+	t_env	*last;
+
+	if (*head == NULL)
+	{
+		*head = node;
+		return ;
+	}
+	if (!head || !node)
+		return ;
+	last = *head;
+	while (last->next)
+		last = last->next;
+	last->next = node;
+}
+
+int	ft_get_env_len(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+char	*ft_strlcpy(char **str, int len)
+{
+	int		i;
+	char	*dst;
+
+	i = 0;
+	dst = (char *)malloc(len + 1);
+	if (!dst)
+		return (NULL);
+	while (i < len)
+		dst[i++] = *(*str)++;
+	dst[i] = '\0';
+	return (dst);
+}
+
+t_env	*ft_create_env_stack(char **env)
+{
+	t_env	*head;
+
+	(void)env;
+	head = NULL;
+	while (*env && **env)
+	{
+		head = ft_lstnew_env(ft_strlcpy(env, ft_get_env_len(*env)), *env);
+		if (!head)
+			return (NULL);
+		// printf("{%s}\n(%d)\n", *env, ft_get_env_len(*env));
+		// printf("%s ", ft_strlcpy(env, ft_get_env_len(*env)));
+		// printf("%s\n", *env);
+		ft_lstadd_back(&head, head);
+		env++;
+	}
+	return (head);
+}
