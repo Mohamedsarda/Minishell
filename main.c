@@ -146,8 +146,11 @@ void	back_to_string(t_words *words)
 	}
 }
 
-int	main(void)
+int	main(int ac, char **ar, char **env)
 {
+	(void)ac;
+	(void)ar;
+	(void)env;
 	t_words	*words;
 	t_joins	*tmp;
 	char	*string;
