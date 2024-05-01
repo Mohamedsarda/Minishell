@@ -49,5 +49,6 @@ int		ft_strcmp(char *s1, char *s2);
 void	ft_lstclear(t_words **lst);
 void	ft_lstdelone(t_words *lst);
 t_joins	*ft_parse_stack(t_words **words);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif

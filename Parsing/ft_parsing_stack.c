@@ -115,14 +115,14 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 		{
 			err = ft_strjoin("Minishell$ : ", (*head)->word);
 			perror(err);
+			free(err);
 			while ((*head) && (*head)->type != PIPE)
 				ft_next_node(head);
 			break ;
 		}
 		ft_next_node(head);
 	}
-	dst[i] = NULL;
-	return (dst);
+	return (dst[i] = NULL, dst);
 }
 
 t_joins	*ft_lstnew_joins(t_words **words)
