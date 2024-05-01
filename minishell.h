@@ -62,5 +62,6 @@ t_env	*ft_create_env_stack(char **env);
 char	*ft_strdup(char *s1);
 t_env	*ft_lstnew_env(char *val_1, char *val_2);
 void	ft_lstadd_back_env(t_env **head, t_env *node);
+void	ft_sighandler(int i);
 
 #endif
