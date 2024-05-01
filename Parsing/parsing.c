@@ -119,11 +119,11 @@ char	*ft_parsing(char *str)
 // endparsing
 
 // add to 1_stuck
-static int	ft_add(t_words **head, char *a)
+static int	ft_add(t_words **head, char *a, t_env *env_stack)
 {
 	t_words	*node;
 
-	node = ft_lstnew(a);
+	node = ft_lstnew(a, env_stack);
 	ft_lstadd_back(head, node);
 	return (0);
 }
@@ -138,7 +138,7 @@ static void	free_split(char **tmp)
 	free(tmp);
 }
 
-void	add_struct(char *str, t_words **words)
+void	add_struct(char *str, t_words **words, t_env *env_stack)
 {
 	char	**tmp;
 	int		j;
@@ -148,7 +148,7 @@ void	add_struct(char *str, t_words **words)
 	if (tmp == NULL || *tmp == NULL)
 		return ;
 	while (tmp[++j])
-		ft_add(words, tmp[j]);
+		ft_add(words, tmp[j], env_stack);
 	free_split(tmp);
 }
 // end add to 1_stuck
