@@ -100,6 +100,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 				dup2(STDIN_FILENO, open(ttyname(1), O_RDONLY , 0777));
 				free(str);
 				str = NULL;
+				herd_g = 0;
 			}
 			if (!str || ft_strcmp((*head)->word, str) == 0)
 				break ;

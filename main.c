@@ -167,6 +167,7 @@ int	main(int ac, char **ar, char **env)
 	{
 		signal(SIGINT, ft_sighandler);
 		string = readline("Minishell$ ");
+		string = ft_strtrim(string, " ");
 		if (!string)
 			break ;
 		else if(!string[0]) //migth have problems
