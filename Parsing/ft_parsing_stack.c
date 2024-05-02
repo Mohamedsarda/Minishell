@@ -103,6 +103,8 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			}
 			if (!str || ft_strcmp((*head)->word, str) == 0)
 				break ;
+			if (!str[0])
+				continue ;
 			while (*str)
 			{
 				write(stack_2->out, str, 1);
