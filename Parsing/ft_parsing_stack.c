@@ -1,6 +1,8 @@
 
 #include "../minishell.h"
 
+int	herd_g = 0;
+
 int	ft_stack_words(t_words *words)
 {
 	int	i;
@@ -50,6 +52,16 @@ void	ft_next_node(t_words **head)
 	(*head) = tmp;
 }
 
+void	ft_herd_sig(int i)
+{
+	(void)i;
+	if (i == SIGINT)
+	{
+		write(1, "\n", 1);
+		close(STDIN_FILENO);
+        herd_g = 1;
+	}
+}
 
 void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {
@@ -74,13 +86,25 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	else if ((*head)->type == HERD)
 	{
 		char	*str;
+
 		ft_next_node(head);
 		stack_2->out = open(".herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		rl_catch_signals = 0;
 		while (1)
 		{
+			signal(SIGINT, ft_herd_sig);
+			// printf("{%d}\n", herd_g);
 			str = readline("> ");
+			if (herd_g)
+			{
+				dup2(STDIN_FILENO, open(ttyname(1), O_RDONLY , 0777));
+				free(str);
+				str = NULL;
+			}
 			if (!str || ft_strcmp((*head)->word, str) == 0)
 				break ;
+			if (!str[0])
+				continue ;
 			while (*str)
 			{
 				write(stack_2->out, str, 1);
