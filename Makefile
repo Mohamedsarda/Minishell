@@ -23,7 +23,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -lreadline  $(LDFLAGS) $(CPPFLAGS) $(OBJS) -o $@
 
 clean:
-	$(RM) $(OBJS) $(OBJSB)
+	$(RM) $(OBJS) $(OBJSB) .herd_file
 
 fclean: clean
 	$(RM) $(NAME)
