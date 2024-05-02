@@ -160,6 +160,8 @@ int	main(int ac, char **ar, char **env)
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
+	(void)env_stack;
+	(void)tmp;
 	env_stack = ft_create_env_stack(env);
 	while (1)
 	{
@@ -169,6 +171,8 @@ int	main(int ac, char **ar, char **env)
 			break ;
 		else if(!string[0]) //migth have problems
 			continue;
+		if (string[0] != '\0')
+            add_history(string);
 		multiple(&string);
 		if (quotes(&string) == 0)
 			return (0);
@@ -179,5 +183,9 @@ int	main(int ac, char **ar, char **env)
 			return (1);
 		tmp = ft_parse_stack(&words);
 	}
+	// Clean up
+    clear_history();
+    rl_clear_history();
+    rl_cleanup_after_signal();
 	return (0);
 }
