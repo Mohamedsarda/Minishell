@@ -66,4 +66,7 @@ void	ft_sighandler(int i);
 int	ft_get_env_len(char *str, char c);
 char	*ft_strlcpy(char **str, int len);
 
+
+char	*ft_strtrim(char *s1, char *set);
+
 #endif
