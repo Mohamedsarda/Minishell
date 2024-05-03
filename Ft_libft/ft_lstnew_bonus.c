@@ -45,7 +45,7 @@ char	*check_env(char *str, t_env *env)
 			return (env->value);
 		env = env->next;
 	}
-	return (str);
+	return ("\0");
 }
 
 char	check_key(char c)
