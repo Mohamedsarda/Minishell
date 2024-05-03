@@ -43,7 +43,7 @@ void	multiple(char **str)
 		if (str[0][i] == '\"')
 		{
 			i++;
-			while (str[0][i] != '\"')
+			while (str[0] && str[0][i] != '\"')
 			{
 				str[0][i] *= -1;
 				i++;
@@ -170,13 +170,20 @@ int	main(int ac, char **ar, char **env)
 		string = ft_strtrim(string, " ");
 		if (!string)
 			break ;
-		else if(!string[0]) //migth have problems
+		else if(!string[0])
+		{
+			free(string); //migth have problems
 			continue;
+		}
 		if (string[0] != '\0')
             add_history(string);
 		multiple(&string);
 		if (quotes(&string) == 0)
-			return (0);
+		{
+			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
+			free(string);
+			continue;
+		}
 		str_sp = ft_parsing(string);
 		add_struct(str_sp, &words, env_stack);
 		back_to_string(words);

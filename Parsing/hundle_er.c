@@ -32,3 +32,14 @@ int	hundle_error(t_words *words)
 	}
 	return (1);
 }
+
+
+void	ft_putstr(char *str, int fd)
+{
+	while (*str)
+	{
+		write(fd, str, 1);
+		str++;
+	}
+	
+}

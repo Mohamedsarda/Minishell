@@ -118,6 +118,7 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 				if(ft_strcmp(key, tmp[j]) != 0)
 					str = ft_strjoin(str, tmp[j]);
 			}
+			node->type = 0;
 		}
 		return (str);
 	}
@@ -136,7 +137,6 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 	if (!new_node || !new_node->word)
 		return (NULL);
 	ft_memcpy(new_node->word, content, ft_strlen(content));
-	printf("-->%s\n", new_node->word);
 	new_node->next = NULL;
 	return (new_node);
 }
