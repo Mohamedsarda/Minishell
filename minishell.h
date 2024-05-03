@@ -68,5 +68,6 @@ char	*ft_strlcpy(char **str, int len);
 
 
 char	*ft_strtrim(char *s1, char *set);
+void	ft_putstr(char *str, int fd);
 
 #endif

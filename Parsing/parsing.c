@@ -150,5 +150,6 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 	while (tmp[++j])
 		ft_add(words, tmp[j], env_stack);
 	free_split(tmp);
+
 }
 // end add to 1_stuck

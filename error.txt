@@ -1,0 +1,6 @@
+Minishell$ hello $USER words
+{hello}
+{words}
+in : {0}
+out : {1}
+|
