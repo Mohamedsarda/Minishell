@@ -154,22 +154,22 @@ void	ft_leaks(void)
 
 int	main(int ac, char **ar, char **env)
 {
-	(void)ac;
-	(void)ar;
-	(void)env;
 	t_words	*words;
 	t_joins	*tmp;
 	t_env	*env_stack;
 	char	*string;
 	char	*str_sp;
 
+	(void)ac;
+	(void)ar;
+	(void)env;
 	atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
 	(void)env_stack;
 	(void)tmp;
-	env_stack = ft_create_env_stack(env);
+	env_stack = ft_create_env_stack(env, 0);
 	while (1)
 	{
 		string = readline("Minishell$ ");
