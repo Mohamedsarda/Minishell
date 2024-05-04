@@ -10,7 +10,7 @@ void	ft_sighandler(int i)
 	rl_redisplay();
 }
 
-int	quotes(char **str)
+int	quotes(char *str)
 {
 	int	a;
 	int	b;
@@ -19,11 +19,11 @@ int	quotes(char **str)
 	a = 0;
 	b = 0;
 	i = 0;
-	while (*str && str[0][i])
+	while (*str && str[i])
 	{
-		if (str[0][i] == '\"')
+		if (str[i] == '\"')
 			a++;
-		if (str[0][i] == '\'')
+		if (str[i] == '\'')
 			b++;
 		i++;
 	}
@@ -168,7 +168,6 @@ int	main(int ac, char **ar, char **env)
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
 	(void)env_stack;
-	(void)tmp;
 	env_stack = ft_create_env_stack(env, 0);
 	while (1)
 	{
@@ -184,7 +183,7 @@ int	main(int ac, char **ar, char **env)
 		if (string[0] != '\0')
 			add_history(string);
 		multiple(&string);
-		if (quotes(&string) == 0)
+		if (quotes(string) == 0)
 		{
 			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
 			continue ;

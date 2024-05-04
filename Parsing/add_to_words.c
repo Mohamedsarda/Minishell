@@ -1,12 +1,11 @@
 #include "../minishell.h"
 
-static int	ft_add(t_words **head, char *a, t_env *env_stack)
+static void	ft_add(t_words **head, char *a, t_env *env_stack)
 {
 	t_words	*node;
 
 	node = ft_lstnew(a, env_stack);
 	ft_lstadd_back(head, node);
-	return (0);
 }
 
 void	free_split(char **tmp)
