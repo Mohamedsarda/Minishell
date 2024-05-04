@@ -128,6 +128,7 @@ char	*ft_strtrim(char *s1, char *set)
 	if (!t_str)
 		return (NULL);
 	ft_strlcpy_t(t_str, s1 + start, t_len + 1);
+	free(s1);
 	return (t_str);
 }
 
@@ -174,7 +175,10 @@ int	main(int ac, char **ar, char **env)
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
 		if (!string)
+		{
+			free(string);
 			break ;
+		}
 		else if(!string[0])
 		{
 			free(string); //migth have problems
