@@ -97,6 +97,7 @@ char	*ft_parsing(char *str)
 {
 	char	*str_sp;
 	char	*t;
+	char	*b = str;
 
 	str_sp = malloc(ft_strlen_str_sp(str) + 1);
 	t = str_sp;
@@ -113,6 +114,7 @@ char	*ft_parsing(char *str)
 		str++;
 	}
 	*str_sp = '\0';
+	free(b);
 	return (t);
 }
 
