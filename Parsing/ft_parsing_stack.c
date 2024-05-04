@@ -1,7 +1,6 @@
-
 #include "../minishell.h"
 
-int	herd_g = 0;
+int	g_herd;
 
 int	ft_stack_words(t_words *words)
 {
@@ -10,119 +9,16 @@ int	ft_stack_words(t_words *words)
 	i = 0;
 	while (words)
 	{
-		if (words->type == 0) 
+		if (words->type == 0)
 			i++;
-		else if (words->type == 2 || words->type == 1 ||
-			words->type == 4 || words->type == 5)
+		else if (words->type == 2 || words->type == 1
+			|| words->type == 4 || words->type == 5)
 			words = words->next;
 		if (words->type == 3)
 			break ;
 		words = words->next;
 	}
 	return (i);
-}
-
-char	*ft_putword(char *str)
-{
-	int		len;
-	int		i;
-	char	*dst;
-
-	len = ft_strlen(str);
-	i = 0;
-	dst = (char *)malloc(len + 1);
-	if (!dst)
-		return (NULL);
-	while (i < len)
-	{
-		dst[i] = str[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-void	ft_next_node(t_words **head)
-{
-	t_words	*tmp;
-
-	tmp = (*head)->next;
-	free((*head)->word);
-	free((*head));
-	(*head) = tmp;
-}
-
-void	ft_herd_sig(int i)
-{
-	(void)i;
-	if (i == SIGINT)
-	{
-		write(1, "\n", 1);
-		close(STDIN_FILENO);
-        herd_g = 1;
-	}
-}
-
-void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
-{
-	char	*str;
-	int		j;
-
-	if ((*head)->type == WORD)
-		dst[(*i)++] = ft_putword((*head)->word);
-	else if ((*head)->type == REDOU)
-	{
-		ft_next_node(head);
-		stack_2->out = open((*head)->word, O_CREAT | O_WRONLY, 0777);
-	}
-	else if ((*head)->type == REDIN)
-	{
-		ft_next_node(head);
-		stack_2->in = open((*head)->word, O_RDONLY, 0777);
-	}
-	else if ((*head)->type == APPEND)
-	{
-		ft_next_node(head);
-		stack_2->out = open((*head)->word, O_CREAT
-				| O_RDWR | O_APPEND , 0777);
-	}
-	else if ((*head)->type == HERD)
-	{
-		str = NULL;
-		j = -1;
-		ft_next_node(head);
-		stack_2->out = open(".herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
-		signal(SIGINT, ft_herd_sig);
-		rl_catch_signals = 0;
-		while (1)
-		{
-			str = readline("> ");
-			if (herd_g)
-			{
-				dup2(STDIN_FILENO, open(ttyname(1), O_RDONLY , 0777));
-				free(str);
-				str = NULL;
-				herd_g = 0;
-			}
-			if (!str || ft_strcmp((*head)->word, str) == 0)
-				break ;
-			if (!str[0])
-			{
-				free(str);
-				str = NULL;
-				continue ;
-			}
-			while (str[++j])
-				write(stack_2->out, &str[j], 1);
-			str = NULL;
-			free(str);
-			write(stack_2->out, "\n", 1);
-		}
-		close(stack_2->out);
-		stack_2->in = open(".herd_file", O_CREAT | O_RDONLY , 0777);
-	}
-	else if ((*head)->type == 7)
-		ft_next_node(head);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -178,39 +74,9 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	return (dst[i] = NULL, dst);
 }
 
-t_joins	*ft_lstnew_joins(t_words **words)
-{
-	t_joins	*stack_2;
-
-	stack_2 = (t_joins *)malloc(sizeof(t_joins));
-	stack_2->in = 0;
-	stack_2->out = 1;
-	stack_2->content = ft_create_list(stack_2, words);
-	stack_2->next = NULL;
-	return (stack_2);
-}
-
-void	ft_lstaddback_joins(t_joins **head, t_joins *node)
-{
-	t_joins	*last;
-
-	if (*head == NULL)
-	{
-		*head = node;
-		return ;
-	}
-	if (!head || !node)
-		return ;
-	last = *head;
-	while (last->next)
-		last = last->next;
-	last->next = node;
-}
-
 t_joins	*ft_parse_stack(t_words **words)
 {
 	t_joins	*stack_2;
-	t_joins	*tmp;
 	t_joins	*new;
 
 	stack_2 = ft_lstnew_joins(words);
@@ -223,19 +89,5 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	// tmp = stack_2;
-	// while (tmp)
-	// {
-	// 	int i = 0;
-	// 	while (tmp->content[i])
-	// 	{
-	// 		printf("{%s}\n", tmp->content[i]);
-	// 		i++;
-	// 	}
-	// 	printf("in : {%d}\n", tmp->in);
-	// 	printf("out : {%d}", tmp->out);
-	// 	puts("\n|\n");
-	// 	tmp = tmp->next;
-	// }
 	return (stack_2);
 }
