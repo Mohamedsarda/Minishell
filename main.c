@@ -194,11 +194,18 @@ int	main(int ac, char **ar, char **env)
 		add_struct(str_sp, &words, env_stack);
 		free(str_sp);
 		back_to_string(words);
-		if (!hundle_error(words))
+		int	e = hundle_error(words);
+		if (!e)
 		{
 			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
 			ft_lstclear(&words);
 			continue ;
+		}
+		t_words *b = words;
+		while(b)
+		{
+			printf("->>>>[%s] ||->>>>[%d]", b->word, b->type);
+			b = b->next;
 		}
 		tmp = ft_parse_stack(&words);
 	}
