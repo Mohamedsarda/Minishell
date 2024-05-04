@@ -90,13 +90,15 @@ t_env	*ft_create_env_stack(char **env)
 	(void)env;
 	head = NULL;
 	node = NULL;
-	while (*env && **env)
+	int	i = 0;
+	while (env[i])
 	{
-		node = ft_lstnew_env(ft_strlcpy(env, ft_get_env_len(*env, '=')), *env);
+		char	*str = env[i];
+		node = ft_lstnew_env(ft_strlcpy(&str, ft_get_env_len(str, '=')), str);
 		if (!node)
 			return (NULL);
 		ft_lstadd_back_env(&head, node);
-		env++;
+		i++;
 	}
 	// while (head)
 	// {
