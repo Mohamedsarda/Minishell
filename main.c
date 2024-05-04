@@ -146,6 +146,11 @@ void	back_to_string(t_words *words)
 	}
 }
 
+void	ft_leaks(void)
+{
+	system("leaks minishell");
+}
+
 int	main(int ac, char **ar, char **env)
 {
 	(void)ac;
@@ -157,6 +162,7 @@ int	main(int ac, char **ar, char **env)
 	char	*string;
 	char	*str_sp;
 
+	atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
@@ -194,6 +200,8 @@ int	main(int ac, char **ar, char **env)
 		}
 		tmp = ft_parse_stack(&words);
 	}
+	ft_lstclear_joins(&tmp);
+	ft_lstclear_env(&env_stack);
     rl_clear_history();
 	return (0);
 }
