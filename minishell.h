@@ -58,14 +58,13 @@ void	ft_lstdelone(t_words *lst);
 t_joins	*ft_parse_stack(t_words **words);
 char	*ft_strjoin(char *s1, char *s2);
 //env
-t_env	*ft_create_env_stack(char **env);
+t_env	*ft_create_env_stack(char **env, int tmp);
 char	*ft_strdup(char *s1);
 t_env	*ft_lstnew_env(char *val_1, char *val_2);
 void	ft_lstadd_back_env(t_env **head, t_env *node);
 void	ft_sighandler(int i);
 int	ft_get_env_len(char *str, char c);
 char	*ft_strlcpy(char **str, int len);
-
 
 char	*ft_strtrim(char *s1, char *set);
 void	ft_putstr(char *str, int fd);
@@ -75,5 +74,16 @@ void	ft_lstdel_env(t_env *lst);
 //
 void	ft_lstclear_joins(t_joins **lst);
 void	ft_lstdel_joins(t_joins *lst);
+void	ft_herd_sig(int i);
+void	ft_check_word_type(t_joins *stack_2, t_words **head,
+			int *i, char **dst);
+void	ft_handle_herd(t_joins *stack_2, t_words **head);
+void	ft_next_node(t_words **head);
+int		ft_stack_words(t_words *words);
+//
+t_joins	*ft_lstnew_joins(t_words **words);
+void	ft_lstaddback_joins(t_joins **head, t_joins *node);
+void	free_split(char **tmp);
+char	**ft_create_list(t_joins *stack_2, t_words **head);
 
 #endif

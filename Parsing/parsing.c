@@ -130,7 +130,7 @@ static int	ft_add(t_words **head, char *a, t_env *env_stack)
 	return (0);
 }
 
-static void	free_split(char **tmp)
+void	free_split(char **tmp)
 {
 	int	i;
 
