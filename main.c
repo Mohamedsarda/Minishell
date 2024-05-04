@@ -201,12 +201,12 @@ int	main(int ac, char **ar, char **env)
 			ft_lstclear(&words);
 			continue ;
 		}
-		t_words *b = words;
-		while(b)
-		{
-			printf("->>>>[%s] ||->>>>[%d]", b->word, b->type);
-			b = b->next;
-		}
+		// t_words *b = words;
+		// while(b)
+		// {
+		// 	printf("->>>>[%s] ||->>>>[%d]", b->word, b->type);
+		// 	b = b->next;
+		// }
 		tmp = ft_parse_stack(&words);
 	}
 	ft_lstclear_joins(&tmp);
