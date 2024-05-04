@@ -165,7 +165,6 @@ int	main(int ac, char **ar, char **env)
 	env_stack = ft_create_env_stack(env);
 	while (1)
 	{
-		signal(SIGINT, ft_sighandler);
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
 		if (!string)
@@ -188,12 +187,13 @@ int	main(int ac, char **ar, char **env)
 		add_struct(str_sp, &words, env_stack);
 		back_to_string(words);
 		if (!hundle_error(words))
-			return (1);
+		{
+			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
+			ft_lstclear(&words);
+			continue ;
+		}
 		tmp = ft_parse_stack(&words);
 	}
-	// Clean up
-    clear_history();
     rl_clear_history();
-    rl_cleanup_after_signal();
 	return (0);
 }
