@@ -65,6 +65,9 @@ void	ft_herd_sig(int i)
 
 void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {
+	char	*str;
+	int		j;
+
 	if ((*head)->type == WORD)
 		dst[(*i)++] = ft_putword((*head)->word);
 	else if ((*head)->type == REDOU)
@@ -85,15 +88,14 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	}
 	else if ((*head)->type == HERD)
 	{
-		char	*str;
-
+		str = NULL;
+		j = -1;
 		ft_next_node(head);
 		stack_2->out = open(".herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		signal(SIGINT, ft_herd_sig);
 		rl_catch_signals = 0;
 		while (1)
 		{
-			signal(SIGINT, ft_herd_sig);
-			// printf("{%d}\n", herd_g);
 			str = readline("> ");
 			if (herd_g)
 			{
@@ -105,12 +107,15 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			if (!str || ft_strcmp((*head)->word, str) == 0)
 				break ;
 			if (!str[0])
-				continue ;
-			while (*str)
 			{
-				write(stack_2->out, str, 1);
-				str++;
+				free(str);
+				str = NULL;
+				continue ;
 			}
+			while (str[++j])
+				write(stack_2->out, &str[j], 1);
+			str = NULL;
+			free(str);
 			write(stack_2->out, "\n", 1);
 		}
 		close(stack_2->out);
@@ -203,6 +208,7 @@ void	ft_lstaddback_joins(t_joins **head, t_joins *node)
 t_joins	*ft_parse_stack(t_words **words)
 {
 	t_joins	*stack_2;
+	t_joins	*tmp;
 	t_joins	*new;
 
 	stack_2 = ft_lstnew_joins(words);
@@ -215,18 +221,19 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	// while (stack_2)
-	// {
-	// 	int i = 0;
-	// 	while (stack_2->content[i])
-	// 	{
-	// 		printf("{%s}\n", stack_2->content[i]);
-	// 		i++;
-	// 	}
-	// 	printf("in : {%d}\n", stack_2->in);
-	// 	printf("out : {%d}", stack_2->out);
-	// 	puts("\n|\n");
-	// 	stack_2 = stack_2->next;
-	// }
+	tmp = stack_2;
+	while (tmp)
+	{
+		int i = 0;
+		while (tmp->content[i])
+		{
+			printf("{%s}\n", tmp->content[i]);
+			i++;
+		}
+		printf("in : {%d}\n", tmp->in);
+		printf("out : {%d}", tmp->out);
+		puts("\n|\n");
+		tmp = tmp->next;
+	}
 	return (stack_2);
 }
