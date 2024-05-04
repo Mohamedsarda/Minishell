@@ -5,6 +5,8 @@ int	check_length(char *str)
 	int i = 0;
 	while (str[i])
 		i++;
+	if(i == 3)
+		return (3);
 	if(i != 2)
 		return (0);
 	return (1);
@@ -16,7 +18,13 @@ int	hundle_error(t_words *words)
 	a = words;
 	while (a)
 	{
-		if((a->type == 5 && check_length(a->word) == 0) || (a->type == 4 && check_length(a->word) == 0))
+		int len = check_length(a->word);
+		if ((a->type == 4 && len == 3))
+		{
+			a->type = 7;
+			return (1);
+		}
+		else if ((a->type == 5 && len == 0) || (a->type == 4 && len == 0))
 			return (0);
 		if (a->type == REDOU || a->type == REDIN || a->type == PIPE
 			|| a->type == HERD || a->type == APPEND || a->word == NULL)
