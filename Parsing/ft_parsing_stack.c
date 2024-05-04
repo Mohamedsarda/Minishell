@@ -57,7 +57,8 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	i = 0;
 	while ((*head) && (*head)->type != PIPE)
 	{
-		ft_check_word_type(stack_2, head, &i, dst);
+		if (i < words)
+			ft_check_word_type(stack_2, head, &i, dst);
 		if (stack_2->in == -1 || stack_2->out == -1)
 		{
 			err = ft_strjoin("Minishell$ : ", (*head)->word);

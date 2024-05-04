@@ -55,39 +55,76 @@ static char	*cpy(char	*str, int len)
 	return (dst);
 }
 
+
+char	*test(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*dst;
+
+	if (!s1 || !s2)
+		return (NULL);
+	i = 0;
+	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!dst)
+		return (NULL);
+	while (s1[i])
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		dst[i++] = s2[j++];
+	dst[i] = '\0';
+	free(s1);
+	return (dst);
+}
+
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
-	char	*str;
+	char	*befor;
+	char	*str = NULL;
 	char	**tmp;
 	int		j;
 	char	*key;
-
+	char	*a;
 	j = -1;
 	if (node->type == 6)
 	{
-		str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
+		befor = ft_strlcpy(&content, ft_get_env_len(content, '$'));
 		tmp = ft_split(content, '$');
 		if (tmp == NULL || *tmp == NULL)
 			return (NULL);
 		while (tmp[++j])
 		{
-			key = check_after_env(&tmp[j]);
-			if (ft_strcmp(key, tmp[j]) == 0)
+			a = ft_strdup(tmp[j]);
+			char *b = a;
+			key = check_after_env(&a);
+			if (ft_strcmp(key, a) == 0)
 			{
 				if (key[0] >= '0' && key[0] <= '9')
 					str = cpy(key, ft_strlen(key) - 1);
 				else
-					str = ft_strjoin(str, check_env(key, env));
+				{
+					free(str);
+					str = ft_strjoin(befor, check_env(key, env));
+				}
 			}
 			else
 			{
-				str = ft_strjoin(str, check_env(key, env));
-				if (ft_strcmp(key, tmp[j]) != 0)
-					str = ft_strjoin(str, tmp[j]);
+				free(str);
+				str = ft_strjoin(befor, check_env(key, env));
+				if (ft_strcmp(key, a) != 0)
+					str = test(str, a);
 			}
+			free(b);
+			if (ft_strcmp(key, a) != 0)
+				free(key);
 			node->type = 0;
 		}
-		// free_split(tmp);
+		free(befor);
+		free_split(tmp);
 		return (str);
 	}
 	return (content);

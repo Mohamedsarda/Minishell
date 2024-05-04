@@ -4,8 +4,6 @@ size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
-	if (!s)
-		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -28,9 +26,9 @@ static void	ft_lstdel_joins(t_joins *lst)
 
 	if (!lst)
 		return ;
-	i = -1;
-	while (lst->content[++i])
-		free(lst->content[i]);
+	i = 0;
+	while (lst && lst->content[i])
+		free(lst->content[i++]);
 	free(lst->content);
 	free(lst);
 }
