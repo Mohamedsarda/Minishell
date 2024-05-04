@@ -89,11 +89,26 @@ t_env	*ft_create_env_stack(char **env)
 	char	*str;
 	char	*key;
 	int		i;
-	
+	int		j;
+	int		tmp;
+
 	i = 0;
-	(void)env;
 	head = NULL;
 	node = NULL;
+	tmp = 0;
+	if (!*env)
+	{
+		tmp = 1;
+		j = 0;
+		env = (char **)malloc(5 * sizeof(char *));
+		if (!env)
+			return (NULL);
+		env[j++] = ft_strdup("USER=msarda");
+		env[j++] = ft_strdup("HOME=/Users/msarda");
+		env[j++] = ft_strdup("SHLVL=1");
+		env[j++] = ft_strdup("PATH=/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/msarda/.brew/bin");
+		env[j] = NULL;
+	}
 	while (env[i])
 	{
 		str = env[i];
@@ -106,6 +121,14 @@ t_env	*ft_create_env_stack(char **env)
 		ft_lstadd_back_env(&head, node);
 		i++;
 	}
+	i = 0;
+	while (tmp && env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	if (tmp)
+		free(env);
 	// while (head)
 	// {
 	// 	printf("{%s}  :  {%s}\n", head->key, head->value);
