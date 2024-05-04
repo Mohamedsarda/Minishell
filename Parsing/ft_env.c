@@ -87,6 +87,7 @@ t_env	*ft_create_env_stack(char **env)
 	t_env	*head;
 	t_env	*node;
 	char	*str;
+	char	*key;
 	int		i;
 	
 	i = 0;
@@ -96,9 +97,12 @@ t_env	*ft_create_env_stack(char **env)
 	while (env[i])
 	{
 		str = env[i];
-		node = ft_lstnew_env(ft_strlcpy(&str, ft_get_env_len(str, '=')), str);
+		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
+		node = ft_lstnew_env(key, str);
 		if (!node)
 			return (NULL);
+		free(key);
+		key = NULL;
 		ft_lstadd_back_env(&head, node);
 		i++;
 	}
