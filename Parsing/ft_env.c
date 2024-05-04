@@ -74,7 +74,6 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 	int		i;
 
 	i = -1;
-	tmp = 0;
 	if (!*env)
 		env = ft_empty_env(env, &tmp);
 	while (env[++i])

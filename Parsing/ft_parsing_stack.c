@@ -87,5 +87,19 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
+	t_joins *tmp = stack_2;
+	while (tmp)
+	{
+		int i = 0;
+		while (tmp->content[i])
+		{
+			printf("{%s}\n", tmp->content[i]);
+			i++;
+		}
+		printf("in : {%d}\n", tmp->in);
+		printf("out : {%d}", tmp->out);
+		puts("\n|\n");
+		tmp = tmp->next;
+	}
 	return (stack_2);
 }
