@@ -120,6 +120,7 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 			}
 			node->type = 0;
 		}
+		free_split(tmp);
 		return (str);
 	}
 	return (content);
