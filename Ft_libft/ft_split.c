@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 static int	ft_words_counter(char const *str, char c)

@@ -1,7 +1,5 @@
 #include "../minishell.h"
 
-int	g_herd;
-
 int	ft_stack_words(t_words *words)
 {
 	int	i;
@@ -89,19 +87,5 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	// tmp = stack_2;
-	// while (tmp)
-	// {
-	// 	int i = 0;
-	// 	while (tmp->content[i])
-	// 	{
-	// 		printf("{%s}\n", tmp->content[i]);
-	// 		i++;
-	// 	}
-	// 	printf("in : {%d}\n", tmp->in);
-	// 	printf("out : {%d}", tmp->out);
-	// 	puts("\n|\n");
-	// 	tmp = tmp->next;
-	// }
 	return (stack_2);
 }

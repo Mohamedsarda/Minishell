@@ -1,13 +1,12 @@
 #include "../minishell.h"
 
-int g_herd;
+int	g_herd;
 
 void	ft_herd_sig(int i)
 {
 	(void)i;
 	if (i == SIGINT)
 	{
-		write(1, "\n", 1);
 		close(STDIN_FILENO);
 		g_herd = 1;
 	}
