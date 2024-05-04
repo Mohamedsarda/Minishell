@@ -122,10 +122,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 		stack_2->in = open(".herd_file", O_CREAT | O_RDONLY , 0777);
 	}
 	else if ((*head)->type == 7)
-	{
 		ft_next_node(head);
-		ft_next_node(head);
-	}
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -226,19 +223,19 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	tmp = stack_2;
-	while (tmp)
-	{
-		int i = 0;
-		while (tmp->content[i])
-		{
-			printf("{%s}\n", tmp->content[i]);
-			i++;
-		}
-		printf("in : {%d}\n", tmp->in);
-		printf("out : {%d}", tmp->out);
-		puts("\n|\n");
-		tmp = tmp->next;
-	}
+	// tmp = stack_2;
+	// while (tmp)
+	// {
+	// 	int i = 0;
+	// 	while (tmp->content[i])
+	// 	{
+	// 		printf("{%s}\n", tmp->content[i]);
+	// 		i++;
+	// 	}
+	// 	printf("in : {%d}\n", tmp->in);
+	// 	printf("out : {%d}", tmp->out);
+	// 	puts("\n|\n");
+	// 	tmp = tmp->next;
+	// }
 	return (stack_2);
 }
