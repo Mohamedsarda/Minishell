@@ -1,26 +1,5 @@
 #include "../minishell.h"
 
-char	*ft_strdup(char *s1)
-{
-	int		i;
-	char	*dst;
-
-	if (!s1)
-		return (NULL);
-	i = ft_strlen(s1);
-	dst = (char *)malloc(i + 1);
-	if (!dst)
-		return (NULL);
-	dst[i] = '\0';
-	i--;
-	while (i >= 0)
-	{
-		dst[i] = s1[i];
-		i--;
-	}
-	return (dst);
-}
-
 t_env	*ft_lstnew_env(char *val_1, char *val_2)
 {
 	t_env	*head;
@@ -67,72 +46,51 @@ int	ft_get_env_len(char *str, char c)
 	return (i);
 }
 
-char	*ft_strlcpy(char **str, int len)
+char	**ft_empty_env(char **env, int *tmp)
 {
-	int		i;
-	char	*dst;
+	int	j;
 
-	i = 0;
-	dst = (char *)malloc(len + 1);
-	if (!dst)
+	j = 0;
+	(*tmp) = 1;
+	env = (char **)malloc(5 * sizeof(char *));
+	if (!env)
 		return (NULL);
-	while (i < len)
-		dst[i++] = *(*str)++;
-	dst[i] = '\0';
-	return (dst);
+	env[j++] = ft_strdup("USER=msarda");
+	env[j++] = ft_strdup("HOME=/Users/msarda");
+	env[j++] = ft_strdup("SHLVL=1");
+	env[j++] = ft_strdup("PATH=/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/\
+		usr/sbin:/sbin:/usr/local/munki:/Library/\
+		Apple/usr/bin:/Users/msarda/.brew/bin");
+	env[j] = NULL;
+	return (env);
 }
 
-t_env	*ft_create_env_stack(char **env)
+t_env	*ft_create_env_stack(char **env, int tmp)
 {
 	t_env	*head;
 	t_env	*node;
 	char	*str;
 	char	*key;
 	int		i;
-	int		j;
-	int		tmp;
 
-	i = 0;
-	head = NULL;
-	node = NULL;
+	i = -1;
 	tmp = 0;
 	if (!*env)
-	{
-		tmp = 1;
-		j = 0;
-		env = (char **)malloc(5 * sizeof(char *));
-		if (!env)
-			return (NULL);
-		env[j++] = ft_strdup("USER=msarda");
-		env[j++] = ft_strdup("HOME=/Users/msarda");
-		env[j++] = ft_strdup("SHLVL=1");
-		env[j++] = ft_strdup("PATH=/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/msarda/.brew/bin");
-		env[j] = NULL;
-	}
-	while (env[i])
+		env = ft_empty_env(env, &tmp);
+	while (env[++i])
 	{
 		str = env[i];
 		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
 		node = ft_lstnew_env(key, str);
 		if (!node)
-			return (NULL);
+			return (free(key), NULL);
 		free(key);
-		key = NULL;
 		ft_lstadd_back_env(&head, node);
-		i++;
 	}
-	i = 0;
-	while (tmp && env[i])
-	{
+	i = -1;
+	while (tmp && env[++i])
 		free(env[i]);
-		i++;
-	}
 	if (tmp)
 		free(env);
-	// while (head)
-	// {
-	// 	printf("{%s}  :  {%s}\n", head->key, head->value);
-	// 	head = head->next;
-	// }
 	return (head);
 }
