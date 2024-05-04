@@ -121,6 +121,11 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 		close(stack_2->out);
 		stack_2->in = open(".herd_file", O_CREAT | O_RDONLY , 0777);
 	}
+	else if ((*head)->type == 7)
+	{
+		ft_next_node(head);
+		ft_next_node(head);
+	}
 }
 
 char	*ft_strjoin(char *s1, char *s2)
