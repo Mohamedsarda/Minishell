@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 //strlen(string)
@@ -97,8 +96,9 @@ char	*ft_parsing(char *str)
 {
 	char	*str_sp;
 	char	*t;
-	char	*b = str;
+	char	*s;
 
+	s = str;
 	str_sp = malloc(ft_strlen_str_sp(str) + 1);
 	t = str_sp;
 	while (str && *str)
@@ -114,7 +114,7 @@ char	*ft_parsing(char *str)
 		str++;
 	}
 	*str_sp = '\0';
-	free(b);
+	free(s);
 	return (t);
 }
 
@@ -152,6 +152,5 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 	while (tmp[++j])
 		ft_add(words, tmp[j], env_stack);
 	free_split(tmp);
-
 }
 // end add to 1_stuck

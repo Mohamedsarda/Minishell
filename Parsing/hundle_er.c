@@ -2,28 +2,29 @@
 
 int	check_length(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 		i++;
-	if(i == 3)
+	if (i == 3)
 		return (3);
-	if(i != 2)
+	if (i != 2)
 		return (0);
 	return (1);
-	
 }
+
 int	hundle_error(t_words *words)
 {
 	t_words	*a;
+	int		len;
+
 	a = words;
 	while (a)
 	{
-		int len = check_length(a->word);
+		len = check_length(a->word);
 		if ((a->type == 4 && len == 3))
-		{
-			a->type = 7;
-			return (1);
-		}
+			return (a->type = 7, 1);
 		else if ((a->type == 5 && len == 0) || (a->type == 4 && len == 0))
 			return (0);
 		if (a->type == REDOU || a->type == REDIN || a->type == PIPE
@@ -41,7 +42,6 @@ int	hundle_error(t_words *words)
 	return (1);
 }
 
-
 void	ft_putstr(char *str, int fd)
 {
 	while (*str)
@@ -49,5 +49,4 @@ void	ft_putstr(char *str, int fd)
 		write(fd, str, 1);
 		str++;
 	}
-	
 }

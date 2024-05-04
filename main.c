@@ -147,11 +147,6 @@ void	back_to_string(t_words *words)
 	}
 }
 
-void	ft_leaks(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int ac, char **ar, char **env)
 {
 	t_words	*words;
@@ -162,8 +157,6 @@ int	main(int ac, char **ar, char **env)
 
 	(void)ac;
 	(void)ar;
-	(void)env;
-	atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
@@ -176,41 +169,33 @@ int	main(int ac, char **ar, char **env)
 		string = ft_strtrim(string, " ");
 		if (!string)
 			break ;
-		else if(!string[0])
+		else if (!string[0])
 		{
-			free(string); //migth have problems
-			continue;
+			free(string);
+			continue ;
 		}
 		if (string[0] != '\0')
-            add_history(string);
+			add_history(string);
 		multiple(&string);
 		if (quotes(&string) == 0)
 		{
 			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
-			// free(string);
-			continue;
+			continue ;
 		}
 		str_sp = ft_parsing(string);
 		add_struct(str_sp, &words, env_stack);
 		free(str_sp);
 		back_to_string(words);
-		int	e = hundle_error(words);
-		if (!e)
+		if (!hundle_error(words))
 		{
 			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
 			ft_lstclear(&words);
 			continue ;
 		}
-		// t_words *b = words;
-		// while(b)
-		// {
-		// 	printf("->>>>[%s] ||->>>>[%d]", b->word, b->type);
-		// 	b = b->next;
-		// }
 		tmp = ft_parse_stack(&words);
 	}
 	ft_lstclear_joins(&tmp);
 	ft_lstclear_env(&env_stack);
-    rl_clear_history();
+	rl_clear_history();
 	return (0);
 }
