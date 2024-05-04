@@ -175,10 +175,7 @@ int	main(int ac, char **ar, char **env)
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
 		if (!string)
-		{
-			free(string);
 			break ;
-		}
 		else if(!string[0])
 		{
 			free(string); //migth have problems
@@ -190,11 +187,12 @@ int	main(int ac, char **ar, char **env)
 		if (quotes(&string) == 0)
 		{
 			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
-			free(string);
+			// free(string);
 			continue;
 		}
 		str_sp = ft_parsing(string);
 		add_struct(str_sp, &words, env_stack);
+		free(str_sp);
 		back_to_string(words);
 		if (!hundle_error(words))
 		{
