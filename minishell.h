@@ -69,5 +69,11 @@ char	*ft_strlcpy(char **str, int len);
 
 char	*ft_strtrim(char *s1, char *set);
 void	ft_putstr(char *str, int fd);
+//
+void	ft_lstclear_env(t_env **lst);
+void	ft_lstdel_env(t_env *lst);
+//
+void	ft_lstclear_joins(t_joins **lst);
+void	ft_lstdel_joins(t_joins *lst);
 
 #endif

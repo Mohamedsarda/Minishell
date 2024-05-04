@@ -86,14 +86,16 @@ t_env	*ft_create_env_stack(char **env)
 {
 	t_env	*head;
 	t_env	*node;
-
+	char	*str;
+	int		i;
+	
+	i = 0;
 	(void)env;
 	head = NULL;
 	node = NULL;
-	int	i = 0;
 	while (env[i])
 	{
-		char	*str = env[i];
+		str = env[i];
 		node = ft_lstnew_env(ft_strlcpy(&str, ft_get_env_len(str, '=')), str);
 		if (!node)
 			return (NULL);

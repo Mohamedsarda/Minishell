@@ -215,18 +215,18 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	while (stack_2)
-	{
-		int i = 0;
-		while (stack_2->content[i])
-		{
-			printf("{%s}\n", stack_2->content[i]);
-			i++;
-		}
-		printf("in : {%d}\n", stack_2->in);
-		printf("out : {%d}", stack_2->out);
-		puts("\n|\n");
-		stack_2 = stack_2->next;
-	}
+	// while (stack_2)
+	// {
+	// 	int i = 0;
+	// 	while (stack_2->content[i])
+	// 	{
+	// 		printf("{%s}\n", stack_2->content[i]);
+	// 		i++;
+	// 	}
+	// 	printf("in : {%d}\n", stack_2->in);
+	// 	printf("out : {%d}", stack_2->out);
+	// 	puts("\n|\n");
+	// 	stack_2 = stack_2->next;
+	// }
 	return (stack_2);
 }
