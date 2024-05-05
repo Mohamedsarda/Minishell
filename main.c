@@ -37,13 +37,15 @@ void	multiple(char **str, int is)
 {
 	int	i;
 
+	if (!str || !*str)
+		return ;
 	i = 0;
 	while (*str && str[0][i])
 	{
 		if (is == 0 && str[0][i] == '\"')
 		{
 			i++;
-			while (!str && str[0][i] != '\"')
+			while (str[0][i] && str[0][i] != '\"')
 			{
 				str[0][i] *= -1;
 				i++;
@@ -52,7 +54,7 @@ void	multiple(char **str, int is)
 		else if (str[0][i] == '\'')
 		{
 			i++;
-			while (str[0][i] != '\'')
+			while (str[0][i] && str[0][i] != '\'')
 			{
 				str[0][i] *= -1;
 				i++;
@@ -198,6 +200,7 @@ int	main(int ac, char **ar, char **env)
 	(void)ar;
 	if (ac != 1)
 		return (1);
+	tmp = NULL;
 	atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
