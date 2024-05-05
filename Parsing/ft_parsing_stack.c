@@ -73,10 +73,12 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	return (dst[i] = NULL, dst);
 }
 
-t_joins	*ft_parse_stack(t_words **words)
+t_joins	*ft_parse_stack(t_words **words, t_env *env)
 {
 	t_joins	*stack_2;
 	t_joins	*new;
+	t_joins	*tmp;
+	int		i;
 
 	stack_2 = ft_lstnew_joins(words);
 	while ((*words))
@@ -88,18 +90,16 @@ t_joins	*ft_parse_stack(t_words **words)
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
-	t_joins *tmp = stack_2;
+	tmp = stack_2;
 	while (tmp)
 	{
-		int i = 0;
-		while (tmp->content[i])
-		{
-			printf("{%s}\n", tmp->content[i]);
-			i++;
-		}
-		printf("in : {%d}\n", tmp->in);
-		printf("out : {%d}", tmp->out);
-		puts("\n|\n");
+		i = 0;
+		if (ft_strcmp(tmp->content[i], "echo") == 0)
+			ft_echo(&stack_2);
+		else if (ft_strcmp(tmp->content[i], "pwd") == 0)
+			ft_pwd(&stack_2);
+		else if (ft_strcmp(tmp->content[i], "env") == 0)
+			ft_env(env);
 		tmp = tmp->next;
 	}
 	return (stack_2);
