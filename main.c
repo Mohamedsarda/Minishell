@@ -33,14 +33,14 @@ int	quotes(char *str)
 		return (1);
 }
 
-void	multiple(char **str)
+void	multiple(char **str, int is)
 {
 	int	i;
 
 	i = 0;
 	while (*str && str[0][i])
 	{
-		if (str[0][i] == '\"')
+		if (is == 0 && str[0][i] == '\"')
 		{
 			i++;
 			while (str[0] && str[0][i] != '\"')
@@ -133,18 +133,53 @@ char	*ft_strtrim(char *s1, char *set)
 }
 
 //end trime
-void	back_to_string(t_words *words)
+
+char *ft_rm_quotes(char *string, char c)
 {
-	while (words)
+	char	*str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	str = malloc(ft_strlen(string) - 1);
+	while (string[i])
 	{
-		if (words->word[0] == '\'' || words->word[0] == '\"')
+		if (string[i] == c)
 		{
-			multiple(&words->word);
-			words->word = ft_strtrim(words->word, "\'");
-			words->word = ft_strtrim(words->word, "\"");
+			while (string[++i] != c)
+				str[j++] = string[i];
 		}
-		words = words->next;
+		else
+			str[j++] = string[i];
+		i++;
 	}
+	str[j] = '\0';
+	free(string);
+	return (str);
+}
+
+char	*back_to_string(char	*string)
+{
+	int i = 0;
+
+	while (string[i])
+	{
+		if (string[i] == '\'')
+		{
+			multiple(&string, 0);
+			// string = ft_rm_quotes(string, '\'');
+			return (string);
+		}
+		else if (string[i] == '\"')
+		{
+			multiple(&string, 0);
+			// string = ft_rm_quotes(string, '\"');
+			return (string);
+		}
+		i++;
+	}
+	return string;
 }
 
 void	ft_leaks(void)
@@ -182,16 +217,16 @@ int	main(int ac, char **ar, char **env)
 		}
 		if (string[0] != '\0')
 			add_history(string);
-		multiple(&string);
+		multiple(&string, 0);
 		if (quotes(string) == 0)
 		{
 			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
 			continue ;
 		}
 		str_sp = ft_parsing(string);
+		str_sp = back_to_string(str_sp);
 		add_struct(str_sp, &words, env_stack);
 		free(str_sp);
-		back_to_string(words);
 		if (!hundle_error(words))
 		{
 			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);

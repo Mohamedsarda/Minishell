@@ -16,7 +16,7 @@ static char	check_key(char c)
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
 		|| (c >= '0' && c <= '9') || c == '_')
 		return ('\0');
-	return (c);
+	return ('c');
 }
 
 static char	*check_after_env(char **tmp)
@@ -97,34 +97,43 @@ char *atest(char *key, t_env *env, char *str)
 	}
 	return (str);
 }
+
+void ft_norm____(char **str, char **tmp, char *key, t_env *env)
+{
+	char	*a;
+	char	*b;
+
+	a = ft_strdup(*tmp);
+	b = a;
+	key = check_after_env(&a);
+	if (ft_strcmp(key, a) == 0)
+		*str = atest(key, env, *str);
+	else
+	{
+		*str = test(*str, check_env(key, env));
+		if (ft_strcmp(key, a) != 0)
+			*str = test(*str, a);
+	}
+	free(b);
+	if (ft_strcmp(key, a) != 0)
+		free(key);
+}
+
 char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
 {
 	int		j;
 	char	*str;
-	char	*a;
-	char	*b;
 
 	j = -1;
 	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
+	if (content[0] == '\0')
+		return (str);
 	tmp = ft_split(content, '$');
 	if (tmp == NULL || *tmp == NULL)
 		return (NULL);
 	while (tmp[++j])
 	{
-		a = ft_strdup(tmp[j]);
-		b = a;
-		key = check_after_env(&a);
-		if (ft_strcmp(key, a) == 0)
-			str = atest(key, env, str);
-		else
-		{
-			str = test(str, check_env(key, env));
-			if (ft_strcmp(key, a) != 0)
-				str = test(str, a);
-		}
-		free(b);
-		if (ft_strcmp(key, a) != 0)
-			free(key);
+		ft_norm____(&str, &tmp[j], key, env);
 	}
 	free_split(tmp);
 	return (str);
@@ -140,7 +149,12 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 	tmp = NULL;
 	if (node->type == 6)
 	{
+		// split_arr(content);
+		// multiple(&content, 1);
 		str = ft_norm(content, env, tmp, key);
+		// str = ft_rm_quotes(str, '\'');
+		// str = ft_rm_quotes(str, '\"');
+		// multiple(&str, 0);
 		node->type = 0;
 		return (str);
 	}
