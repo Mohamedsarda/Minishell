@@ -126,6 +126,8 @@ char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
 
 	j = -1;
 	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
+	if (content[0] == '\0')
+		return (str);
 	tmp = ft_split(content, '$');
 	if (tmp == NULL || *tmp == NULL)
 		return (NULL);

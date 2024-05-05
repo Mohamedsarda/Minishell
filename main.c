@@ -159,7 +159,7 @@ char *ft_rm_quotes(char *string, char c)
 	return (str);
 }
 
-void	back_to_string(char	*string)
+char	*back_to_string(char	*string)
 {
 	int i = 0;
 
@@ -169,11 +169,17 @@ void	back_to_string(char	*string)
 		{
 			multiple(&string);
 			string = ft_rm_quotes(string, '\'');
+			return (string);
 		}
 		else if (string[i] == '\"')
+		{
+			multiple(&string);
 			string = ft_rm_quotes(string, '\"');
+			return (string);
+		}
 		i++;
 	}
+	return string;
 }
 
 void	ft_leaks(void)
@@ -218,16 +224,16 @@ int	main(int ac, char **ar, char **env)
 			continue ;
 		}
 		str_sp = ft_parsing(string);
-		back_to_string(str_sp);
-		// add_struct(str_sp, &words, env_stack);
-		// free(str_sp);
-		// if (!hundle_error(words))
-		// {
-		// 	ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
-		// 	ft_lstclear(&words);
-		// 	continue ;
-		// }
-		// tmp = ft_parse_stack(&words);
+		str_sp = back_to_string(str_sp);
+		add_struct(str_sp, &words, env_stack);
+		free(str_sp);
+		if (!hundle_error(words))
+		{
+			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
+			ft_lstclear(&words);
+			continue ;
+		}
+		tmp = ft_parse_stack(&words);
 	}
 	ft_lstclear_joins(&tmp);
 	ft_lstclear_env(&env_stack);

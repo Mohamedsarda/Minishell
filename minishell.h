@@ -86,5 +86,8 @@ char	**ft_create_list(t_joins *stack_2, t_words **head);
 // strlen_command
 int		ft_strlen_str_sp(char *str);
 char	*handle_env(t_words *node, char *content, t_env *env);
+void	multiple(char **str);
+int		quotes(char *str);
+char *ft_rm_quotes(char *string, char c);
 
 #endif
