@@ -54,7 +54,7 @@ void	ft_lstadd_back(t_words **head, t_words *node);
 int		ft_strcmp(char *s1, char *s2);
 //
 void	ft_lstclear(t_words **lst);
-t_joins	*ft_parse_stack(t_words **words);
+t_joins	*ft_parse_stack(t_words **words, t_env *env);
 char	*ft_strjoin(char *s1, char *s2);
 //env
 t_env	*ft_create_env_stack(char **env, int tmp);
@@ -88,5 +88,9 @@ int		ft_strlen_str_sp(char *str);
 char	*handle_env(t_words *node, char *content, t_env *env);
 //
 void    ft_echo(t_joins **head);
+void	ft_pwd(t_joins	**stack_2);
+void	ft_next_node_joins(t_joins **head);
+//
+void	ft_env(t_env *env);
 
 #endif

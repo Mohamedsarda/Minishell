@@ -73,7 +73,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	return (dst[i] = NULL, dst);
 }
 
-t_joins	*ft_parse_stack(t_words **words)
+t_joins	*ft_parse_stack(t_words **words, t_env *env)
 {
 	t_joins	*stack_2;
 	t_joins	*new;
@@ -96,6 +96,10 @@ t_joins	*ft_parse_stack(t_words **words)
 		i = 0;
 		if (ft_strcmp(tmp->content[i], "echo") == 0)
 			ft_echo(&stack_2);
+		else if (ft_strcmp(tmp->content[i], "pwd") == 0)
+			ft_pwd(&stack_2);
+		else if (ft_strcmp(tmp->content[i], "env") == 0)
+			ft_env(env);
 		tmp = tmp->next;
 	}
 	return (stack_2);
