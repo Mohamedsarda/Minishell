@@ -41,8 +41,29 @@ void	ft_next_node_joins(t_joins **head)
 	(*head) = stack;
 }
 
+static int	ft_check_after_echo(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '-' || str[i] == 'n')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 void	ft_print_echo(char **str, int fd, int *i)
 {
+	int	j;
+
+	j = 1;
+	while (str[j] && ft_strncmp(str[j], "-n", 2) == 0 && ft_check_after_echo(str[j]))
+		j++;
+	(*i) = j;
 	while (str[(*i)])
 	{
 		ft_putstr_n(str[(*i)], fd);
@@ -56,12 +77,19 @@ void	ft_echo(t_joins **head)
 {
 	t_joins	*tmp;
 	int		i;
+	int		j;
 
 	tmp = (*head);
 	while (tmp)
 	{
 		i = 1;
-		if (ft_strncmp(tmp->content[i], "-n", 2) == 0)
+		if (!tmp->content[i])
+		{
+			write(tmp->out, "\n", 1);
+			return ;
+		}
+		j = 1;
+		if (ft_strncmp(tmp->content[j], "-n", 2) == 0)
 		{
 			i++;
 			ft_print_echo(tmp->content, tmp->out, &i);

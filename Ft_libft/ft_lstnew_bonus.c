@@ -40,26 +40,6 @@ static int	ft_check_type(char *content)
 		return (0);
 }
 
-void	back_double_quotes(char	**str)
-{
-	int	i;
-
-	i = 0;
-	while (*str && str[0][i])
-	{
-		if (str[0][i] == '\"')
-		{
-			i++;
-			while (str[0] && str[0][i] != '\"')
-			{
-				str[0][i] *= -1;
-				i++;
-			}
-		}
-		i++;
-	}
-}
-
 t_words	*ft_lstnew(char *content, t_env *env_stack)
 {
 	t_words	*new_node;
@@ -68,7 +48,6 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 	(void)env_stack;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
-	back_double_quotes(&content);
 	new_node->type = ft_check_type(content);
 	str = handle_env(new_node, content, env_stack);
 	new_node->word = malloc(ft_strlen(str) + 1);
