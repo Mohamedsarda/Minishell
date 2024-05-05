@@ -40,3 +40,12 @@ skbash-3.2$ echo $HOME
 
 only one word (hello)
 only one word (hello)
+
+# parsing part:
+|d
+
+ls "-"la
+echo $USER"fhjskj" #handled
+
+
+echo $"USER"jfhdj"" with fani ft_parsing_stack

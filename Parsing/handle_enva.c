@@ -156,7 +156,7 @@ char	*add_one(char *s1, char s2)
 	return (dst);
 }
 
-char	*delete_qoutes(char *str, char c)
+char	*delete_double_qoutes(char *str)
 {
 	char	*new_str;
 	int		j;
@@ -165,6 +165,50 @@ char	*delete_qoutes(char *str, char c)
 	j = 0;
 	i = 0;
 	new_str = malloc(ft_strlen(str) + 1);
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			while (str[i] != '\"')
+			{
+				new_str[j++] = str[i];
+				i++;
+			}
+			if(str[i + 1] != '\0')
+				new_str[j++] = str[i];
+		}
+		if (str[i] != '\"')
+			new_str[j++] = str[i];
+		i++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+int	ft_strlen_c(const char *str, char c)
+{
+	int	i = 0;
+	int	j = 0;
+
+	while (str[i])
+	{
+		if (str[i] != c)
+			j++;
+		i++;
+	}
+	return (i);
+}
+
+char	*delete_qoutes(const char *str, char c)
+{
+	char	*new_str;
+	int		j;
+	int		i;
+
+	j = 0;
+	i = 0;
+	new_str = malloc(ft_strlen_c(str, c) + 1);
+	if (!new_str)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] != c)
@@ -253,6 +297,21 @@ void	conv_all_pos(char **str)
 		i++;
 	}
 }
+void convert_neg_to_po(char **str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return ;
+
+	i = 0;
+	while (str[0][i])
+	{
+		if (str[0][i] < 0)
+			str[0][i] *= -1;
+		i++;
+	}
+}
 
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
@@ -264,7 +323,7 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 	if (node->type == 6)
 	{
 		multiple2(&content);
-		cont = delete_qoutes(content, '\"');
+		cont = delete_double_qoutes(content);
 		str = ft_norm(cont, env, tmp);
 		free(cont);
 		if (!check_nig(str))
@@ -279,5 +338,10 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 		node->type = 0;
 		return (str);
 	}
-	return (content);
+	multiple(&content, 0);
+	cont = delete_qoutes(content, '\"');
+	str = delete_qoutes(cont, '\'');
+	free(cont);
+	convert_neg_to_po(&str);
+	return (str);
 }

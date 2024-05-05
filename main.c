@@ -40,7 +40,7 @@ void	multiple(char **str, int is)
 	if (!str || !*str)
 		return ;
 	i = 0;
-	while (*str && str[0][i])
+	while (str && *str && str[0][i])
 	{
 		if (is == 0 && str[0][i] == '\"')
 		{
