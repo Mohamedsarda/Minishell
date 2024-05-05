@@ -22,7 +22,6 @@ void	check_left_symbols(char **str, char **str_sp, int a)
 			(*str_sp)++;
 		}
 	}
-	a++;
 }
 
 void	check_right_symbols(char **str, char **str_sp)
@@ -62,6 +61,7 @@ char	*ft_parsing(char *str)
 		if (*str == '|' || *str == '>' || *str == '<')
 			check_left_symbols(&str, &str_sp, a);
 		*str_sp = *str;
+		a++;
 		str_sp++;
 		if (*str == '|' || *str == '>' || *str == '<')
 		{
