@@ -1,0 +1,37 @@
+bash-3.2$ echo -n
+bash-3.2$ echo -n -n 
+bash-3.2$ echo -n -n  hdjf
+hdjfbash-3.2$ echo -n -an hdjf
+-an hdjfbash-3.2$ echo -n -naaa hdjf
+-naaa hdjfbash-3.2$ echo -n -n hdjf -n
+hdjf -nbash-3.2$ echo -n "-n       a" hdjf -n
+-n       a hdjf -nbash-3.2$ echo -n -n       a hdjf -n
+a hdjf -nbash-3.2$ echo -n -----n       a hdjf -n
+-----n a hdjf -nbash-3.2$ echo -n -nnnnnnnn       a hdjf -n
+a hdjf -nbash-3.2$ echo -n -nnnnnnnna       a hdjf -n
+-nnnnnnnna a hdjf -nbash-3.2$ echo ""
+
+bash-3.2$ echo "-"
+-
+bash-3.2$ echo "-a"
+-a
+bash-3.2$ echo "-n"
+bash-3.2$ echo "-na"
+-na
+bash-3.2$ echo "-n fj"
+-n fj
+bash-3.2$ echo "-n" fhkjsd
+fhkjsdbash-3.2$ echo "-n " fhkjsd
+-n  fhkjsd
+bash-3.2$ echo "-n" -nfhkjsd
+-nfhkjsdbash-3.2$ echo "-nnnnn" -nfhkjsd
+-nfhkjsdbash-3.2$ echo "-nnn""nn" -nfhkjsd 
+-nfhkjsdbash-3.2$ echo "-nnn" "nn" -nfhkjsd 
+nn -nfhkjsdbash-3.2$ echo "-nnn""nn" -nfhkjsd 
+-nfhkjsdba
+bash-3.2$ echo -n -n"n" -n sk
+skbash-3.2$ echo -n -n"n"a -n sk
+-nna -n skbash-3.2$ echo -n -n"n" a -n sk
+a -n skbash-3.2$ echo -n -n"n"  -n sk
+skbash-3.2$ echo $HOME
+/Users/msarda

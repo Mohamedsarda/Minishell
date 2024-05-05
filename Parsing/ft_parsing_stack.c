@@ -57,7 +57,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	i = 0;
 	while ((*head) && (*head)->type != PIPE)
 	{
-		if (i < words)
+		if (i <= words)
 			ft_check_word_type(stack_2, head, &i, dst);
 		if (stack_2->in == -1 || stack_2->out == -1)
 		{
@@ -94,6 +94,8 @@ t_joins	*ft_parse_stack(t_words **words, t_env *env)
 	while (tmp)
 	{
 		i = 0;
+		if (!tmp->content[i])
+			return (stack_2);
 		if (ft_strcmp(tmp->content[i], "echo") == 0)
 			ft_echo(&stack_2);
 		else if (ft_strcmp(tmp->content[i], "pwd") == 0)

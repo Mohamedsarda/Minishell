@@ -43,7 +43,7 @@ void	multiple(char **str, int is)
 		if (is == 0 && str[0][i] == '\"')
 		{
 			i++;
-			while (str[0] && str[0][i] != '\"')
+			while (!str && str[0][i] != '\"')
 			{
 				str[0][i] *= -1;
 				i++;
@@ -159,19 +159,27 @@ char *ft_rm_quotes(char *string, char c)
 	return (str);
 }
 
-void	back_to_string(t_words *words)
+char	*back_to_string(char	*string)
 {
+	int i = 0;
 
-	while (words)
+	while (string[i])
 	{
-		if (words->word[0] == '\'' || words->word[0] == '\"')
+		if (string[i] == '\'')
 		{
-			multiple(&words->word, 0);
-			words->word = ft_strtrim(words->word, "\'");
-			words->word = ft_strtrim(words->word, "\"");
+			multiple(&string, 0);
+			// string = ft_rm_quotes(string, '\'');
+			return (string);
 		}
-		words = words->next;
+		else if (string[i] == '\"')
+		{
+			multiple(&string, 0);
+			// string = ft_rm_quotes(string, '\"');
+			return (string);
+		}
+		i++;
 	}
+	return string;
 }
 
 void	ft_leaks(void)
@@ -216,8 +224,8 @@ int	main(int ac, char **ar, char **env)
 			continue ;
 		}
 		str_sp = ft_parsing(string);
+		str_sp = back_to_string(str_sp);
 		add_struct(str_sp, &words, env_stack);
-		back_to_string(words);
 		free(str_sp);
 		if (!hundle_error(words))
 		{
