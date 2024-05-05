@@ -97,12 +97,34 @@ char *atest(char *key, t_env *env, char *str)
 	}
 	return (str);
 }
+
+void ft_norm____(char **str, char **tmp, char *key, t_env *env)
+{
+	char	*a;
+	char	*b;
+
+	a = ft_strdup(*tmp);
+	b = a;
+	key = check_after_env(&a);
+	if (ft_strcmp(key, a) == 0)
+		*str = atest(key, env, *str);
+	else
+	{
+		*str = test(*str, check_env(key, env));
+		if (ft_strcmp(key, a) != 0)
+			*str = test(*str, a);
+	}
+	free(b);
+	if (ft_strcmp(key, a) != 0)
+		free(key);
+}
+
 char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
 {
 	int		j;
 	char	*str;
-	char	*a;
-	char	*b;
+	// char	*a;
+	// char	*b;
 
 	j = -1;
 	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
@@ -111,20 +133,7 @@ char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
 		return (NULL);
 	while (tmp[++j])
 	{
-		a = ft_strdup(tmp[j]);
-		b = a;
-		key = check_after_env(&a);
-		if (ft_strcmp(key, a) == 0)
-			str = atest(key, env, str);
-		else
-		{
-			str = test(str, check_env(key, env));
-			if (ft_strcmp(key, a) != 0)
-				str = test(str, a);
-		}
-		free(b);
-		if (ft_strcmp(key, a) != 0)
-			free(key);
+		ft_norm____(&str, &tmp[j], key, env);
 	}
 	free_split(tmp);
 	return (str);
