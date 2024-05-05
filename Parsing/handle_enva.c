@@ -80,15 +80,27 @@ char	*test(char *s1, char *s2)
 	free(s1);
 	return (dst);
 }
+char *atest(char *key, char *befor, t_env *env, char *str)
+{
+	if (key[0] >= '0' && key[0] <= '9')
+		str = cpy(key, ft_strlen(key) - 1);
+	else
+	{
+		free(str);
+		str = ft_strjoin(befor, check_env(key, env));
+	}
+	return (str);
+}
 
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
 	char	*befor;
-	char	*str = NULL;
+	char	*str;
 	char	**tmp;
 	int		j;
 	char	*key;
 	char	*a;
+
 	j = -1;
 	if (node->type == 6)
 	{
@@ -102,15 +114,7 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 			char *b = a;
 			key = check_after_env(&a);
 			if (ft_strcmp(key, a) == 0)
-			{
-				if (key[0] >= '0' && key[0] <= '9')
-					str = cpy(key, ft_strlen(key) - 1);
-				else
-				{
-					free(str);
-					str = ft_strjoin(befor, check_env(key, env));
-				}
-			}
+				str = atest(key, befor, env, str);
 			else
 			{
 				free(str);
