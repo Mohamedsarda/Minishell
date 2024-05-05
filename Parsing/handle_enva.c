@@ -80,55 +80,68 @@ char	*test(char *s1, char *s2)
 	free(s1);
 	return (dst);
 }
-char *atest(char *key, char *befor, t_env *env, char *str)
+char *atest(char *key, t_env *env, char *str)
 {
 	if (key[0] >= '0' && key[0] <= '9')
-		str = cpy(key, ft_strlen(key) - 1);
+	{
+		char *a = str;
+		char	*b = cpy(key, ft_strlen(key) - 1);
+		str = ft_strjoin(str, b);
+		free(b);
+		free(a);
+	}
 	else
 	{
 		free(str);
-		str = ft_strjoin(befor, check_env(key, env));
+		str = ft_strjoin(str, check_env(key, env));
 	}
+	return (str);
+}
+char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
+{
+	int		j;
+	char	*str;
+	char	*a;
+	char	*b;
+
+	j = -1;
+	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
+	tmp = ft_split(content, '$');
+	if (tmp == NULL || *tmp == NULL)
+		return (NULL);
+	while (tmp[++j])
+	{
+		a = ft_strdup(tmp[j]);
+		b = a;
+		key = check_after_env(&a);
+		if (ft_strcmp(key, a) == 0)
+			str = atest(key, env, str);
+		else
+		{
+			str = test(str, check_env(key, env));
+			if (ft_strcmp(key, a) != 0)
+				str = test(str, a);
+		}
+		free(b);
+		if (ft_strcmp(key, a) != 0)
+			free(key);
+	}
+	free_split(tmp);
 	return (str);
 }
 
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
-	char	*befor;
 	char	*str;
-	char	**tmp;
-	int		j;
 	char	*key;
-	char	*a;
+	char	**tmp;
 
-	j = -1;
+	key = NULL;
+	tmp = NULL;
 	if (node->type == 6)
 	{
-		befor = ft_strlcpy(&content, ft_get_env_len(content, '$'));
-		tmp = ft_split(content, '$');
-		if (tmp == NULL || *tmp == NULL)
-			return (NULL);
-		while (tmp[++j])
-		{
-			a = ft_strdup(tmp[j]);
-			char *b = a;
-			key = check_after_env(&a);
-			if (ft_strcmp(key, a) == 0)
-				str = atest(key, befor, env, str);
-			else
-			{
-				free(str);
-				str = ft_strjoin(befor, check_env(key, env));
-				if (ft_strcmp(key, a) != 0)
-					str = test(str, a);
-			}
-			free(b);
-			if (ft_strcmp(key, a) != 0)
-				free(key);
-			node->type = 0;
-		}
-		free(befor);
-		free_split(tmp);
+		str = ft_norm(content, env, tmp, key);
+		node->type = 0;
 		return (str);
 	}
 	return (content);
