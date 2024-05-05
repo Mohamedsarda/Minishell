@@ -33,14 +33,14 @@ int	quotes(char *str)
 		return (1);
 }
 
-void	multiple(char **str)
+void	multiple(char **str, int is)
 {
 	int	i;
 
 	i = 0;
 	while (*str && str[0][i])
 	{
-		if (str[0][i] == '\"')
+		if (is == 0 && str[0][i] == '\"')
 		{
 			i++;
 			while (str[0] && str[0][i] != '\"')
@@ -167,14 +167,14 @@ char	*back_to_string(char	*string)
 	{
 		if (string[i] == '\'')
 		{
-			multiple(&string);
-			string = ft_rm_quotes(string, '\'');
+			multiple(&string, 0);
+			// string = ft_rm_quotes(string, '\'');
 			return (string);
 		}
 		else if (string[i] == '\"')
 		{
-			multiple(&string);
-			string = ft_rm_quotes(string, '\"');
+			multiple(&string, 0);
+			// string = ft_rm_quotes(string, '\"');
 			return (string);
 		}
 		i++;
@@ -217,7 +217,7 @@ int	main(int ac, char **ar, char **env)
 		}
 		if (string[0] != '\0')
 			add_history(string);
-		multiple(&string);
+		multiple(&string, 0);
 		if (quotes(string) == 0)
 		{
 			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
@@ -233,7 +233,7 @@ int	main(int ac, char **ar, char **env)
 			ft_lstclear(&words);
 			continue ;
 		}
-		tmp = ft_parse_stack(&words);
+		tmp = ft_parse_stack(&words, env_stack);
 	}
 	ft_lstclear_joins(&tmp);
 	ft_lstclear_env(&env_stack);

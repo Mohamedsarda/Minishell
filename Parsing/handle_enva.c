@@ -16,7 +16,7 @@ static char	check_key(char c)
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
 		|| (c >= '0' && c <= '9') || c == '_')
 		return ('\0');
-	return (c);
+	return ('c');
 }
 
 static char	*check_after_env(char **tmp)
@@ -149,7 +149,12 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 	tmp = NULL;
 	if (node->type == 6)
 	{
+		// split_arr(content);
+		// multiple(&content, 1);
 		str = ft_norm(content, env, tmp, key);
+		// str = ft_rm_quotes(str, '\'');
+		// str = ft_rm_quotes(str, '\"');
+		// multiple(&str, 0);
 		node->type = 0;
 		return (str);
 	}
