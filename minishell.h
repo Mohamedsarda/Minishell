@@ -86,8 +86,11 @@ char	**ft_create_list(t_joins *stack_2, t_words **head);
 // strlen_command
 int		ft_strlen_str_sp(char *str);
 char	*handle_env(t_words *node, char *content, t_env *env);
+void	multiple(char **str, int is);
+int		quotes(char *str);
+char	*ft_rm_quotes(char *string, char c);
 //
-void    ft_echo(t_joins **head);
+void	ft_echo(t_joins **head);
 void	ft_pwd(t_joins	**stack_2);
 void	ft_next_node_joins(t_joins **head);
 //
