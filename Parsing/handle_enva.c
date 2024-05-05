@@ -16,7 +16,7 @@ static char	check_key(char c)
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
 		|| (c >= '0' && c <= '9') || c == '_')
 		return ('\0');
-	return ('c');
+	return (c);
 }
 
 static char	*check_after_env(char **tmp)
@@ -91,17 +91,15 @@ char *atest(char *key, t_env *env, char *str)
 		free(a);
 	}
 	else
-	{
-		free(str);
-		str = ft_strjoin(str, check_env(key, env));
-	}
+		str = test(str, check_env(key, env));
 	return (str);
 }
 
-void ft_norm____(char **str, char **tmp, char *key, t_env *env)
+void ft_norm____(char **str, char **tmp, t_env *env)
 {
 	char	*a;
 	char	*b;
+	char	*key;
 
 	a = ft_strdup(*tmp);
 	b = a;
@@ -109,17 +107,16 @@ void ft_norm____(char **str, char **tmp, char *key, t_env *env)
 	if (ft_strcmp(key, a) == 0)
 		*str = atest(key, env, *str);
 	else
-	{
 		*str = test(*str, check_env(key, env));
-		if (ft_strcmp(key, a) != 0)
-			*str = test(*str, a);
+	if (ft_strcmp(key, a) != 0)
+	{
+		*str = test(*str, a);
+		free(key);
 	}
 	free(b);
-	if (ft_strcmp(key, a) != 0)
-		free(key);
 }
 
-char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
+char	*ft_norm(char *content , t_env *env ,char **tmp)
 {
 	int		j;
 	char	*str;
@@ -133,28 +130,147 @@ char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
 		return (NULL);
 	while (tmp[++j])
 	{
-		ft_norm____(&str, &tmp[j], key, env);
+		ft_norm____(&str, &tmp[j], env);
 	}
 	free_split(tmp);
 	return (str);
 }
 
+char	*add_one(char *s1, char s2)
+{
+	int		i;
+	char	*dst;
+
+	i = 0;
+	dst = (char *)malloc(ft_strlen(s1) + 2);
+	if (!dst)
+		return (NULL);
+	while (s1 && s1[i])
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	dst[i++] = s2;
+	dst[i] = '\0';
+	free(s1);
+	return (dst);
+}
+
+char	*delete_qoutes(char *str, char c)
+{
+	char	*new_str;
+	int		j;
+	int		i;
+
+	j = 0;
+	i = 0;
+	new_str = malloc(ft_strlen(str) + 1);
+	while (str[i])
+	{
+		if (str[i] != c)
+			new_str[j++] = str[i];
+		i++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+
+void	multiple2(char **str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return ;
+	i = 0;
+	while (*str && str[0][i])
+	{
+		if (str[0][i] == '\"')
+		{
+			i++;
+			while (str[0][i] && str[0][i] != '\"')
+				i++;
+		}
+		else if (str[0][i] == '\'')
+		{
+			i++;
+			while (str[0][i] && str[0][i] != '\'')
+			{
+				str[0][i] *= -1;
+				i++;
+			}
+		}
+		i++;
+	}
+}
+
+int	check_nig(char	*str)
+{
+	while (*str)
+	{
+		if (*str < 0)
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+void conv_all(char **str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return ;
+
+	i = 0;
+	while (str[0][i])
+	{
+		if (str[0][i] < 0)
+		{
+			str[0][i - 1] *= -1;
+			while (str[0][i] < 0 && str[0][i])
+				i++;
+		}
+		str[0][i] *= -1;
+		i++;
+	}
+}
+
+void	conv_all_pos(char **str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return ;
+	i = 0;
+	while (*str && str[0][i])
+	{
+		str[0][i] *= -1;
+		i++;
+	}
+}
+
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
 	char	*str;
-	char	*key;
+	char	*cont;
 	char	**tmp;
 
-	key = NULL;
 	tmp = NULL;
 	if (node->type == 6)
 	{
-		// split_arr(content);
-		// multiple(&content, 1);
-		str = ft_norm(content, env, tmp, key);
-		// str = ft_rm_quotes(str, '\'');
-		// str = ft_rm_quotes(str, '\"');
-		// multiple(&str, 0);
+		multiple2(&content);
+		cont = delete_qoutes(content, '\"');
+		str = ft_norm(cont, env, tmp);
+		free(cont);
+		if (!check_nig(str))
+		{
+			conv_all(&str);
+			cont = delete_qoutes(str, '\'');
+			free(str);
+			conv_all_pos(&cont);
+			node->type = 0;
+			return (cont);
+		}
 		node->type = 0;
 		return (str);
 	}
