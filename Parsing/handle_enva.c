@@ -123,8 +123,6 @@ char	*ft_norm(char *content , t_env *env ,char **tmp , char *key)
 {
 	int		j;
 	char	*str;
-	// char	*a;
-	// char	*b;
 
 	j = -1;
 	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
