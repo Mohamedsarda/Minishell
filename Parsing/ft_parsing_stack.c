@@ -106,5 +106,19 @@ t_joins	*ft_parse_stack(t_words **words, t_env *env)
 			ft_cd(&stack_2);
 		tmp = tmp->next;
 	}
+	t_joins *b = stack_2;
+	while (b)
+	{
+		int i = 0;
+		while (b->content[i])
+		{
+			printf("{%s}\n", b->content[i]);
+			i++;
+		}
+		printf("in : {%d}\n", b->in);
+		printf("out : {%d}", b->out);
+		puts("\n|\n");
+		b = b->next;
+	}
 	return (stack_2);
 }

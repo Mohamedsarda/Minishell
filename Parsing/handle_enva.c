@@ -226,9 +226,14 @@ void conv_all(char **str)
 	{
 		if (str[0][i] < 0)
 		{
+			if (i == 0)
+				return ;
 			str[0][i - 1] *= -1;
+
 			while (str[0][i] < 0 && str[0][i])
 				i++;
+			i++;
+			continue ;
 		}
 		str[0][i] *= -1;
 		i++;
