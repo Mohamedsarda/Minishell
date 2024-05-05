@@ -133,17 +133,46 @@ char	*ft_strtrim(char *s1, char *set)
 }
 
 //end trime
-void	back_to_string(t_words *words)
+
+char *ft_rm_quotes(char *string, char c)
 {
-	while (words)
+	char	*str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	str = malloc(ft_strlen(string) - 1);
+	while (string[i])
 	{
-		if (words->word[0] == '\'' || words->word[0] == '\"')
+		if (string[i] == c)
 		{
-			multiple(&words->word);
-			words->word = ft_strtrim(words->word, "\'");
-			words->word = ft_strtrim(words->word, "\"");
+			while (string[++i] != c)
+				str[j++] = string[i];
 		}
-		words = words->next;
+		else
+			str[j++] = string[i];
+		i++;
+	}
+	str[j] = '\0';
+	free(string);
+	return (str);
+}
+
+void	back_to_string(char	*string)
+{
+	int i = 0;
+
+	while (string[i])
+	{
+		if (string[i] == '\'')
+		{
+			multiple(&string);
+			string = ft_rm_quotes(string, '\'');
+		}
+		else if (string[i] == '\"')
+			string = ft_rm_quotes(string, '\"');
+		i++;
 	}
 }
 
@@ -189,16 +218,16 @@ int	main(int ac, char **ar, char **env)
 			continue ;
 		}
 		str_sp = ft_parsing(string);
-		add_struct(str_sp, &words, env_stack);
-		free(str_sp);
-		back_to_string(words);
-		if (!hundle_error(words))
-		{
-			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
-			ft_lstclear(&words);
-			continue ;
-		}
-		tmp = ft_parse_stack(&words);
+		back_to_string(str_sp);
+		// add_struct(str_sp, &words, env_stack);
+		// free(str_sp);
+		// if (!hundle_error(words))
+		// {
+		// 	ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
+		// 	ft_lstclear(&words);
+		// 	continue ;
+		// }
+		// tmp = ft_parse_stack(&words);
 	}
 	ft_lstclear_joins(&tmp);
 	ft_lstclear_env(&env_stack);
