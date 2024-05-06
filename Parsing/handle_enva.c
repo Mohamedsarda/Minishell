@@ -358,6 +358,11 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 
 	if (node->type == 6)
 	{
+		if (content[1] == '\0')
+		{
+			node->type = 0;
+			return (content);
+		}
 		cont = type_6(&content, env);
 		node->type = 0;
 		return (cont);
