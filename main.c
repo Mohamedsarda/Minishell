@@ -165,25 +165,24 @@ char *ft_rm_quotes(char *string, char c)
 
 char	*back_to_string(char	*string)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (string[i])
 	{
 		if (string[i] == '\'')
 		{
 			multiple(&string, 0);
-			// string = ft_rm_quotes(string, '\'');
 			return (string);
 		}
 		else if (string[i] == '\"')
 		{
 			multiple(&string, 0);
-			// string = ft_rm_quotes(string, '\"');
 			return (string);
 		}
 		i++;
 	}
-	return string;
+	return (string);
 }
 
 void	ft_leaks(void)
