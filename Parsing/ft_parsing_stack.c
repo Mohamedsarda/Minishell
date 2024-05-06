@@ -96,14 +96,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env *env)
 		i = 0;
 		if (!tmp->content[i])
 			return (stack_2);
-		if (ft_strcmp(tmp->content[i], "echo") == 0)
-			ft_echo(&stack_2);
-		else if (ft_strcmp(tmp->content[i], "pwd") == 0)
-			ft_pwd(&stack_2);
-		else if (ft_strcmp(tmp->content[i], "env") == 0)
-			ft_env(env, &stack_2);
-		else if (ft_strcmp(tmp->content[i], "cd") == 0)
-			ft_cd(&stack_2);
+		ft_run_commad(&stack_2, env, tmp->content[i]);
 		if (tmp)
 			return (stack_2);
 		tmp = tmp->next;

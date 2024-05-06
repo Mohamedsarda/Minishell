@@ -90,12 +90,14 @@ void	multiple(char **str, int is);
 int		quotes(char *str);
 char	*ft_rm_quotes(char *string, char c);
 //
-void	ft_echo(t_joins **head);
+void	ft_echo(t_joins **head, t_env *env);
 void	ft_pwd(t_joins	**stack_2);
 void	ft_next_node_joins(t_joins **head);
 //
 void	ft_env(t_env *env, t_joins **stack_2);
 //
-void    ft_cd(t_joins **head);
+void	ft_cd(t_joins **head);
+//
+void	ft_run_commad(t_joins **head, t_env *env, char *type);
 
 #endif
