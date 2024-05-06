@@ -119,6 +119,27 @@ void	ft_norm____(char **str, char **tmp, t_env *env)
 	free(b);
 }
 
+
+char	*rm_single_qoutes(char *str)
+{
+	char	*new_str;
+	int		j;
+	int		i;
+
+	j = 0;
+	i = 0;
+	new_str = malloc(ft_strlen(str) + 1);
+	while (str && str[i])
+	{
+		if (str[i] == '\'' && str[i + 1] == '\'')
+			i += 2;
+		new_str[j++] = str[i++];
+	}
+	new_str[j] = '\0';
+	free(str);
+	return (new_str);
+}
+
 char	*ft_norm(char *content, t_env *env, char **tmp)
 {
 	int		j;
@@ -128,12 +149,13 @@ char	*ft_norm(char *content, t_env *env, char **tmp)
 	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
 	if (content[0] == '\0')
 		return (str);
+	str = rm_single_qoutes(str);
 	tmp = ft_split(content, '$');
 	if (tmp == NULL || *tmp == NULL)
 		return (NULL);
 	while (tmp[++j])
 	{
-		if (tmp[j][0] == '\"')
+		if (tmp[j][0] == '\"' || tmp[j][0] == '\'')
 			str = test(str, "$");
 		ft_norm____(&str, &tmp[j], env);
 	}
@@ -258,7 +280,7 @@ int	check_nig(char	*str)
 {
 	while (*str)
 	{
-		if (*str < 0)
+		if (*str < 0 && *(str - 1) == '\'')
 			return (0);
 		str++;
 	}
@@ -356,6 +378,7 @@ char	*delete_all_double_qoutes(char *str)
 	new_str[j] = '\0';
 	return (new_str);
 }
+
 
 char	*type_6(char **content, t_env *env)
 {

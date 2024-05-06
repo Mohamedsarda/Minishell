@@ -50,7 +50,7 @@ echo "$'cdhs"$"USER
 
  Minishell$ echo "'cdhs"
 'cdhs
-Minishell$ echo "$'cdhs"
+Minishell$ echo "$'cdhs" // done
 'cdhs
 Minishell$ echo "$"cdhs"
 Minishell : unexpected EOF while looking for matching `"'
@@ -68,7 +68,7 @@ Minishell$ echo $""HOME
 $HOME
 Minishell$ echo $''HOME
 ''HOME
-Minishell$ echo ''$HOME
+Minishell$ echo ''$HOME // done
 Minishell$ echo -$nnn
 -
 Minishell$ echo "'$'"
