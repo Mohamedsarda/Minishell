@@ -61,7 +61,8 @@ void	ft_print_echo(char **str, int fd, int *i)
 	int	j;
 
 	j = 1;
-	while (str[j] && ft_strncmp(str[j], "-n", 2) == 0 && ft_check_after_echo(str[j]))
+	while (str[j]
+		&& ft_strncmp(str[j], "-n", 2) == 0 && ft_check_after_echo(str[j]))
 		j++;
 	(*i) = j;
 	while (str[(*i)])
