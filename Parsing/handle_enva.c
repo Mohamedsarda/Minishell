@@ -140,47 +140,15 @@ char	*rm_single_qoutes(char *str)
 	return (new_str);
 }
 
-char	*ft_norm(char *content, t_env *env, char **tmp)
+int	check_double_qout(char *str)
 {
-	int		j;
-	char	*str;
-
-	j = -1;
-	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
-	if (content[0] == '\0')
-		return (str);
-	str = rm_single_qoutes(str);
-	tmp = ft_split(content, '$');
-	if (tmp == NULL || *tmp == NULL)
-		return (NULL);
-	while (tmp[++j])
+	while(*str)
 	{
-		if (tmp[j][0] == '\"' || tmp[j][0] == '\'')
-			str = test(str, "$");
-		ft_norm____(&str, &tmp[j], env);
+		if (*str == '\"')
+			return (1);
+		str++;
 	}
-	free_split(tmp);
-	return (str);
-}
-
-char	*add_one(char *s1, char s2)
-{
-	int		i;
-	char	*dst;
-
-	i = 0;
-	dst = (char *)malloc(ft_strlen(s1) + 2);
-	if (!dst)
-		return (NULL);
-	while (s1 && s1[i])
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	dst[i++] = s2;
-	dst[i] = '\0';
-	free(s1);
-	return (dst);
+	return (0);
 }
 
 char	*delete_double_qoutes(char *str)
@@ -210,6 +178,52 @@ char	*delete_double_qoutes(char *str)
 	new_str[j] = '\0';
 	return (new_str);
 }
+
+char	*ft_norm(char *content, t_env *env, char **tmp)
+{
+	int		j;
+	char	*str;
+
+	j = -1;
+	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
+	if (content[0] == '\0')
+		return (str);
+	str = rm_single_qoutes(str);
+	tmp = ft_split(content, '$');
+	if (tmp == NULL || *tmp == NULL)
+		return (NULL);
+	while (tmp[++j])
+	{
+		if ((tmp[j][0] == '\"' || tmp[j][0] == '\'') && check_double_qout(str) != 0)
+			str = test(str, "$");
+		ft_norm____(&str, &tmp[j], env);
+		if (check_double_qout(str) == 0)
+			str = rm_single_qoutes(str);
+	}
+	free_split(tmp);
+	return (str);
+}
+
+char	*add_one(char *s1, char s2)
+{
+	int		i;
+	char	*dst;
+
+	i = 0;
+	dst = (char *)malloc(ft_strlen(s1) + 2);
+	if (!dst)
+		return (NULL);
+	while (s1 && s1[i])
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	dst[i++] = s2;
+	dst[i] = '\0';
+	free(s1);
+	return (dst);
+}
+
 
 int	ft_strlen_c(const char *str, char c)
 {
@@ -388,9 +402,9 @@ char	*type_6(char **content, t_env *env)
 
 	tmp = NULL;
 	multiple2(content);
-	cont = delete_double_qoutes(*content);
+	cont = ft_strdup(*content);
 	str = ft_norm(cont, env, tmp);
-	free(cont);
+	// free(cont);
 	cont = delete_all_double_qoutes(str);
 	free(str);
 	if (!check_nig(cont))
