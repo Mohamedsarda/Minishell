@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	ft_lstadd_back(t_words **head, t_words *node)

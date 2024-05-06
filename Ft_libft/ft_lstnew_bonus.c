@@ -43,8 +43,9 @@ static int	ft_check_type(char *content)
 t_words	*ft_lstnew(char *content, t_env *env_stack)
 {
 	t_words	*new_node;
-	char	*str = NULL;
+	char	*str;
 
+	str = NULL;
 	(void)env_stack;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));

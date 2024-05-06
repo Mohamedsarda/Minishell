@@ -55,7 +55,6 @@ static char	*cpy(char	*str, int len)
 	return (dst);
 }
 
-
 char	*test(char *s1, char *s2)
 {
 	int		i;
@@ -80,12 +79,16 @@ char	*test(char *s1, char *s2)
 	free(s1);
 	return (dst);
 }
-char *atest(char *key, t_env *env, char *str)
+
+char	*atest(char *key, t_env *env, char *str)
 {
+	char	*a;
+	char	*b;
+
 	if (key[0] >= '0' && key[0] <= '9')
 	{
-		char *a = str;
-		char	*b = cpy(key, ft_strlen(key) - 1);
+		a = str;
+		b = cpy(key, ft_strlen(key) - 1);
 		str = ft_strjoin(str, b);
 		free(b);
 		free(a);
@@ -95,7 +98,7 @@ char *atest(char *key, t_env *env, char *str)
 	return (str);
 }
 
-void ft_norm____(char **str, char **tmp, t_env *env)
+void	ft_norm____(char **str, char **tmp, t_env *env)
 {
 	char	*a;
 	char	*b;
@@ -116,7 +119,7 @@ void ft_norm____(char **str, char **tmp, t_env *env)
 	free(b);
 }
 
-char	*ft_norm(char *content , t_env *env ,char **tmp)
+char	*ft_norm(char *content, t_env *env, char **tmp)
 {
 	int		j;
 	char	*str;
@@ -170,10 +173,7 @@ char	*delete_double_qoutes(char *str)
 		if (str[i] == '$')
 		{
 			while (str[i] && str[i] != '\"')
-			{
-				new_str[j++] = str[i];
-				i++;
-			}
+				new_str[j++] = str[i++];
 			if (str[i] && str[i + 1] != '\0')
 				new_str[j++] = str[i];
 		}
@@ -186,11 +186,14 @@ char	*delete_double_qoutes(char *str)
 	new_str[j] = '\0';
 	return (new_str);
 }
+
 int	ft_strlen_c(const char *str, char c)
 {
-	int	i = 0;
-	int	j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (str[i])
 	{
 		if (str[i] != c)
@@ -260,13 +263,12 @@ int	check_nig(char	*str)
 	return (1);
 }
 
-void conv_all(char **str)
+void	conv_all(char **str)
 {
 	int	i;
 
 	if (!str || !*str)
 		return ;
-
 	i = 0;
 	while (str[0][i])
 	{
@@ -275,7 +277,6 @@ void conv_all(char **str)
 			if (i == 0)
 				return ;
 			str[0][i - 1] *= -1;
-
 			while (str[0][i] < 0 && str[0][i])
 				i++;
 			i++;
@@ -299,13 +300,13 @@ void	conv_all_pos(char **str)
 		i++;
 	}
 }
-void convert_neg_to_po(char **str)
+
+void	convert_neg_to_po(char **str)
 {
 	int	i;
 
 	if (!str || !*str)
 		return ;
-
 	i = 0;
 	while (str[0][i])
 	{
@@ -314,6 +315,7 @@ void convert_neg_to_po(char **str)
 		i++;
 	}
 }
+
 int	check_quotes(char *str)
 {
 	while (*str)
@@ -325,30 +327,38 @@ int	check_quotes(char *str)
 	return (0);
 }
 
+char	*type_6(char **content, t_env *env)
+{
+	char	**tmp;
+	char	*cont;
+	char	*str;
+
+	tmp = NULL;
+	multiple2(content);
+	cont = delete_double_qoutes(*content);
+	str = ft_norm(cont, env, tmp);
+	free(cont);
+	cont = delete_double_qoutes(str);
+	free(str);
+	if (!check_nig(cont))
+	{
+		conv_all(&cont);
+		str = delete_qoutes(cont, '\'');
+		free(cont);
+		conv_all_pos(&str);
+		return (str);
+	}
+	return (cont);
+}
+
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
 	char	*str;
 	char	*cont;
-	char	**tmp;
 
-	tmp = NULL;
 	if (node->type == 6)
 	{
-		multiple2(&content);
-		cont = delete_double_qoutes(content);
-		str = ft_norm(cont, env, tmp);
-		free(cont);
-		cont = delete_double_qoutes(str);
-		free(str);
-		if (!check_nig(cont))
-		{
-			conv_all(&cont);
-			cont = delete_qoutes(cont, '\'');
-			free(cont);
-			conv_all_pos(&cont);
-			node->type = 0;
-			return (cont);
-		}
+		cont = type_6(&content, env);
 		node->type = 0;
 		return (cont);
 	}
