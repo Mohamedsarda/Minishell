@@ -107,11 +107,7 @@ void	ft_norm____(char **str, char **tmp, t_env *env)
 	a = ft_strdup(*tmp);
 	b = a;
 	key = check_after_env(&a);
-	if (*a == '\"')
-	{
-		*str = test(*str, "$");
-	}
-	else if (ft_strcmp(key, a) == 0)
+	if (ft_strcmp(key, a) == 0)
 		*str = atest(key, env, *str);
 	else
 		*str = test(*str, check_env(key, env));
@@ -137,6 +133,8 @@ char	*ft_norm(char *content, t_env *env, char **tmp)
 		return (NULL);
 	while (tmp[++j])
 	{
+		if (tmp[j][0] == '\"')
+			str = test(str, "$");
 		ft_norm____(&str, &tmp[j], env);
 	}
 	free_split(tmp);
@@ -331,6 +329,34 @@ int	check_quotes(char *str)
 	return (0);
 }
 
+char	*delete_all_double_qoutes(char *str)
+{
+	char	*new_str;
+	int		j;
+	int		i;
+
+	j = 0;
+	i = 0;
+	new_str = malloc(ft_strlen(str) + 1);
+	while (str && str[i])
+	{
+		if (str[i] == '$')
+		{
+			while (str[i] && str[i] != '\"')
+				new_str[j++] = str[i++];
+			if (str[i] && str[i + 1] != '\0' && str[i] != '\"')
+				new_str[j++] = str[i];
+		}
+		if (str[i] && str[i] != '\"')
+			new_str[j++] = str[i];
+		if (str[i] == '\0')
+			break ;
+		i++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+
 char	*type_6(char **content, t_env *env)
 {
 	char	**tmp;
@@ -342,7 +368,7 @@ char	*type_6(char **content, t_env *env)
 	cont = delete_double_qoutes(*content);
 	str = ft_norm(cont, env, tmp);
 	free(cont);
-	cont = delete_double_qoutes(str);
+	cont = delete_all_double_qoutes(str);
 	free(str);
 	if (!check_nig(cont))
 	{
