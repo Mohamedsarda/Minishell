@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 02:26:30 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 14:01:32 by eel-ghal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 void	ft_lstadd_back(t_words **head, t_words *node)
@@ -27,4 +15,40 @@ void	ft_lstadd_back(t_words **head, t_words *node)
 	while (last->next)
 		last = last->next;
 	last->next = node;
+}
+
+char	*ft_strdup(char *s1)
+{
+	int		i;
+	char	*dst;
+
+	if (!s1)
+		return (NULL);
+	i = ft_strlen(s1);
+	dst = (char *)malloc(i + 1);
+	if (!dst)
+		return (NULL);
+	dst[i] = '\0';
+	i--;
+	while (i >= 0)
+	{
+		dst[i] = s1[i];
+		i--;
+	}
+	return (dst);
+}
+
+char	*ft_strlcpy(char **str, int len)
+{
+	int		i;
+	char	*dst;
+
+	i = 0;
+	dst = (char *)malloc(len + 1);
+	if (!dst)
+		return (NULL);
+	while (i < len)
+		dst[i++] = *(*str)++;
+	dst[i] = '\0';
+	return (dst);
 }
