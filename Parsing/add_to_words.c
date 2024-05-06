@@ -1,10 +1,11 @@
 #include "../minishell.h"
 
-static void	ft_add(t_words **head, char *a, t_env *env_stack)
+static void	ft_add(t_words **head, char *str, t_env *env_stack)
 {
 	t_words	*node;
+	multiple(&str, 0);
 
-	node = ft_lstnew(a, env_stack);
+	node = ft_lstnew(str, env_stack);
 	ft_lstadd_back(head, node);
 }
 
@@ -24,6 +25,7 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 	int		j;
 
 	j = -1;
+	multiple(&str, 0);
 	tmp = ft_split(str, ' ');
 	if (tmp == NULL || *tmp == NULL)
 		return ;

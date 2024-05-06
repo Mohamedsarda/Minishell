@@ -45,10 +45,10 @@ static int	ft_check_after_echo(char *str)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
-		if (str[i] != '-' && str[i] != 'n')
+		if (str[i] != 'n')
 			return (0);
 		i++;
 	}
@@ -60,7 +60,7 @@ void	ft_print_echo(char **str, int fd, int *i)
 	int	j;
 
 	j = 1;
-	while (str[j] && ft_check_after_echo(str[j]) != 0 && ft_strncmp(str[j], "-n", 2) == 0)
+	while (str[j] && ft_strncmp(str[j], "-n", 2) == 0 && ft_check_after_echo(str[j]) != 0)
 		j++;
 	(*i) = j;
 	while (str[(*i)])
