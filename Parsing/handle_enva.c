@@ -165,20 +165,22 @@ char	*delete_double_qoutes(char *str)
 	j = 0;
 	i = 0;
 	new_str = malloc(ft_strlen(str) + 1);
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '$')
 		{
-			while (str[i] != '\"')
+			while (str[i] && str[i] != '\"')
 			{
 				new_str[j++] = str[i];
 				i++;
 			}
-			if(str[i + 1] != '\0')
+			if (str[i] && str[i + 1] != '\0')
 				new_str[j++] = str[i];
 		}
-		if (str[i] != '\"')
+		if (str[i] && str[i] != '\"')
 			new_str[j++] = str[i];
+		if (str[i] == '\0')
+			break ;
 		i++;
 	}
 	new_str[j] = '\0';
