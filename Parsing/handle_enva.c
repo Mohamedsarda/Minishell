@@ -107,7 +107,11 @@ void	ft_norm____(char **str, char **tmp, t_env *env)
 	a = ft_strdup(*tmp);
 	b = a;
 	key = check_after_env(&a);
-	if (ft_strcmp(key, a) == 0)
+	if (*a == '\"')
+	{
+		*str = test(*str, "$");
+	}
+	else if (ft_strcmp(key, a) == 0)
 		*str = atest(key, env, *str);
 	else
 		*str = test(*str, check_env(key, env));
