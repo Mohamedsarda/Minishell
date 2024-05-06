@@ -312,6 +312,16 @@ void convert_neg_to_po(char **str)
 		i++;
 	}
 }
+int	check_quotes(char *str)
+{
+	while (*str)
+	{
+		if (*str == '\'' || *str == '\"')
+			return (1);
+		str++;
+	}
+	return (0);
+}
 
 char	*handle_env(t_words *node, char *content, t_env *env)
 {
@@ -326,22 +336,28 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 		cont = delete_double_qoutes(content);
 		str = ft_norm(cont, env, tmp);
 		free(cont);
-		if (!check_nig(str))
+		cont = delete_double_qoutes(str);
+		free(str);
+		if (!check_nig(cont))
 		{
-			conv_all(&str);
-			cont = delete_qoutes(str, '\'');
-			free(str);
+			conv_all(&cont);
+			cont = delete_qoutes(cont, '\'');
+			free(cont);
 			conv_all_pos(&cont);
 			node->type = 0;
 			return (cont);
 		}
 		node->type = 0;
+		return (cont);
+	}
+	if (check_quotes(content) == 1)
+	{
+		multiple(&content, 0);
+		cont = delete_qoutes(content, '\"');
+		str = delete_qoutes(cont, '\'');
+		free(cont);
+		convert_neg_to_po(&str);
 		return (str);
 	}
-	multiple(&content, 0);
-	cont = delete_qoutes(content, '\"');
-	str = delete_qoutes(cont, '\'');
-	free(cont);
-	convert_neg_to_po(&str);
-	return (str);
+	return (content);
 }

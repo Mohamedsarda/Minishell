@@ -60,6 +60,8 @@ void	multiple(char **str, int is)
 				i++;
 			}
 		}
+		if (str[0][i])
+			return ;
 		i++;
 	}
 }
@@ -224,6 +226,7 @@ int	main(int ac, char **ar, char **env)
 		if (quotes(string) == 0)
 		{
 			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
+			free(string);
 			continue ;
 		}
 		str_sp = ft_parsing(string);
