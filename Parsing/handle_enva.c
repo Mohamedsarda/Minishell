@@ -404,7 +404,7 @@ char	*type_6(char **content, t_env *env)
 	multiple2(content);
 	cont = ft_strdup(*content);
 	str = ft_norm(cont, env, tmp);
-	// free(cont);
+	free(cont);
 	cont = delete_all_double_qoutes(str);
 	free(str);
 	if (!check_nig(cont))
