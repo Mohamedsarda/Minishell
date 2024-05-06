@@ -104,6 +104,8 @@ t_joins	*ft_parse_stack(t_words **words, t_env *env)
 			ft_env(env);
 		else if (ft_strcmp(tmp->content[i], "cd") == 0)
 			ft_cd(&stack_2);
+		if (tmp)
+			return (stack_2);
 		tmp = tmp->next;
 	}
 	t_joins *b = stack_2;
