@@ -54,6 +54,7 @@ void	ft_lstadd_back(t_words **head, t_words *node);
 int		ft_strcmp(char *s1, char *s2);
 //
 void	ft_lstclear(t_words **lst);
+void	ft_lstdelone(t_words *lst);
 t_joins	*ft_parse_stack(t_words **words, t_env *env);
 char	*ft_strjoin(char *s1, char *s2);
 //env
