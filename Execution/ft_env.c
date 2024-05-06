@@ -18,7 +18,7 @@ void	ft_env(t_env *env, t_joins **stack_2)
 		ft_putstr("\n", fd);
 		env = env->next;
 	}
-	printf("%d\n", fd);
-	close(fd);
+	if (fd != 1)
+		close(fd);
 	ft_lstclear_joins(stack_2);
 }
