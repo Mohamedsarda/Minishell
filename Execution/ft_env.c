@@ -20,5 +20,7 @@ void	ft_env(t_env *env, t_joins **stack_2)
 	}
 	if (fd != 1)
 		close(fd);
-	ft_lstclear_joins(stack_2);
+	ft_next_node_joins(stack_2);
+	if ((*stack_2))
+		ft_run_commad(stack_2, env, (*stack_2)->content[0]);
 }
