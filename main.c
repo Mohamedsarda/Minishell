@@ -60,7 +60,7 @@ void	multiple(char **str, int is)
 				i++;
 			}
 		}
-		if (str[0][i])
+		if (!str[0][i])
 			return ;
 		i++;
 	}

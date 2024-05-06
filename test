@@ -50,7 +50,7 @@ echo $USER"fhjskj" #handled
 
 echo $"USER"jfhdj"" with fani ft_parsing_stack
 echo -nMnnnn -n h
-echo $USER"$USER""$"PATH
+echo $USER"$USER"e
 echo $USER"$USER""'$PATH"
 Minishell : unexpected EOF while looking for matching `"'
 
