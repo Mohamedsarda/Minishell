@@ -55,3 +55,4 @@ echo $USER"$USER""'$PATH"
 Minishell : unexpected EOF while looking for matching `"'
 
  env > l
+ env <  l (file makinch)
