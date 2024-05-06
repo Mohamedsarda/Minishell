@@ -5,6 +5,8 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -12,12 +14,12 @@ size_t	ft_strlen(char *s)
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && (s1[i] == s2[i]))
-		i++;
-	return (s1[i] - s2[i]);
+	while (*s1 && *s2 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
 }
 
 static void	ft_lstdel_joins(t_joins *lst)
@@ -37,12 +39,13 @@ void	ft_lstclear_joins(t_joins **lst)
 {
 	t_joins	*cur;
 
-	if (!lst)
+	if (!lst || !*lst)
 		return ;
 	while (*lst)
 	{
 		cur = *lst;
 		*lst = (*lst)->next;
-		ft_lstdel_joins(cur);
+		if (cur)
+			ft_lstdel_joins(cur);
 	}
 }

@@ -15,15 +15,17 @@ static void	check_redin_ou(char *str, int *i)
 {
 	if (*str == '>')
 	{
-		if (*(str - 1) != ' ' && *(str - 1) != '>')
-			*i += 1;
+		if (*i != 0)
+			if (*(str - 1) != ' ' && *(str - 1) != '>')
+				*i += 1;
 		if (*(str + 1) != ' ' && *(str + 1) != '>')
 			*i += 1;
 	}
 	else if (*str == '<')
 	{
-		if (*(str - 1) != ' ' && *(str + 1) != '<')
-			*i += 1;
+		if (*i != 0)
+			if (*(str - 1) != ' ' && *(str + 1) != '<')
+				*i += 1;
 		if (*(str + 1) != ' ' && *(str + 1) != '<')
 			*i += 1;
 	}

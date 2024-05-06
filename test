@@ -35,3 +35,17 @@ skbash-3.2$ echo -n -n"n"a -n sk
 a -n skbash-3.2$ echo -n -n"n"  -n sk
 skbash-3.2$ echo $HOME
 /Users/msarda
+
+
+
+only one word (hello)
+only one word (hello)
+
+# parsing part:
+|d
+
+ls "-"la
+echo $USER"fhjskj" #handled
+
+
+echo $"USER"jfhdj"" with fani ft_parsing_stack
