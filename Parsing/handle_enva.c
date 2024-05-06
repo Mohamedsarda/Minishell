@@ -1,24 +1,5 @@
 #include "../minishell.h"
 
-static char	*check_env(char *str, t_env *env)
-{
-	while (env)
-	{
-		if (!ft_strcmp(str, env->key))
-			return (env->value);
-		env = env->next;
-	}
-	return ("\0");
-}
-
-static char	check_key(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9') || c == '_')
-		return ('\0');
-	return (c);
-}
-
 static char	*check_after_env(char **tmp)
 {
 	int		i;
@@ -39,66 +20,7 @@ static char	*check_after_env(char **tmp)
 	return (*tmp);
 }
 
-static char	*cpy(char	*str, int len)
-{
-	int		i;
-	char	*dst;
-
-	i = 0;
-	str++;
-	dst = (char *)malloc(len + 1);
-	if (!dst)
-		return (NULL);
-	while (i < len)
-		dst[i++] = *str++;
-	dst[i] = '\0';
-	return (dst);
-}
-
-char	*test(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*dst;
-
-	if (!s1 || !s2)
-		return (NULL);
-	i = 0;
-	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!dst)
-		return (NULL);
-	while (s1[i])
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-		dst[i++] = s2[j++];
-	dst[i] = '\0';
-	free(s1);
-	return (dst);
-}
-
-char	*atest(char *key, t_env *env, char *str)
-{
-	char	*a;
-	char	*b;
-
-	if (key[0] >= '0' && key[0] <= '9')
-	{
-		a = str;
-		b = cpy(key, ft_strlen(key) - 1);
-		str = ft_strjoin(str, b);
-		free(b);
-		free(a);
-	}
-	else
-		str = test(str, check_env(key, env));
-	return (str);
-}
-
-void	ft_norm____(char **str, char **tmp, t_env *env)
+static void	ft_norm____(char **str, char **tmp, t_env *env)
 {
 	char	*a;
 	char	*b;
@@ -119,67 +41,7 @@ void	ft_norm____(char **str, char **tmp, t_env *env)
 	free(b);
 }
 
-
-char	*rm_single_qoutes(char *str)
-{
-	char	*new_str;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	new_str = malloc(ft_strlen(str) + 1);
-	while (str && str[i])
-	{
-		if (str[i] == '\'' && str[i + 1] == '\'')
-			i += 2;
-		new_str[j++] = str[i++];
-	}
-	new_str[j] = '\0';
-	free(str);
-	return (new_str);
-}
-
-int	check_double_qout(char *str)
-{
-	while(*str)
-	{
-		if (*str == '\"')
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
-char	*delete_double_qoutes(char *str)
-{
-	char	*new_str;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	new_str = malloc(ft_strlen(str) + 1);
-	while (str && str[i])
-	{
-		if (str[i] == '$')
-		{
-			while (str[i] && str[i] != '\"')
-				new_str[j++] = str[i++];
-			if (str[i] && str[i + 1] != '\0')
-				new_str[j++] = str[i];
-		}
-		if (str[i] && str[i] != '\"')
-			new_str[j++] = str[i];
-		if (str[i] == '\0')
-			break ;
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
-
-char	*ft_norm(char *content, t_env *env, char **tmp)
+static char	*ft_norm(char *content, t_env *env, char **tmp)
 {
 	int		j;
 	char	*str;
@@ -194,7 +56,8 @@ char	*ft_norm(char *content, t_env *env, char **tmp)
 		return (NULL);
 	while (tmp[++j])
 	{
-		if ((tmp[j][0] == '\"' || tmp[j][0] == '\'') && check_double_qout(str) != 0)
+		if ((tmp[j][0] == '\"' || tmp[j][0] == '\'')
+			&& check_double_qout(str) != 0)
 			str = test(str, "$");
 		ft_norm____(&str, &tmp[j], env);
 		if (check_double_qout(str) == 0)
@@ -204,197 +67,7 @@ char	*ft_norm(char *content, t_env *env, char **tmp)
 	return (str);
 }
 
-char	*add_one(char *s1, char s2)
-{
-	int		i;
-	char	*dst;
-
-	i = 0;
-	dst = (char *)malloc(ft_strlen(s1) + 2);
-	if (!dst)
-		return (NULL);
-	while (s1 && s1[i])
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	dst[i++] = s2;
-	dst[i] = '\0';
-	free(s1);
-	return (dst);
-}
-
-
-int	ft_strlen_c(const char *str, char c)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] != c)
-			j++;
-		i++;
-	}
-	return (i);
-}
-
-char	*delete_qoutes(const char *str, char c)
-{
-	char	*new_str;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	new_str = malloc(ft_strlen_c(str, c) + 1);
-	if (!new_str)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] != c)
-			new_str[j++] = str[i];
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
-
-void	multiple2(char **str)
-{
-	int	i;
-
-	if (!str || !*str)
-		return ;
-	i = 0;
-	while (*str && str[0][i])
-	{
-		if (str[0][i] == '\"')
-		{
-			i++;
-			while (str[0][i] && str[0][i] != '\"')
-				i++;
-		}
-		else if (str[0][i] == '\'')
-		{
-			i++;
-			while (str[0][i] && str[0][i] != '\'')
-			{
-				str[0][i] *= -1;
-				i++;
-			}
-		}
-		i++;
-	}
-}
-
-int	check_nig(char	*str)
-{
-	while (*str)
-	{
-		if (*str < 0 && *(str - 1) == '\'')
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-void	conv_all(char **str)
-{
-	int	i;
-
-	if (!str || !*str)
-		return ;
-	i = 0;
-	while (str[0][i])
-	{
-		if (str[0][i] < 0)
-		{
-			if (i == 0)
-				return ;
-			str[0][i - 1] *= -1;
-			while (str[0][i] < 0 && str[0][i])
-				i++;
-			i++;
-			continue ;
-		}
-		str[0][i] *= -1;
-		i++;
-	}
-}
-
-void	conv_all_pos(char **str)
-{
-	int	i;
-
-	if (!str || !*str)
-		return ;
-	i = 0;
-	while (*str && str[0][i])
-	{
-		str[0][i] *= -1;
-		i++;
-	}
-}
-
-void	convert_neg_to_po(char **str)
-{
-	int	i;
-
-	if (!str || !*str)
-		return ;
-	i = 0;
-	while (str[0][i])
-	{
-		if (str[0][i] < 0)
-			str[0][i] *= -1;
-		i++;
-	}
-}
-
-int	check_quotes(char *str)
-{
-	while (*str)
-	{
-		if (*str == '\'' || *str == '\"')
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
-char	*delete_all_double_qoutes(char *str)
-{
-	char	*new_str;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	new_str = malloc(ft_strlen(str) + 1);
-	while (str && str[i])
-	{
-		if (str[i] == '$')
-		{
-			while (str[i] && str[i] != '\"')
-				new_str[j++] = str[i++];
-			if (str[i] && str[i + 1] != '\0' && str[i] != '\"')
-				new_str[j++] = str[i];
-		}
-		if (str[i] && str[i] != '\"')
-			new_str[j++] = str[i];
-		if (str[i] == '\0')
-			break ;
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
-
-
-char	*type_6(char **content, t_env *env)
+static char	*handle_type_6(char **content, t_env *env)
 {
 	char	**tmp;
 	char	*cont;
@@ -430,11 +103,11 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 			node->type = 0;
 			return (content);
 		}
-		cont = type_6(&content, env);
+		cont = handle_type_6(&content, env);
 		node->type = 0;
 		return (cont);
 	}
-	if (check_quotes(content) == 1)
+	if (check_qoutes(content) == 1)
 	{
 		multiple(&content, 0);
 		cont = delete_qoutes(content, '\"');
