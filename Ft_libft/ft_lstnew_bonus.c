@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: medsarda <medsarda@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 01:35:37 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/30 10:05:59 by medsarda         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 static void	*ft_memcpy(void *dest, const void *src, size_t n)
@@ -29,34 +17,47 @@ static void	*ft_memcpy(void *dest, const void *src, size_t n)
 
 static int	ft_check_type(char *content)
 {
-	if (*content == '>')
+	int	i;
+
+	i = 0;
+	while (content[i])
+	{
+		if (content[i] == '$')
+			return (6);
+		i++;
+	}
+	if (*content == '>' && *(content + 1) == '>')
+		return (5);
+	else if (*content == '<' && *(content + 1) == '<')
+		return (4);
+	else if (*content == '>')
 		return (2);
 	else if (*content == '<')
 		return (1);
 	else if (*content == '|')
 		return (3);
-	else if (*content == '$')
-		return (6);
-	else if (*content == '>' && *content + 1 == '>')
-		return (5);
-	else if (*content == '<' && *content == '<')
-		return (4);
 	else
 		return (0);
 }
 
-t_words	*ft_lstnew(char *content)
+t_words	*ft_lstnew(char *content, t_env *env_stack)
 {
 	t_words	*new_node;
+	char	*str;
 
+	str = NULL;
+	(void)env_stack;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
-
-	new_node->word = malloc(ft_strlen(content) + 1);
 	new_node->type = ft_check_type(content);
+	//done
+	str = handle_env(new_node, content, env_stack);
+	new_node->word = malloc(ft_strlen(str) + 1);
 	if (!new_node || !new_node->word)
 		return (NULL);
-	ft_memcpy(new_node->word, content, ft_strlen(content));
+	ft_memcpy(new_node->word, str, ft_strlen(str));
+	if (ft_strcmp(str, content) != 0)
+		free(str);
 	new_node->next = NULL;
 	return (new_node);
 }

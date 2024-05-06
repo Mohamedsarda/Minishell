@@ -1,28 +1,52 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hundle_er.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 15:07:34 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 17:06:41 by eel-ghal         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../minishell.h"
 
-int	hundle_error(char *str)
+int	check_length(char *str)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	while (str[i])
-	{
-		if (str[i] == '|' && str[i + 1] == '|')
-			return (0);
-		if (str[i] == '>' && (str[i + 1] == '|' || str[i + 1] == '<'))
-			return (0);
-		if (str[i] == '>' && (str[i + 1] == '|' || str[i + 1] == '<'))
-			return (0);
 		i++;
+	if (i == 3)
+		return (3);
+	if (i != 2)
+		return (0);
+	return (1);
+}
+
+int	hundle_error(t_words *words)
+{
+	t_words	*a;
+	int		len;
+
+	a = words;
+	while (a)
+	{
+		len = check_length(a->word);
+		if ((a->type == 4 && len == 3))
+			return (a->type = 7, 1);
+		else if ((a->type == 5 && len == 0) || (a->type == 4 && len == 0))
+			return (0);
+		if (a->type == REDOU || a->type == REDIN || a->type == PIPE
+			|| a->type == HERD || a->type == APPEND || a->word == NULL)
+		{
+			if (!a->next)
+				return (0);
+			else if (a->next->type == REDOU || a->next->type == REDIN
+				|| a->next->type == PIPE || a->next->type == HERD
+				|| a->next->type == APPEND || a->next->word == NULL)
+				return (0);
+		}
+		a = a->next;
 	}
-	
+	return (1);
+}
+
+void	ft_putstr(char *str, int fd)
+{
+	while (*str)
+	{
+		write(fd, str, 1);
+		str++;
+	}
 }

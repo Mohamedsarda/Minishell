@@ -1,24 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 02:53:29 by eel-ghal          #+#    #+#             */
-/*   Updated: 2024/04/29 17:50:40 by msarda           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
+	i = 0;
 	if (!s)
 		return (0);
-	i = 0;
 	while (s[i])
 		i++;
 	return (i);
@@ -26,10 +14,38 @@ size_t	ft_strlen(char *s)
 
 int	ft_strcmp(char *s1, char *s2)
 {
+	while (*s1 && *s2 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+static void	ft_lstdel_joins(t_joins *lst)
+{
 	int	i;
 
+	if (!lst)
+		return ;
 	i = 0;
-	while (s1[i] && s2[i] && (s1[i] == s2[i]))
-		i++;
-	return (s1[i] - s2[i]);
+	while (lst && lst->content[i])
+		free(lst->content[i++]);
+	free(lst->content);
+	free(lst);
+}
+
+void	ft_lstclear_joins(t_joins **lst)
+{
+	t_joins	*cur;
+
+	if (!lst || !*lst)
+		return ;
+	while (*lst)
+	{
+		cur = *lst;
+		*lst = (*lst)->next;
+		if (cur)
+			ft_lstdel_joins(cur);
+	}
 }
