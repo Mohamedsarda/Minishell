@@ -36,23 +36,5 @@ a -n skbash-3.2$ echo -n -n"n"  -n sk
 skbash-3.2$ echo $HOME
 /Users/msarda
 
-
-
-only one word (hello)
-only one word (hello)
-
-# parsing part:
 |d
-
-ls "-"la
-echo $USER"fhjskj" #handled
-
-
-echo $"USER"jfhdj"" with fani ft_parsing_stack
 echo -nMnnnn -n h
-echo $USER"$USER""$"PATH
-echo $USER"$USER""'$PATH"
-Minishell : unexpected EOF while looking for matching `"'
-
- env > l
- env <  l (file makinch)
