@@ -48,10 +48,9 @@ static int	ft_check_after_echo(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '-' || str[i] == 'n')
-			i++;
-		else
+		if (str[i] != '-' && str[i] != 'n')
 			return (0);
+		i++;
 	}
 	return (1);
 }
@@ -61,8 +60,7 @@ void	ft_print_echo(char **str, int fd, int *i)
 	int	j;
 
 	j = 1;
-	while (str[j]
-		&& ft_strncmp(str[j], "-n", 2) == 0 && ft_check_after_echo(str[j]))
+	while (str[j] && ft_check_after_echo(str[j]) != 0 && ft_strncmp(str[j], "-n", 2) == 0)
 		j++;
 	(*i) = j;
 	while (str[(*i)])
@@ -88,7 +86,7 @@ void	ft_echo(t_joins **head, t_env *env)
 		return ;
 	}
 	j = 1;
-	if (ft_strncmp(tmp->content[j], "-n", 2) == 0)
+	if (ft_strncmp(tmp->content[j], "-n", 2) == 0 && ft_check_after_echo(tmp->content[j]))
 	{
 		i++;
 		ft_print_echo(tmp->content, tmp->out, &i);
