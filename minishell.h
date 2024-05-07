@@ -132,4 +132,5 @@ char	*add_one(char *s1, char s2);
 int		ft_strlen_c(const char *str, char c);
 void	multiple2(char **str);
 //end parsi.c
+void	ft_after_pipe(t_joins **head, t_env *env);
 #endif
