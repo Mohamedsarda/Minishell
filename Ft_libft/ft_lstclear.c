@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	ft_lstdelone(t_words *lst)
+void	ft_lstdelone(t_words *lst)
 {
 	if (!lst)
 		return ;

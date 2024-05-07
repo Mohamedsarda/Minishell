@@ -54,6 +54,7 @@ void	ft_lstadd_back(t_words **head, t_words *node);
 int		ft_strcmp(char *s1, char *s2);
 //
 void	ft_lstclear(t_words **lst);
+void	ft_lstdelone(t_words *lst);
 t_joins	*ft_parse_stack(t_words **words, t_env *env);
 char	*ft_strjoin(char *s1, char *s2);
 //env
@@ -100,4 +101,35 @@ void	ft_cd(t_joins **head);
 //
 void	ft_run_commad(t_joins **head, t_env *env, char *type);
 
+//handle_enva_checker.c
+char	*check_env(char *str, t_env *env);
+char	check_key(char c);
+char	*cpy(char	*str, int len);
+char	*atest(char *key, t_env *env, char *str);
+//end handle_enva_checker.c
+
+//handle_enva_qoutes_part1.c
+char	*rm_single_qoutes(char *str);
+int		check_double_qout(char *str);
+char	*delete_double_qoutes(char *str);
+char	*delete_qoutes(const char *str, char c);
+char	*delete_all_double_qoutes(char *str);
+//end handle_enva_qoutes_part1.c
+
+
+
+//handle_enva_qoutes_part2.c
+void	conv_all(char **str);
+void	conv_all_pos(char **str);
+void	convert_neg_to_po(char **str);
+int		check_qoutes(char *str);
+int		check_nig(char	*str);
+//end handle_enva_qoutes_part2.c
+
+//parsi.c
+char	*test(char *s1, char *s2);
+char	*add_one(char *s1, char s2);
+int		ft_strlen_c(const char *str, char c);
+void	multiple2(char **str);
+//end parsi.c
 #endif
