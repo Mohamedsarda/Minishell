@@ -52,6 +52,7 @@ char	**ft_empty_env(char **env, int *tmp)
 
 	j = 0;
 	(*tmp) = 1;
+	puts("------");
 	env = (char **)malloc(5 * sizeof(char *));
 	if (!env)
 		return (NULL);
@@ -67,6 +68,7 @@ char	**ft_empty_env(char **env, int *tmp)
 
 t_env	*ft_create_env_stack(char **env, int tmp)
 {
+	puts("1111111111");
 	t_env	*head;
 	t_env	*node;
 	char	*str;

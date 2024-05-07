@@ -1,5 +1,5 @@
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 RM		= rm -rf
 SRCS	= ./Ft_libft/ft_strlen.c  ./Ft_libft/ft_lstadd_back_bonus.c \
 			./Ft_libft/ft_lstnew_bonus.c ./Ft_libft/ft_split.c\
@@ -10,7 +10,7 @@ SRCS	= ./Ft_libft/ft_strlen.c  ./Ft_libft/ft_lstadd_back_bonus.c \
 			./Parsing/handle_enva_checker.c ./Parsing/handle_enva_qoutes_part2.c ./Parsing/parsi.c\
 			./Parsing/handle_enva_qoutes_part1.c\
 			./Execution/ft_echo.c ./Execution/ft_pwd.c ./Execution/ft_env.c ./Execution/ft_cd.c\
-			./Execution/ft_get_exe.c\
+			./Execution/ft_get_exe.c ./Execution/run.c\
 			main.c
 
 LDFLAGS  = "-L/Users/$(USER)/.brew/opt/readline/lib"
