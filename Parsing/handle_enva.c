@@ -24,6 +24,7 @@ static void	ft_norm____(char **str, char **tmp, t_env *env)
 {
 	char	*a;
 	char	*b;
+	char	*c;
 	char	*key;
 
 	a = ft_strdup(*tmp);
@@ -32,7 +33,12 @@ static void	ft_norm____(char **str, char **tmp, t_env *env)
 	if (ft_strcmp(key, a) == 0)
 		*str = atest(key, env, *str);
 	else
-		*str = test(*str, check_env(key, env));
+	{
+		c = check_env(key, env);
+		*str = test(*str, c);
+		if (!c)
+			free(c);
+	}
 	if (ft_strcmp(key, a) != 0)
 	{
 		*str = test(*str, a);
