@@ -80,6 +80,7 @@ void	ft_echo(t_joins **head, t_env *env)
 	int		j;
 
 	tmp = (*head);
+	(void)env;
 	i = 1;
 	if (!tmp->content[i])
 	{
@@ -99,6 +100,23 @@ void	ft_echo(t_joins **head, t_env *env)
 		write(tmp->out, "\n", 1);
 	}
 	ft_next_node_joins(head);
+}
+
+
+#include <sys/wait.h>
+
+void	ft_after_pipe(t_joins **head, t_env *env)
+{
+	pid_t pid;
+
 	if ((*head))
-		ft_run_commad(head, env, (*head)->content[0]);
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			ft_run_commad(head, env, (*head)->content[0]);
+			exit(0);
+		}
+		wait(NULL);
+	}
 }
