@@ -52,6 +52,7 @@ char	**ft_empty_env(char **env, int *tmp)
 
 	j = 0;
 	(*tmp) = 1;
+	puts("------");
 	env = (char **)malloc(5 * sizeof(char *));
 	if (!env)
 		return (NULL);
