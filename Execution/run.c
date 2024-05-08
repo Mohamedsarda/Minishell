@@ -72,6 +72,6 @@ void    ft_run(t_joins **head, t_env *env)
 		ft_putstr("command not found\n", 2);
 	free_split(tmp);
 	free(PATH);
-	free(command);
+	free(command); 
 	ft_lstclear_joins(head);
 }
