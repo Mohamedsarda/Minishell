@@ -45,13 +45,12 @@ static int	ft_check_after_echo(char *str)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
-		if (str[i] == '-' || str[i] == 'n')
-			i++;
-		else
+		if (str[i] != 'n')
 			return (0);
+		i++;
 	}
 	return (1);
 }
@@ -61,8 +60,8 @@ void	ft_print_echo(char **str, int fd, int *i)
 	int	j;
 
 	j = 1;
-	while (str[j]
-		&& ft_strncmp(str[j], "-n", 2) == 0 && ft_check_after_echo(str[j]))
+	while (str[j] && ft_strncmp(str[j], "-n", 2) == 0
+		&& ft_check_after_echo(str[j]) != 0)
 		j++;
 	(*i) = j;
 	while (str[(*i)])
@@ -81,6 +80,7 @@ void	ft_echo(t_joins **head, t_env *env)
 	int		j;
 
 	tmp = (*head);
+	(void)env;
 	i = 1;
 	if (!tmp->content[i])
 	{
@@ -88,7 +88,8 @@ void	ft_echo(t_joins **head, t_env *env)
 		return ;
 	}
 	j = 1;
-	if (ft_strncmp(tmp->content[j], "-n", 2) == 0)
+	if (ft_strncmp(tmp->content[j], "-n", 2) == 0
+		&& ft_check_after_echo(tmp->content[j]))
 	{
 		i++;
 		ft_print_echo(tmp->content, tmp->out, &i);
@@ -99,6 +100,23 @@ void	ft_echo(t_joins **head, t_env *env)
 		write(tmp->out, "\n", 1);
 	}
 	ft_next_node_joins(head);
+}
+
+
+#include <sys/wait.h>
+
+void	ft_after_pipe(t_joins **head, t_env *env)
+{
+	pid_t pid;
+
 	if ((*head))
-		ft_run_commad(head, env, (*head)->content[0]);
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			ft_run_commad(head, env, (*head)->content[0]);
+			exit(0);
+		}
+		wait(NULL);
+	}
 }

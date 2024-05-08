@@ -38,3 +38,78 @@ skbash-3.2$ echo $HOME
 
 |d
 echo -nMnnnn -n h
+echo "$'cdhs"$"USER
+ echo "$'cdhs"
+
+
+
+
+
+ -----
+
+
+ Minishell$ echo "'cdhs"
+'cdhs
+Minishell$ echo "$'cdhs" // done
+'cdhs
+Minishell$ echo "$"cdhs"
+Minishell : unexpected EOF while looking for matching `"'
+Minishell$ echo "$"cdhs""
+$cdhs
+Minishell$ echo "$'cdhs"
+'cdhs
+Minishell$ echo "$'cdhs"$"USER"
+'cdhs$USER
+Minishell$ echo cda
+cda
+Minishell$ echo $USER$PATH'$PATH'UYS
+msarda/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/msarda/.brew/bin$PATHUYS
+Minishell$ echo $""HOME
+$HOME
+Minishell$ echo $''HOME
+''HOME
+Minishell$ echo ''$HOME // done
+Minishell$ echo -$nnn
+-
+Minishell$ echo "'$'"
+''
+Minishell$ echo "'$HOME'"
+'/Users/msarda'
+Minishell$ echo '$HOME'
+$HOME
+Minishell$ echo '"$HOME"'
+"$HOME"
+Minishell$ echo ''$HOME
+''/Users/msarda
+Minishell$ echo $HOME''
+/Users/msarda''
+Minishell$ echo ""$HOME
+/Users/msarda
+Minishell$ echo $HOME""
+/Users/msarda
+Minishell$ echo $HOM''E
+''E
+Minishell$ echo $HOM-E
+-E
+Minishell$ echo $HOM√E
+xf�
+Minishell$ echo $HOME√
+/Users/msard�xf
+Minishell$ echo $√
+xf
+Minishell$ echo $g√
+xf
+Minishell$ echo ----
+----
+Minishell$ echo "-nnnn "
+-nnnn 
+Minishell$ echo  "   -nnnn"
+   -nnnn
+Minishell$ echo  "-nnnn"
+Minishell$ echo  "-nnnn" "    "
+    Minishell$ echo  "-nnnn" ""
+Minishell$ echo  ""
+
+Minishell$ echo "-nn-"
+Minishell$ echo -n $g $g $g $HOME
+----
