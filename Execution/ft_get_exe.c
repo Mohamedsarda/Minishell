@@ -10,4 +10,8 @@ void	ft_run_commad(t_joins **head, t_env *env, char *type)
 		ft_env(env, head);
 	else if (ft_strcmp(type, "cd") == 0)
 		ft_cd(head);
+	else if (ft_strcmp(type, "export") == 0)
+		ft_export(head, env);
+	else
+		ft_run(head, env);
 }
