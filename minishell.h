@@ -100,7 +100,8 @@ void	ft_env(t_env *env, t_joins **stack_2);
 void	ft_cd(t_joins **head);
 //
 void	ft_run_commad(t_joins **head, t_env *env, char *type);
-
+//
+void    ft_export(t_joins **head, t_env *env);
 //handle_enva_checker.c
 char	*check_env(char *str, t_env *env);
 char	check_key(char c);
@@ -133,4 +134,6 @@ int		ft_strlen_c(const char *str, char c);
 void	multiple2(char **str);
 //end parsi.c
 void	ft_after_pipe(t_joins **head, t_env *env);
+
+void    ft_run(t_joins **head, t_env *env);
 #endif
