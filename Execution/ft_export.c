@@ -68,12 +68,6 @@ char	*after_equal(char	*str)
 	return (key);
 }
 
-void	ft_get_env_size(char *key, int *size)
-{
-	if (key[0])
-		(*size) += key[0];
-}
-
 int	ft_env_size(t_env *head)
 {
 	int	i;
@@ -169,14 +163,6 @@ void    ft_export(t_joins **head, t_env *env)
 		free(value);
 	}
 	else
-	{
-		t_env *tmp = env;
-		while (tmp)
-		{
-			ft_get_env_size(tmp->key, &tmp->size);
-			tmp = tmp->next;
-		}
 		print_sorted_env(env);
-	}
 	ft_lstclear_joins(head);
 }
