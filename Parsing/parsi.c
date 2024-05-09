@@ -52,6 +52,7 @@ int	ft_strlen_c(const char *str, char c)
 
 	i = 0;
 	j = 0;
+	(void)j;
 	while (str[i])
 	{
 		if (str[i] != c)

@@ -68,6 +68,68 @@ char	*after_equal(char	*str)
 	return (key);
 }
 
+void	ft_get_env_size(char *key, int *size)
+{
+	if (key[0])
+		(*size) += key[0];
+}
+
+int	ft_env_size(t_env *head)
+{
+	int	i;
+
+	i = 0;
+	while (head)
+	{
+		i++;
+		head = head->next;
+	}
+	return (i);
+}
+
+void	ft_swap_env(t_env **a, t_env **b)
+{
+	t_env	*tmp;
+
+	tmp = (*b);
+	(*b) = (*a);
+	(*a) = tmp;
+}
+
+void	print_sorted_env(t_env *head)
+{
+    int		count;
+    t_env	*current;
+    int		i;
+    int		j;
+
+	count = ft_env_size(head);
+    t_env **arr = malloc(count * sizeof(t_env *));
+    current = head;
+	i = 0;
+    while (current)
+	{
+        arr[i++] = current;
+        current = current->next;
+    }
+	i = -1;
+	j = 0;
+	while (++i < count - 1)
+	{
+		j = i + 1;
+		while (j < count)
+		{
+			if (ft_strcmp(arr[j]->key, arr[i]->key) < 0)
+				ft_swap_env(&arr[j], &arr[i]);
+			j++;
+		}
+	}
+	i = -1;
+	while (++i < count)
+        printf("%s=%s\n", arr[i]->key, arr[i]->value);
+	// ft_lstclear_env(arr);
+}
+
 void    ft_export(t_joins **head, t_env *env)
 {
 	char	*command;
@@ -100,8 +162,21 @@ void    ft_export(t_joins **head, t_env *env)
 		ft_lstadd_back_env(&env, node);
 		i++;
 	}
-	free(command);
-	free(key);
-	free(value);
+	if ((*head)->content[i])
+	{
+		free(command);
+		free(key);
+		free(value);
+	}
+	else
+	{
+		t_env *tmp = env;
+		while (tmp)
+		{
+			ft_get_env_size(tmp->key, &tmp->size);
+			tmp = tmp->next;
+		}
+		print_sorted_env(env);
+	}
 	ft_lstclear_joins(head);
 }
