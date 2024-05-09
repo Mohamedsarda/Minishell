@@ -11,6 +11,7 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 		val_2++;
 	head->key = ft_strdup(val_1);
 	head->value = ft_strdup(val_2);
+	head->size = 0;
 	head->next = NULL;
 	return (head);
 }
