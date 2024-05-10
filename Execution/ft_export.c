@@ -120,7 +120,7 @@ void	print_sorted_env(t_env *head)
 	}
 	i = -1;
 	while (++i < count)
-        printf("%s=%s\n", arr[i]->key, arr[i]->value);
+        printf("declare -x %s=%s\n", arr[i]->key, arr[i]->value);
 	// ft_lstclear_env(arr);
 }
 
