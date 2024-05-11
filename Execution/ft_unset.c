@@ -1,28 +1,30 @@
 #include "../minishell.h"
 
-// void    ft_unset(t_joins **head, t_env **env)
-// {
-//     int     i;
-//     t_env   **tmp;
+void    ft_unset(t_joins **head, t_env **env)
+{
+	int		i;
+	t_env	*tmp;
+	t_env	*cur;
 
-//     tmp = env;
-//     i = 1;
-//     while((*head)->content[i])
-//     {
-//         while((*env))
-//         {
-//             if(ft_strcmp((*head)->content[i], (*env)->key) == 0)
-//             {
-//                 if (!env)
-//                     return ;
-//                 tmp = *env;
-//                 *env = (*env)->next;
-//                 free((*tmp)->key);
-//                 free((*tmp)->value);
-//                 free((*tmp));
-//             }
-//             (*env) = (*env)->next;
-//         }
-//         i++;
-//     }
-// }
+	tmp = (*env);
+	i = 1;
+	while ((*head)->content[i])
+	{
+		while (tmp)
+		{
+			cur = tmp;
+			if (ft_strcmp((*head)->content[i], tmp->next->key) == 0)
+			{
+				if (tmp->next->next)
+				cur->next = tmp->next->next;
+				else
+					cur->next = NULL;
+				free(cur->key);
+				free(cur->value);
+				free(cur);
+			}
+			tmp = tmp->next;
+		}
+		i++;
+	}
+}
