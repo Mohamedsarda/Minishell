@@ -146,18 +146,18 @@ char	*delete_eq(char *str)
 
 	i = 0;
 	tmp = str;
-	if(*str == '+')
-		value = malloc(ft_strlen(str) - 1);
+	if(*tmp == '+')
+		value = malloc(ft_strlen(tmp) - 1);
 	else
-		value = malloc(ft_strlen(str));
-	if(*str == '+')
-		str += 2;
+		value = malloc(ft_strlen(tmp));
+	if(*tmp == '+')
+		tmp += 2;
 	else
-		str++;
-	while(*str)
+		tmp++;
+	while(*tmp)
 	{
-		value[i] = *str;
-		str++;
+		value[i] = *tmp;
+		tmp++;
 		i++;
 	}
 	return (value);
