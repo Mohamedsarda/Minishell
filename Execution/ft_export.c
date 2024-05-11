@@ -2,12 +2,12 @@
 
 int	ft_strlen_key(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == '=')
+		if (str[i] == '=')
 			return (i);
 		i++;
 	}
@@ -21,9 +21,9 @@ char	*befor_equal(char	*str)
 
 	i = 0;
 	key = malloc(ft_strlen_key(str) + 1);
-	if(!key)
+	if (!key)
 		return (NULL);
-	while(*str  && *str != '=')
+	while (*str && *str != '=')
 	{
 		key[i] = *str;
 		str++;
@@ -35,12 +35,12 @@ char	*befor_equal(char	*str)
 
 int	ft_strlen_value(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(*str && *str != '=')
+	while (*str && *str != '=')
 		str++;
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -52,9 +52,9 @@ char	*after_equal(char	*str)
 
 	i = 0;
 	key = malloc(ft_strlen_value(str) + 1);
-	if(!key)
+	if (!key)
 		return (NULL);
-	while(*str && *str != '=')
+	while (*str && *str != '=')
 		str++;
 	if (*str)
 		str++;
@@ -92,20 +92,23 @@ void	ft_swap_env(t_env **a, t_env **b)
 
 void	print_sorted_env(t_env *head)
 {
-    int		count;
-    t_env	*current;
-    int		i;
-    int		j;
+	int		count;
+	t_env	*current;
+	t_env	**arr;
+	int		i;
+	int		j;
 
 	count = ft_env_size(head);
-    t_env **arr = malloc(count * sizeof(t_env *));
-    current = head;
+	arr = malloc(count * sizeof(t_env *));
+	if (!arr)
+		return (NULL);
+	current = head;
 	i = 0;
-    while (current)
+	while (current)
 	{
-        arr[i++] = current;
-        current = current->next;
-    }
+		arr[i++] = current;
+		current = current->next;
+	}
 	i = -1;
 	j = 0;
 	while (++i < count - 1)
@@ -120,8 +123,8 @@ void	print_sorted_env(t_env *head)
 	}
 	i = -1;
 	while (++i < count)
-        printf("declare -x %s=%s\n", arr[i]->key, arr[i]->value);
-	// ft_lstclear_env(arr);
+		printf("declare -x %s=%s\n", arr[i]->key, arr[i]->value);
+	ft_lstclear_env(arr);
 }
 
 void    ft_export(t_joins **head, t_env *env)
@@ -129,19 +132,19 @@ void    ft_export(t_joins **head, t_env *env)
 	char	*command;
 	char	*key;
 	char	*value;
-	t_env *node = env;
+	t_env	*node = env;
 	int		i;
 	int		j;
 
 	i = 1;
 	j = 0;
-	while((*head)->content[i])
+	while ((*head)->content[i])
 	{
 		command = ft_strdup((*head)->content[i]);
 		key = befor_equal(command);
-		while(key[j])
+		while (key[j])
 		{
-			if(check_key(key[j]))
+			if (check_key(key[j]))
 			{
 				ft_putstr("syntax error near unexpected token\n", 2);
 				free(command);
