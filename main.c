@@ -238,7 +238,7 @@ int	main(int ac, char **ar, char **env)
 			ft_lstclear(&words);
 			continue ;
 		}
-		tmp = ft_parse_stack(&words, env_stack);
+		tmp = ft_parse_stack(&words, &env_stack);
 	}
 	ft_lstclear_joins(&tmp);
 	ft_lstclear_env(&env_stack);

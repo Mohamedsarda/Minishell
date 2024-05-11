@@ -73,7 +73,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	return (dst[i] = NULL, dst);
 }
 
-t_joins	*ft_parse_stack(t_words **words, t_env *env)
+t_joins	*ft_parse_stack(t_words **words, t_env **env)
 {
 	t_joins	*stack_2;
 	t_joins	*new;
