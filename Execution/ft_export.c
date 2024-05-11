@@ -262,12 +262,11 @@ void    ft_export(t_joins **head, t_env *env)
 			}
 			value = after_equal(command);
 			send_to_stack_env(value, key, env);
-			
+			free(command);
+			free(key);
+			free(value);
 			i++;
 		}
-		free(command);
-		free(key);
-		free(value);
 	}
 	ft_lstclear_joins(head);
 }
