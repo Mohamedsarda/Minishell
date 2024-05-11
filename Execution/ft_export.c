@@ -92,7 +92,7 @@ void	ft_swap_env(t_env **a, t_env **b)
 	(*a) = tmp;
 }
 
-void	print_sorted_env(t_env *head)
+void	print_sorted_env(t_env **head)
 {
 	int		count;
 	t_env	*current;
@@ -100,11 +100,11 @@ void	print_sorted_env(t_env *head)
 	int		i;
 	int		j;
 
-	count = ft_env_size(head);
+	current = (*head);
+	count = ft_env_size(current);
 	arr = (t_env **)malloc(count * sizeof(t_env *));
 	if (!arr)
 		return ;
-	current = head;
 	i = 0;
 	while (current)
 	{
@@ -163,51 +163,59 @@ char	*delete_eq(char *str)
 	return (value);
 }
 
-int	check_key_in_path(char *key, t_env *env)
+int	check_key_in_path(char *key, t_env **env)
 {
-	while(env)
+	t_env *tmp;
+
+	tmp = (*env);
+	while(tmp)
 	{
-		if(ft_strcmp(env->key, key) == 0)
+		if(ft_strcmp(tmp->key, key) == 0)
 			return (1);
-		env = env->next;
+		tmp = tmp->next;
 	}
 	return (0);
 }
+
 void	add_value(char *key, char *value, t_env **env, int is)
 {
-	while((*env))
+	t_env	*tmp;
+
+	tmp = (*env);
+	while(tmp)
 	{
-		if(ft_strcmp((*env)->key, key) == 0)
+		if(ft_strcmp(tmp->key, key) == 0)
 		{
 			if(is == 1)
 			{
-				(*env)->value = test((*env)->value, value);
+				tmp->value = test(tmp->value, value);
 				free(value);
 			}
 			else
 			{
-				free((*env)->value);
-				(*env)->value = NULL;
-				(*env)->value = value;
+				free(tmp->value);
+				tmp->value = NULL;
+				tmp->value = value;
 			}
 		}
-		(*env) = (*env)->next;
+		tmp = tmp->next;
 	}
 }
-void	send_to_stack_env(char *value, char *key, t_env *env)
+void	send_to_stack_env(char *value, char *key, t_env **env)
 {
 	t_env	*node;
+	// t_env	*env_tmp;
 
-	node = env;
+	node = NULL;
 	if(check_value(value) == 2)
 	{
 		value = delete_eq(value);
 		if(check_key_in_path(key, env) == 1)
-			add_value(key, value, &env, 0);
+			add_value(key, value, env, 0);
 		else
 		{
 			node = ft_lstnew_env(key, value);
-			ft_lstadd_back_env(&env, node);
+			ft_lstadd_back_env(env, node);
 			free(value);
 		}
 	}
@@ -215,22 +223,22 @@ void	send_to_stack_env(char *value, char *key, t_env *env)
 	{
 		value = delete_eq(value);
 		if(check_key_in_path(key, env) == 1)
-			add_value(key, value, &env, 1);
+			add_value(key, value, env, 1);
 		else
 		{
 			node = ft_lstnew_env(key, value);
-			ft_lstadd_back_env(&env, node);
+			ft_lstadd_back_env(env, node);
 			free(value);
 		}
 	}
 	else
 	{
 		node = ft_lstnew_env(key, value);
-		ft_lstadd_back_env(&env, node);
+		ft_lstadd_back_env(env, node);
 	}
 }
 
-void    ft_export(t_joins **head, t_env *env)
+void    ft_export(t_joins **head, t_env **env)
 {
 	char	*command;
 	char	*key;
