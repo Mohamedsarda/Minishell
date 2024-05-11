@@ -7,7 +7,7 @@ int	ft_strlen_key(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '=')
+		if (str[i] == '=' || (str[i] == '+' && str[i + 1] == '='))
 			return (i);
 		i++;
 	}
@@ -23,14 +23,18 @@ char	*befor_equal(char	*str)
 	key = malloc(ft_strlen_key(str) + 1);
 	if (!key)
 		return (NULL);
-	while (*str && *str != '=')
-	{
-		key[i] = *str;
-		str++;
-		i++;
-	}
-	key[i] = '\0';
-	return (key);
+	while (*str)
+    {
+        if(*str == '=')
+            break;
+        if(*str == '+' && *(str + 1) == '=')
+            break;
+        key[i] = *str;
+        str++;
+        i++;
+    }
+    key[i] = '\0';
+    return (key);
 }
 
 int	ft_strlen_value(char *str)
@@ -38,7 +42,7 @@ int	ft_strlen_value(char *str)
 	int	i;
 
 	i = 0;
-	while (*str && *str != '=')
+	while (*str && *str != '=' && *str != '+')
 		str++;
 	while (str[i])
 		i++;
@@ -47,25 +51,23 @@ int	ft_strlen_value(char *str)
 
 char	*after_equal(char	*str)
 {
-	char	*key;
+	char	*value;
 	int		i;
 
 	i = 0;
-	key = malloc(ft_strlen_value(str) + 1);
-	if (!key)
+	value = malloc(ft_strlen_value(str) + 1);
+	if (!value)
 		return (NULL);
-	while (*str && *str != '=')
+	while (*str && *str != '=' && *str != '+')
 		str++;
-	if (*str)
-		str++;
-	while (*str && *str)
+	while (*str)
 	{
-		key[i] = *str;
+		value[i] = *str;
 		str++;
 		i++;
 	}
-	key[i] = '\0';
-	return (key);
+	value[i] = '\0';
+	return (value);
 }
 
 int	ft_env_size(t_env *head)
@@ -127,45 +129,147 @@ void	print_sorted_env(t_env **head)
 	free(arr);
 }
 
+int	check_value(char *value)
+{
+	if(*value == '+' && *(value + 1) == '=')
+		return 1;
+	if(*value == '=')
+		return 2;
+	return -1;
+}
+
+char	*delete_eq(char *str)
+{
+	char	*value;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = str;
+	if(*str == '+')
+		value = malloc(ft_strlen(str) - 1);
+	else
+		value = malloc(ft_strlen(str));
+	if(*str == '+')
+		str += 2;
+	else
+		str++;
+	while(*str)
+	{
+		value[i] = *str;
+		str++;
+		i++;
+	}
+	return (value);
+}
+
+int	check_key_in_path(char *key, t_env **env)
+{
+	t_env *tmp;
+
+	tmp = (*env);
+	while(tmp)
+	{
+		if(ft_strcmp(tmp->key, key) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+void	add_value(char *key, char *value, t_env **env, int is)
+{
+	while((*env))
+	{
+		if(ft_strcmp((*env)->key, key) == 0)
+		{
+			if(is == 1)
+			{
+				(*env)->value = test((*env)->value, value);
+				free(value);
+			}
+			else
+			{
+				free((*env)->value);
+				(*env)->value = NULL;
+				(*env)->value = value;
+			}
+		}
+		(*env) = (*env)->next;
+	}
+}
+void	send_to_stack_env(char *value, char *key, t_env **env)
+{
+	t_env	*node;
+
+	node = (*env);
+	if(check_value(value) == 2)
+	{
+		value = delete_eq(value);
+		if(check_key_in_path(key, env) == 1)
+			add_value(key, value, env, 0);
+		else
+		{
+			node = ft_lstnew_env(key, value);
+			ft_lstadd_back_env(env, node);
+			free(value);
+		}
+	}
+	else if(check_value(value) == 1)
+	{
+		value = delete_eq(value);
+		if(check_key_in_path(key, env) == 1)
+			add_value(key, value, env, 1);
+		else
+		{
+			node = ft_lstnew_env(key, value);
+			ft_lstadd_back_env(env, node);
+			free(value);
+		}
+	}
+	else
+	{
+		node = ft_lstnew_env(key, value);
+		ft_lstadd_back_env(env, node);
+	}
+}
+
 void    ft_export(t_joins **head, t_env **env)
 {
 	char	*command;
 	char	*key;
 	char	*value;
-	t_env	*node = (*env);
 	int		i;
 	int		j;
 
 	i = 1;
 	j = 0;
-	while ((*head)->content[i])
+	if (!(*head)->content[i])
+		print_sorted_env(env);
+	else
 	{
-		command = ft_strdup((*head)->content[i]);
-		key = befor_equal(command);
-		while (key[j])
+		while ((*head)->content[i])
 		{
-			if (check_key(key[j]))
+			command = ft_strdup((*head)->content[i]);
+			key = befor_equal(command);
+			while (key[j])
 			{
-				ft_putstr("syntax error near unexpected token\n", 2);
-				free(command);
-				free(key);
-				ft_lstclear_joins(head);
-				return ;
+				if (check_key(key[j]))
+				{
+					ft_putstr("syntax error near unexpected token\n", 2);
+					free(command);
+					free(key);
+					ft_lstclear_joins(head);
+					return ;
+				}
+				j++;
 			}
-			j++;
+			value = after_equal(command);
+			send_to_stack_env(value, key, env);
+			i++;
 		}
-		value = after_equal(command);
-		node = ft_lstnew_env(key, value);
-		ft_lstadd_back_env(env, node);
-		i++;
-	}
-	if ((*head)->content[i])
-	{
 		free(command);
 		free(key);
 		free(value);
 	}
-	else
-		print_sorted_env(env);
 	ft_lstclear_joins(head);
 }
