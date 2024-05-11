@@ -18,7 +18,7 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		// printf("%s")
 		if (ft_strlen(env->value) > 0)
 		{
-			ft_putstr("=", fd);
+			// ft_putstr("=", fd);
 			ft_putstr(env->value, fd);
 		}
 		ft_putstr("\n", fd);

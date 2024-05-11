@@ -6,25 +6,24 @@ void    ft_unset(t_joins **head, t_env **env)
 	t_env	*tmp;
 	t_env	*cur;
 
-	tmp = (*env);
 	i = 1;
 	while ((*head)->content[i])
 	{
+		tmp = (*env);
 		while (tmp)
 		{
-			cur = tmp;
-			if (ft_strcmp((*head)->content[i], tmp->next->key) == 0)
+			cur = tmp->next;
+			if (ft_strcmp((*head)->content[i], cur->key) == 0)
 			{
-				if (tmp->next->next)
-				cur->next = tmp->next->next;
-				else
-					cur->next = NULL;
+				tmp->next = cur->next;
 				free(cur->key);
 				free(cur->value);
 				free(cur);
+				break ;
 			}
 			tmp = tmp->next;
 		}
 		i++;
 	}
+	ft_lstclear_joins(head);
 }
