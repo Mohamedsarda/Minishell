@@ -1,10 +1,12 @@
 #include "../minishell.h"
 
-void	ft_env(t_env *env, t_joins **stack_2)
+void	ft_env(t_env **env_tmp, t_joins **stack_2)
 {
 	t_joins	*tmp;
+	t_env	*env;
 	int		fd;
 
+	env = (*env_tmp);
 	tmp = (*stack_2);
 	if (tmp->out != 0 && tmp->in >= 0)
 		fd = tmp->out;

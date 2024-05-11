@@ -19,27 +19,29 @@ void    run_com(char *com, t_joins **head)
 			wait(NULL);
 }
 
-char    *get_path(t_env *env)
+char    *get_path(t_env **env)
 {
-	char *PATH;
+	char	*PATH;
+	t_env	*env_tmp;
 	
 	PATH = NULL;
-	while(env)
+	env_tmp = (*env);
+	while (env_tmp)
 	{
-		if(ft_strcmp(env->key, "PATH") == 0)
+		if(ft_strcmp(env_tmp->key, "PATH") == 0)
 		{
-			if (!env->value[0] || !env->value)
+			if (!env_tmp->value[0] || !env_tmp->value)
 				PATH = ft_strdup(NULL);
 			else
-				PATH = ft_strdup(env->value);
+				PATH = ft_strdup(env_tmp->value);
 			break;
 		}
-		env = env->next;
+		env_tmp = env_tmp->next;
 	}
 	return (PATH);
 }
 
-void    ft_run(t_joins **head, t_env *env)
+void    ft_run(t_joins **head, t_env **env)
 {
 	char    *command;
 	char    *PATH;

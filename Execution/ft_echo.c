@@ -73,14 +73,13 @@ void	ft_print_echo(char **str, int fd, int *i)
 	}
 }
 
-void	ft_echo(t_joins **head, t_env *env)
+void	ft_echo(t_joins **head)
 {
 	t_joins	*tmp;
 	int		i;
 	int		j;
 
 	tmp = (*head);
-	(void)env;
 	i = 1;
 	if (!tmp->content[i])
 	{
@@ -105,7 +104,7 @@ void	ft_echo(t_joins **head, t_env *env)
 
 #include <sys/wait.h>
 
-void	ft_after_pipe(t_joins **head, t_env *env)
+void	ft_after_pipe(t_joins **head, t_env **env)
 {
 	pid_t pid;
 

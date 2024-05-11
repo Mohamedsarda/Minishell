@@ -90,7 +90,7 @@ void	ft_swap_env(t_env **a, t_env **b)
 	(*a) = tmp;
 }
 
-void	print_sorted_env(t_env *head)
+void	print_sorted_env(t_env **head)
 {
 	int		count;
 	t_env	*current;
@@ -98,11 +98,11 @@ void	print_sorted_env(t_env *head)
 	int		i;
 	int		j;
 
-	count = ft_env_size(head);
+	current = (*head);
+	count = ft_env_size(current);
 	arr = (t_env **)malloc(count * sizeof(t_env *));
 	if (!arr)
 		return ;
-	current = head;
 	i = 0;
 	while (current)
 	{
@@ -127,12 +127,12 @@ void	print_sorted_env(t_env *head)
 	free(arr);
 }
 
-void    ft_export(t_joins **head, t_env *env)
+void    ft_export(t_joins **head, t_env **env)
 {
 	char	*command;
 	char	*key;
 	char	*value;
-	t_env	*node = env;
+	t_env	*node = (*env);
 	int		i;
 	int		j;
 
@@ -156,7 +156,7 @@ void    ft_export(t_joins **head, t_env *env)
 		}
 		value = after_equal(command);
 		node = ft_lstnew_env(key, value);
-		ft_lstadd_back_env(&env, node);
+		ft_lstadd_back_env(env, node);
 		i++;
 	}
 	if ((*head)->content[i])
