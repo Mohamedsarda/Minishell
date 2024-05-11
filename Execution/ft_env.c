@@ -15,8 +15,12 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 	while (env)
 	{
 		ft_putstr(env->key, fd);
-		ft_putstr("=", fd);
-		ft_putstr(env->value, fd);
+		// printf("%s")
+		if (ft_strlen(env->value) > 0)
+		{
+			ft_putstr("=", fd);
+			ft_putstr(env->value, fd);
+		}
 		ft_putstr("\n", fd);
 		env = env->next;
 	}
