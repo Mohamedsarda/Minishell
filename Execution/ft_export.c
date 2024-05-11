@@ -99,9 +99,9 @@ void	print_sorted_env(t_env *head)
 	int		j;
 
 	count = ft_env_size(head);
-	arr = malloc(count * sizeof(t_env *));
+	arr = (t_env **)malloc(count * sizeof(t_env *));
 	if (!arr)
-		return (NULL);
+		return ;
 	current = head;
 	i = 0;
 	while (current)
@@ -124,7 +124,7 @@ void	print_sorted_env(t_env *head)
 	i = -1;
 	while (++i < count)
 		printf("declare -x %s=%s\n", arr[i]->key, arr[i]->value);
-	ft_lstclear_env(arr);
+	free(arr);
 }
 
 void    ft_export(t_joins **head, t_env *env)
