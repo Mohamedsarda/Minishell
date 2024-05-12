@@ -127,9 +127,14 @@ void	print_sorted_env(t_env **head)
 	while (++i < count)
 	{
 		printf("declare -x %s", arr[i]->key);
-		printf("%s", arr[i]->value);
-		if (arr[i]->equal && ft_strlen(arr[i]->value) == 0)
-			printf("=\"\"");
+		if (arr[i]->equal)
+			printf("=");
+		if (arr[i]->equal && ft_strlen(arr[i]->value) >= 0)
+		{
+			printf("\"");
+			printf("%s", arr[i]->value);
+			printf("\"");
+		}
 		printf("\n");
 	}
 	free(arr);
@@ -264,6 +269,8 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 	}
 	else
 	{
+		if(check_key_in_path(key, env) == 1)
+			return ;
 		node = ft_lstnew_env(key, value);
 		ft_lstadd_back_env(env, node);
 	}
