@@ -128,8 +128,8 @@ void	print_sorted_env(t_env **head)
 	{
 		printf("declare -x %s", arr[i]->key);
 		printf("%s", arr[i]->value);
-		if (ft_strlen(arr[i]->value) == 1)
-			printf("\"\"");
+		if (arr[i]->equal && ft_strlen(arr[i]->value) == 0)
+			printf("=\"\"");
 		printf("\n");
 	}
 	free(arr);

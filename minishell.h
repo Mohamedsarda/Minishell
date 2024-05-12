@@ -37,6 +37,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	int				size;
+	int				equal;
 	struct s_env	*next;
 }	t_env;
 
