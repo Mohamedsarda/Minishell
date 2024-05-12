@@ -14,14 +14,14 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		fd = tmp->in;
 	while (env)
 	{
-		ft_putstr(env->key, fd);
-		// printf("%s")
 		if (ft_strlen(env->value) > 0)
 		{
-			// ft_putstr("=", fd);
+			ft_putstr(env->key, fd);
+			if (env->value[0] != '=')
+				ft_putstr("=", fd);
 			ft_putstr(env->value, fd);
+			ft_putstr("\n", fd);
 		}
-		ft_putstr("\n", fd);
 		env = env->next;
 	}
 	if (fd != 1)

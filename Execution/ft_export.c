@@ -125,7 +125,16 @@ void	print_sorted_env(t_env **head)
 	}
 	i = -1;
 	while (++i < count)
-		printf("declare -x %s=%s\n", arr[i]->key, arr[i]->value);
+	{
+		if (ft_strlen(arr[i]->key) > 0)
+		{
+			printf("%s", arr[i]->key);
+			if (arr[i]->value[0] != '=')
+				printf("=");
+			printf("%s", arr[i]->value);
+			printf("\n");
+		}
+	}
 	free(arr);
 }
 
@@ -152,8 +161,8 @@ char	*delete_eq(char *str)
 		value = malloc(ft_strlen(tmp));
 	if(*tmp == '+')
 		tmp += 2;
-	else
-		tmp++;
+	// else
+	// 	tmp++;
 	while(*tmp)
 	{
 		value[i] = *tmp;
