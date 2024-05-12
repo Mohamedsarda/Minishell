@@ -113,3 +113,27 @@ Minishell$ echo  ""
 Minishell$ echo "-nn-"
 Minishell$ echo -n $g $g $g $HOME
 ----
+
+Minishell$ export $a='$a'
+Minishell$ echo $a
+
+Minishell$ echo $a
+Minishell$ export a='$a'
+Minishell$ echo $a
+$a
+Minishell$ export a="$a"
+Minishell$ echo $a
+=$a
+Minishell$ echo $a
+=$a
+Minishell$ echo $a
+=$a
+Minishell$ export a="coco"
+Minishell$ echo $a
+=coco
+Minishell$ clear
+TERM environment variable not set.
+Minishell$ clear
+TERM environment variable not set.
+Minishell$ export _coco=coco
+Minishell$ export 0coco=coco
