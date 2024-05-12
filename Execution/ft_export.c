@@ -147,29 +147,53 @@ int	check_value(char *value)
 	return -1;
 }
 
-char	*delete_eq(char *str)
+char    *delete_plus(char *str)
 {
-	char	*value;
-	char	*tmp;
-	int		i;
+    char    *value;
+    char    *tmp;
+    int        i;
 
-	i = 0;
-	tmp = str;
-	if(*tmp == '+')
-		value = malloc(ft_strlen(tmp) - 1);
-	else
-		value = malloc(ft_strlen(tmp));
-	if(*tmp == '+')
-		tmp += 2;
-	// else
-	// 	tmp++;
-	while(*tmp)
-	{
-		value[i] = *tmp;
-		tmp++;
-		i++;
-	}
-	return (value);
+    i = 0;
+    tmp = str;
+    if(*tmp == '+')
+        value = malloc(ft_strlen(tmp));
+    else
+        value = malloc(ft_strlen(tmp) + 1);
+	if (!value)
+		return (NULL);
+    if(*tmp == '+')
+        tmp += 1;
+    while(*tmp)
+    {
+        value[i] = *tmp;
+        tmp++;
+        i++;
+    }
+    value[i] = '\0';
+    return (value);
+}
+
+char    *delete_eq(char *str)
+{
+    char    *value;
+    char    *tmp;
+    int        i;
+
+    i = 0;
+    tmp = str;
+	value = malloc(ft_strlen(tmp));
+	if (!value)
+		return (NULL);
+	tmp++;
+    while(*tmp)
+    {
+        value[i] = *tmp;
+        tmp++;
+        i++;
+    }
+    value[i] = '\0';
+	free(str);
+    return (value);
 }
 
 int	check_key_in_path(char *key, t_env **env)
@@ -197,6 +221,7 @@ void	add_value(char *key, char *value, t_env **env, int is)
 		{
 			if(is == 1)
 			{
+				value = delete_eq(value);
 				tmp->value = test(tmp->value, value);
 				free(value);
 			}
@@ -218,7 +243,7 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 	node = NULL;
 	if(check_value(value) == 2)
 	{
-		value = delete_eq(value);
+		value = delete_plus(value);
 		if(check_key_in_path(key, env) == 1)
 			add_value(key, value, env, 0);
 		else
@@ -230,7 +255,7 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 	}
 	else if(check_value(value) == 1)
 	{
-		value = delete_eq(value);
+		value = delete_plus(value);
 		if(check_key_in_path(key, env) == 1)
 			add_value(key, value, env, 1);
 		else

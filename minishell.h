@@ -8,7 +8,7 @@
 # include "readline/history.h"
 # include <signal.h>
 # include <fcntl.h>
-
+#define malloc(x) NULL
 # define WORD 0
 # define REDIN 1 // <
 # define REDOU 2 // >
