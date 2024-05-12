@@ -126,14 +126,11 @@ void	print_sorted_env(t_env **head)
 	i = -1;
 	while (++i < count)
 	{
-		if (ft_strlen(arr[i]->key) > 0)
-		{
-			printf("%s", arr[i]->key);
-			if (arr[i]->value[0] != '=')
-				printf("=");
-			printf("%s", arr[i]->value);
-			printf("\n");
-		}
+		printf("declare -x %s", arr[i]->key);
+		printf("%s", arr[i]->value);
+		if (ft_strlen(arr[i]->value) == 1)
+			printf("\"\"");
+		printf("\n");
 	}
 	free(arr);
 }
