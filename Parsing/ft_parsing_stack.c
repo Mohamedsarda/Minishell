@@ -81,12 +81,16 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	int		i;
 
 	stack_2 = ft_lstnew_joins(words);
+	stack_2->content = ft_create_list(stack_2, words);
+	if (stack_2->in == -1 || stack_2->out == -1)
+		ft_next_node_joins(&stack_2);
 	while ((*words))
 	{
 		if ((*words)->type == PIPE)
 		{
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
+			new->content = ft_create_list(stack_2, words);
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
