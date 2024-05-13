@@ -7,14 +7,14 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 	head = (t_env *)malloc(sizeof(t_env));
 	if (!head)
 		return (NULL);
-	if(!val_2)
-		head->equal = 0;
-	else if (*val_2 == '=')
-	{
-		val_2++;
-		head->equal = 1;
-	}
-	else
+	// if(!val_2)
+	// 	head->equal = 0;
+	// else if (*val_2 == '=')
+	// {
+	// 	val_2++;
+	// 	head->equal = 1;
+	// }
+	// else
 		head->equal = 0;
 	head->key = ft_strdup(val_1);
 	head->value = ft_strdup(val_2);

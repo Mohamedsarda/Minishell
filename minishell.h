@@ -142,4 +142,5 @@ void	multiple2(char **str);
 void	ft_after_pipe(t_joins **head, t_env **env);
 
 void    ft_run(t_joins **head, t_env **env);
+void	env_equal(t_env **env);
 #endif
