@@ -6,7 +6,6 @@ void	env_equal(t_env **env)
 	tmp = *env;
 	while(tmp)
 	{
-		printf("[%s] || [%s] || [%d]\n", tmp->key, tmp->value, tmp->equal);
 		if(!(tmp)->value)
 			(tmp)->equal = 0;
 		else if ((tmp)->value[0] == '=' && tmp->equal != 1)
@@ -30,7 +29,6 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		fd = tmp->out;
 	else
 		fd = tmp->in;
-	env_equal(env_tmp);
 	while (env)
 	{
 		if (env->value && env->equal)
