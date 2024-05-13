@@ -2,7 +2,7 @@
 void	env_equal(t_env **env)
 {
 	t_env	*tmp;
-
+	
 	tmp = *env;
 	while(tmp)
 	{
