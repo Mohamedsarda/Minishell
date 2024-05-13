@@ -126,7 +126,6 @@ void	print_sorted_env(t_env **head)
 		}
 	}
 	i = -1;
-	env_equal(head);
 	while (++i < count)
 	{
 		printf("declare -x %s", arr[i]->key);
@@ -235,10 +234,16 @@ void	add_value(char *key, char *value, t_env **env, int append)
 			}
 			else
 			{
-				//double free if(export a=b; export a=hello; export a=test)
 				free(tmp->value);
 				tmp->value = NULL;
 				tmp->value = value;
+				if(!(tmp)->value)
+					(tmp)->equal = 0;
+				else if ((tmp)->value[0] == '=')
+				{
+					(tmp)->value++;
+					(tmp)->equal = 1;
+				}
 			}
 			return ;
 		}
