@@ -220,6 +220,7 @@ int	check_key_in_path(char *key, t_env **env)
 void	add_value(char *key, char *value, t_env **env, int append)
 {
 	t_env	*tmp;
+	char	*t = value;
 
 	tmp = (*env);
 	while(tmp)
@@ -234,16 +235,16 @@ void	add_value(char *key, char *value, t_env **env, int append)
 			}
 			else
 			{
-				free(tmp->value);
-				tmp->value = NULL;
-				tmp->value = value;
-				if(!(tmp)->value)
+				if (!t)
 					(tmp)->equal = 0;
-				else if ((tmp)->value[0] == '=')
+				else if (t[0] == '=')
 				{
-					(tmp)->value++;
+					t++;
 					(tmp)->equal = 1;
 				}
+				free(tmp->value);
+				tmp->value = ft_strdup(t);
+				free(value);
 			}
 			return ;
 		}
@@ -264,6 +265,7 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 		{
 			node = ft_lstnew_env(key, value);
 			ft_lstadd_back_env(env, node);
+			free(value);
 		}
 	}
 	else if(check_value(value) == 2)
@@ -274,6 +276,7 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 		else
 		{
 			node = ft_lstnew_env(key, value);
+			free(value);
 			ft_lstadd_back_env(env, node);
 		}
 	}
@@ -282,6 +285,7 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 		if(check_key_in_path(key, env) == 1)
 			return ;
 		node = ft_lstnew_env(key, value);
+		free(value);
 		ft_lstadd_back_env(env, node);
 	}
 }
@@ -330,7 +334,6 @@ void    ft_export(t_joins **head, t_env **env)
 			send_to_stack_env(value, key, env);
 			free(command);
 			free(key);
-			// free(value);
 			i++;
 		}
 	}
