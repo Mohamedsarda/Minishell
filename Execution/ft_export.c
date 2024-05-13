@@ -126,6 +126,7 @@ void	print_sorted_env(t_env **head)
 		}
 	}
 	i = -1;
+	env_equal(head);
 	while (++i < count)
 	{
 		printf("declare -x %s", arr[i]->key);
