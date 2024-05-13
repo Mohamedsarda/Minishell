@@ -55,6 +55,8 @@ char	*after_equal(char	*str)
 	int		i;
 
 	i = 0;
+	if(!*str)
+		return (NULL);
 	value = malloc(ft_strlen_value(str) + 1);
 	if (!value)
 		return (NULL);
@@ -91,7 +93,7 @@ void	ft_swap_env(t_env **a, t_env **b)
 	(*b) = (*a);
 	(*a) = tmp;
 }
-
+// export a; export a=; head has a= but he dont print it
 void	print_sorted_env(t_env **head)
 {
 	int		count;
@@ -142,10 +144,12 @@ void	print_sorted_env(t_env **head)
 
 int	check_value(char *value)
 {
+	if(!value)
+		return (-1);
 	if(*value == '+' && *(value + 1) == '=')
-		return 1;
-	if(*value == '=')
 		return 2;
+	if(*value == '=')
+		return 1;
 	return -1;
 }
 
@@ -172,6 +176,7 @@ char    *delete_plus(char *str)
         i++;
     }
     value[i] = '\0';
+	free(str);
     return (value);
 }
 
@@ -212,7 +217,7 @@ int	check_key_in_path(char *key, t_env **env)
 	return (0);
 }
 
-void	add_value(char *key, char *value, t_env **env, int is)
+void	add_value(char *key, char *value, t_env **env, int append)
 {
 	t_env	*tmp;
 
@@ -221,7 +226,7 @@ void	add_value(char *key, char *value, t_env **env, int is)
 	{
 		if(ft_strcmp(tmp->key, key) == 0)
 		{
-			if(is == 1)
+			if(append == 1)
 			{
 				value = delete_eq(value);
 				tmp->value = test(tmp->value, value);
@@ -229,33 +234,33 @@ void	add_value(char *key, char *value, t_env **env, int is)
 			}
 			else
 			{
+				//double free if(export a=b; export a=hello; export a=test)
 				free(tmp->value);
 				tmp->value = NULL;
 				tmp->value = value;
 			}
+			return ;
 		}
 		tmp = tmp->next;
 	}
 }
+
 void	send_to_stack_env(char *value, char *key, t_env **env)
 {
 	t_env	*node;
-	// t_env	*env_tmp;
 
 	node = NULL;
-	if(check_value(value) == 2)
+	if(check_value(value) == 1)
 	{
-		value = delete_plus(value);
 		if(check_key_in_path(key, env) == 1)
 			add_value(key, value, env, 0);
 		else
 		{
 			node = ft_lstnew_env(key, value);
 			ft_lstadd_back_env(env, node);
-			free(value);
 		}
 	}
-	else if(check_value(value) == 1)
+	else if(check_value(value) == 2)
 	{
 		value = delete_plus(value);
 		if(check_key_in_path(key, env) == 1)
@@ -264,7 +269,6 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 		{
 			node = ft_lstnew_env(key, value);
 			ft_lstadd_back_env(env, node);
-			free(value);
 		}
 	}
 	else
@@ -276,16 +280,30 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 	}
 }
 
+int check_key_env(char *key)
+{
+	if((*key >= '0' && *key <= '9') || ft_strlen(key) == 0)
+		return (1);
+	while(*key)
+	{
+		if ((*key < 'a' || *key > 'z') && (*key < 'A' || *key <= 'Z')
+			&& (*key < '0' || *key > '9') && *key != '_')
+			return (1);
+		key++;
+	}
+	return (0);
+}
+
 void    ft_export(t_joins **head, t_env **env)
 {
 	char	*command;
 	char	*key;
 	char	*value;
 	int		i;
-	int		j;
 
+	key = NULL;
+	value = NULL;
 	i = 1;
-	j = 0;
 	if (!(*head)->content[i])
 		print_sorted_env(env);
 	else
@@ -294,23 +312,19 @@ void    ft_export(t_joins **head, t_env **env)
 		{
 			command = ft_strdup((*head)->content[i]);
 			key = befor_equal(command);
-			while (key[j])
+			if (check_key_env(key) == 1)
 			{
-				if (check_key(key[j]))
-				{
-					ft_putstr("syntax error near unexpected token\n", 2);
-					free(command);
-					free(key);
-					ft_lstclear_joins(head);
-					return ;
-				}
-				j++;
+				ft_putstr("syntax error near unexpected token\n", 2);
+				free(command);
+				free(key);
+				ft_lstclear_joins(head);
+				return ;
 			}
 			value = after_equal(command);
 			send_to_stack_env(value, key, env);
 			free(command);
 			free(key);
-			free(value);
+			// free(value);
 			i++;
 		}
 	}

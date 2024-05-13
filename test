@@ -137,3 +137,15 @@ Minishell$ clear
 TERM environment variable not set.
 Minishell$ export _coco=coco
 Minishell$ export 0coco=coco
+
+///
+done
+- export 0coco=coco
+- export $a='$a'
+
+- export a="$a"
+Minishell$ echo $a
+=$a
+exit
+run
+//
