@@ -98,6 +98,7 @@ void    ft_run(t_joins **head, t_env **env)
 	i = 0;
 	command = ft_strdup((*head)->content[0]);
 	PATH = get_path(env);
+	printf("[%s] || [%s]\n", *(*head)->content, command);
 	check_run(PATH, command, head);
 	free(PATH);
 	free(command); 

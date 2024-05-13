@@ -110,7 +110,7 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 			return (content);
 		}
 		cont = handle_type_6(&content, env);
-		node->type = 0;
+		// node->type = 0;
 		return (cont);
 	}
 	if (check_qoutes(content) == 1)

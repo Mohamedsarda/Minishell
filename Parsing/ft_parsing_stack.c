@@ -1,5 +1,19 @@
 #include "../minishell.h"
 
+int	ft_strlen_space(t_words *words)
+{
+	char	**dst;
+
+	dst = ft_split(words->word, ' ');
+	if (!dst)
+		return (0);
+	int i = 0;
+	while (dst[i])
+		i++;
+	free_split(dst);
+	return (i);
+}
+
 int	ft_stack_words(t_words *words)
 {
 	int	i;
@@ -9,6 +23,10 @@ int	ft_stack_words(t_words *words)
 	{
 		if (words->type == 0)
 			i++;
+		if (words->type == 6)
+		{
+			i += ft_strlen_space(words);
+		}
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
 			words = words->next;
