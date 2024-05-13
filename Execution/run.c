@@ -10,12 +10,17 @@ void    run_com(char *com, t_joins **head)
 		}
 		if (p == 0)
 		{
+			printf("out : %d\n",(*head)->out);
+			printf("in : %d\n",(*head)->in);
 			if ((*head)->out != 1)
 				close(1);
-			dup2((*head)->out, STDOUT_FILENO);
+			if ((*head)->in != 0)
+				dup2((*head)->in, STDIN_FILENO);
+			else
+				dup2((*head)->out, STDIN_FILENO);
 			execve(com, (*head)->content, NULL);
 		}
-		else
+		// else
 			wait(NULL);
 }
 

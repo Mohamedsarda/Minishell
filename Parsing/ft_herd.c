@@ -42,7 +42,6 @@ void	ft_herd_while(t_joins *stack_2, t_words **head)
 	char	*str;
 	int		j;
 
-	j = -1;
 	while (1)
 	{
 		str = readline("> ");
@@ -59,6 +58,7 @@ void	ft_herd_while(t_joins *stack_2, t_words **head)
 			free(str);
 			continue ;
 		}
+		j = -1;
 		while (str[++j])
 			write(stack_2->out, &str[j], 1);
 		free(str);
@@ -74,6 +74,7 @@ void	ft_handle_herd(t_joins *stack_2, t_words **head)
 	rl_catch_signals = 0;
 	ft_herd_while(stack_2, head);
 	close(stack_2->out);
+	stack_2->out = 1;
 	stack_2->in = open(".herd_file", O_CREAT | O_RDONLY, 0777);
 }
 
