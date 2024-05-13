@@ -62,6 +62,10 @@ void	check_run(char *PATH, char *command, t_joins **head)
 	}
 	if (p == 0)
 	{
+		if ((*head)->out != 1)
+			dup2((*head)->out, 1);
+		else if ((*head)->in != 0)
+			dup2((*head)->in, 0);
 		execve(command, (*head)->content, environ);
 		tmp = ft_split(PATH, ':');
 		if (tmp == NULL || *tmp == NULL)
