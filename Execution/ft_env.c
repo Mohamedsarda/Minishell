@@ -14,7 +14,7 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		fd = tmp->in;
 	while (env)
 	{
-		if (ft_strlen(env->value) >= 0 && env->equal)
+		if (env->value && env->equal)
 		{
 			ft_putstr(env->key, fd);
 			ft_putstr("=", fd);

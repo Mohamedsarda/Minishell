@@ -106,6 +106,8 @@ void	ft_run_commad(t_joins **head, t_env **env, char *type);
 void    ft_export(t_joins **head, t_env **env);
 //
 void    ft_unset(t_joins **head, t_env **env);
+//
+void ft_exit(t_joins **head, t_env **env);
 //handle_enva_checker.c
 char	*check_env(char *str, t_env *env);
 char	check_key(char c);

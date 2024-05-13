@@ -1,28 +1,28 @@
 #include "../minishell.h"
 
-void    run_com(char *com, t_joins **head)
-{
-		pid_t p = fork();
-		if(p<0)
-		{
-			perror("fork fail");
-			exit(1);
-		}
-		if (p == 0)
-		{
-			printf("out : %d\n",(*head)->out);
-			printf("in : %d\n",(*head)->in);
-			if ((*head)->out != 1)
-				close(1);
-			if ((*head)->in != 0)
-				dup2((*head)->in, STDIN_FILENO);
-			else
-				dup2((*head)->out, STDIN_FILENO);
-			execve(com, (*head)->content, NULL);
-		}
-		// else
-			wait(NULL);
-}
+// void    run_com(char *com, t_joins **head)
+// {
+// 		pid_t p = fork();
+// 		if(p<0)
+// 		{
+// 			perror("fork fail");
+// 			exit(1);
+// 		}
+// 		if (p == 0)
+// 		{
+// 			printf("out : %d\n",(*head)->out);
+// 			printf("in : %d\n",(*head)->in);
+// 			if ((*head)->out != 1)
+// 				close(1);
+// 			if ((*head)->in != 0)
+// 				dup2((*head)->in, STDIN_FILENO);
+// 			else
+// 				dup2((*head)->out, STDIN_FILENO);
+// 			execve(com, (*head)->content, NULL);
+// 		}
+// 		// else
+// 			wait(NULL);
+// }
 
 char    *get_path(t_env **env)
 {
@@ -45,6 +45,43 @@ char    *get_path(t_env **env)
 	}
 	return (PATH);
 }
+// start
+
+void	check_run(char *PATH, char *command, t_joins **head)
+{
+	char    **tmp;
+	int		j;
+	pid_t	p;
+	extern char **environ;
+	j = -1;
+	p = fork();
+	if(p<0)
+	{
+		perror("fork fail");
+		exit(1);
+	}
+	if (p == 0)
+	{
+		execve(command, (*head)->content, environ);
+		tmp = ft_split(PATH, ':');
+		if (tmp == NULL || *tmp == NULL)
+		{
+			ft_putstr("command not found\n", 2);
+			return ;
+		}
+		while (tmp[++j])
+		{
+			tmp[j] = test(tmp[j], "/");
+			tmp[j] = test(tmp[j], command);
+			if(access(tmp[j], X_OK) == 0)
+				execve(tmp[j], (*head)->content, environ);
+		}
+		ft_putstr("Minishell: command not found\n", 2);
+		exit(1);
+	}
+	else
+		wait(NULL);
+}
 
 void    ft_run(t_joins **head, t_env **env)
 {
@@ -52,33 +89,52 @@ void    ft_run(t_joins **head, t_env **env)
 	char    *PATH;
 	int		j;
 	int		i;
-	char    **tmp;
 
 	j = -1;
 	i = 0;
 	command = ft_strdup((*head)->content[0]);
 	PATH = get_path(env);
-	tmp = ft_split(PATH, ':');
-	if (tmp == NULL || *tmp == NULL)
-	{
-		ft_putstr("command not found\n", 2);
-		return ;
-	}
-	while (tmp[++j])
-	{
-		tmp[j] = test(tmp[j], "/");
-		tmp[j] = test(tmp[j], command);
-		if(access(tmp[j], X_OK) == 0)
-		{
-				i++;
-			run_com(tmp[j], head);
-			break;
-		}
-	}
-	if(i == 0)
-		ft_putstr("command not found\n", 2);
-	free_split(tmp);
+	check_run(PATH, command, head);
 	free(PATH);
 	free(command); 
 	ft_lstclear_joins(head);
 }
+//end
+
+
+// void    ft_run(t_joins **head, t_env **env)
+// {
+// 	char    *command;
+// 	char    *PATH;
+// 	int		j;
+// 	int		i;
+// 	char    **tmp;
+
+// 	j = -1;
+// 	i = 0;
+// 	command = ft_strdup((*head)->content[0]);
+// 	PATH = get_path(env);
+// 	tmp = ft_split(PATH, ':');
+// 	if (tmp == NULL || *tmp == NULL)
+// 	{
+// 		ft_putstr("command not found\n", 2);
+// 		return ;
+// 	}
+// 	while (tmp[++j])
+// 	{
+// 		tmp[j] = test(tmp[j], "/");
+// 		tmp[j] = test(tmp[j], command);
+// 		if(access(tmp[j], X_OK) == 0)
+// 		{
+// 				i++;
+// 			run_com(tmp[j], head);
+// 			break;
+// 		}
+// 	}
+// 	if(i == 0)
+// 		ft_putstr("command not found\n", 2);
+// 	free_split(tmp);
+// 	free(PATH);
+// 	free(command); 
+// 	ft_lstclear_joins(head);
+// }
