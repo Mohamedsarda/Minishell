@@ -202,7 +202,7 @@ int	main(int ac, char **ar, char **env)
 	if (ac != 1)
 		return (1);
 	tmp = NULL;
-	// atexit(ft_leaks);
+	atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
