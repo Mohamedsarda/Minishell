@@ -27,10 +27,12 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
 	int			j;
+	int			i;
 	pid_t		p;
 	extern char	**environ;
 
 	j = -1;
+	i = 0;
 	p = fork();
 	if (p < 0)
 	{
@@ -61,8 +63,17 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 				execve(tmp[j], (*head)->content, environ);
 		}
 		//check if the content has /
-		ft_exit_status(env, "1");
-		perror("Minishell$ ");
+		ft_exit_status(env, "127");
+		while(command[i])
+		{
+			if (command[i] == '/')
+			{
+				perror("Minishell$ ");
+				exit(1);
+			}
+			i++;
+		}
+		printf("Minishell$ command not found\n");
 		exit(1);
 	}
 	else
