@@ -149,3 +149,16 @@ Minishell$ echo $a
 exit
 run
 //
+
+
+//
+Minishell$ unset HOME
+Minishell$ cd
+[1]    49238 segmentation fault  ./minishell
+
+//
+export ""  et unset ""
+
+//
+Minishell$ echo <<<<
+[1]    51026 segmentation fault  ./minishell

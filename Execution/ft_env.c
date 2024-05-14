@@ -31,7 +31,7 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		fd = tmp->in;
 	while (env)
 	{
-		if (env->value && env->equal)
+		if (env->value && env->equal && env->print)
 		{
 			ft_putstr(env->key, fd);
 			ft_putstr("=", fd);
@@ -42,6 +42,6 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 	}
 	if (fd != 1)
 		close(fd);
+	ft_exit_status(env_tmp, "0");
 	ft_next_node_joins(stack_2);
 }
-

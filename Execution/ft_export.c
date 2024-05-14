@@ -128,16 +128,19 @@ void	print_sorted_env(t_env **head)
 	i = -1;
 	while (++i < count)
 	{
-		printf("declare -x %s", arr[i]->key);
-		if (arr[i]->equal)
-			printf("=");
-		if (arr[i]->equal && ft_strlen(arr[i]->value) >= 0)
+		if (!arr[i]->print)
 		{
-			printf("\"");
-			printf("%s", arr[i]->value);
-			printf("\"");
+			printf("declare -x %s", arr[i]->key);
+			if (arr[i]->equal)
+				printf("=");
+			if (arr[i]->equal && ft_strlen(arr[i]->value) >= 0)
+			{
+				printf("\"");
+				printf("%s", arr[i]->value);
+				printf("\"");
+			}
+			printf("\n");
 		}
-		printf("\n");
 	}
 	free(arr);
 }
@@ -337,5 +340,6 @@ void    ft_export(t_joins **head, t_env **env)
 			i++;
 		}
 	}
+	// ft_exit_status(env, "0");
 	ft_lstclear_joins(head);
 }

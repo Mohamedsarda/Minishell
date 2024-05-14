@@ -32,15 +32,20 @@ void	ft_cd(t_joins **head, t_env **env)
 	char	*pwd;
 
 	home = ft_get_val_env(tmp, env, "HOME", 0);
+	ft_exit_status(env, "0");
 	tmp = (*head)->content[1];
 	if (!tmp)
 		tmp = home;
 	if (chdir(tmp) != 0)
+	{
+		ft_exit_status(env, "1");
 		perror("Minishell$ ");
+	}
 	pwd = ft_get_val_env(tmp, env, "PWD", 1);
 	if (access(pwd, F_OK) == -1)
 	{
 		pwd = ft_get_val_env(tmp, env, "PWD", 2);
+		ft_exit_status(env, "1");
 		perror("Minishell$ ");
 	}
 	ft_lstclear_joins(head);
