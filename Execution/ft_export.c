@@ -128,7 +128,7 @@ void	print_sorted_env(t_env **head)
 	i = -1;
 	while (++i < count)
 	{
-		if (!arr[i]->print)
+		if (arr[i]->print)
 		{
 			printf("declare -x %s", arr[i]->key);
 			if (arr[i]->equal)
@@ -317,7 +317,9 @@ void    ft_export(t_joins **head, t_env **env)
 	key = NULL;
 	value = NULL;
 	i = 1;
-	if (!(*head)->content[i])
+	if(ft_strlen((*head)->content[i]) == 0)
+		printf("export: `': not a valid identifier\n");
+	else if (!(*head)->content[i])
 		print_sorted_env(env);
 	else
 	{

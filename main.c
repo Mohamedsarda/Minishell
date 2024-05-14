@@ -234,14 +234,7 @@ int	main(int ac, char **ar, char **env)
 		free(str_sp);
 		if (!hundle_error(words))
 		{
-			t_words *the_tmp = words;
-			while (the_tmp)
-			{
-				if (the_tmp->type == 2)
-					break ;
-				the_tmp = the_tmp->next;
-			}
-			printf("Minishell : syntax error near unexpected token `%s' \n", the_tmp->word);
+			printf("Minishell : syntax error near unexpected token\n");
 			ft_lstclear(&words);
 			continue ;
 		}
