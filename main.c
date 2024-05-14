@@ -202,7 +202,7 @@ int	main(int ac, char **ar, char **env)
 	if (ac != 1)
 		return (1);
 	tmp = NULL;
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
@@ -234,7 +234,14 @@ int	main(int ac, char **ar, char **env)
 		free(str_sp);
 		if (!hundle_error(words))
 		{
-			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
+			t_words *the_tmp = words;
+			while (the_tmp)
+			{
+				if (the_tmp->type == 2)
+					break ;
+				the_tmp = the_tmp->next;
+			}
+			printf("Minishell : syntax error near unexpected token `%s' \n", the_tmp->word);
 			ft_lstclear(&words);
 			continue ;
 		}

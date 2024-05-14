@@ -18,7 +18,7 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 		head->equal = 0;
 	head->key = ft_strdup(val_1);
 	head->value = ft_strdup(t);
-	head->size = 0;
+	head->print = 1;
 	head->next = NULL;
 	return (head);
 }
@@ -95,6 +95,11 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 		free(key);
 		ft_lstadd_back_env(&head, node);
 	}
+	node = ft_lstnew_env("?", "=0");
+	if (!node)
+		return (NULL);
+	node->print = 0;
+	ft_lstadd_back_env(&head, node);
 	i = -1;
 	while (tmp && env[++i])
 		free(env[i]);

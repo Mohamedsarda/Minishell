@@ -36,7 +36,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	int				size;
+	int				print;
 	int				equal;
 	struct s_env	*next;
 }	t_env;
@@ -143,4 +143,6 @@ void	ft_after_pipe(t_joins **head, t_env **env);
 
 void    ft_run(t_joins **head, t_env **env);
 void	env_equal(t_env **env);
+//
+void    ft_exit_status(t_env **env, char *status);
 #endif
