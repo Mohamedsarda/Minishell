@@ -162,3 +162,17 @@ export ""  et unset ""
 //
 Minishell$ echo <<<<
 [1]    51026 segmentation fault  ./minishell
+
+
+//
+
+Minishell$ export var=a
+Minishell$ export $var=test
+Minishell$ echo $var $a
+a test
+Minishell$ 
+
+3 (48 bytes) << TOTAL >>
+      1 (16 bytes) ROOT LEAK: 0x7fb591506180 [16]
+      1 (16 bytes) ROOT LEAK: 0x7fb5915061b0 [16]
+      1 (16 bytes) ROOT LEAK: 0x7fb5928041a0 [16]
