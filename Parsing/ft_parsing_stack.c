@@ -1,5 +1,19 @@
 #include "../minishell.h"
 
+int	ft_strlen_space(t_words *words)
+{
+	char	**dst;
+
+	dst = ft_split(words->word, ' ');
+	if (!dst)
+		return (0);
+	int i = 0;
+	while (dst[i])
+		i++;
+	free_split(dst);
+	return (i);
+}
+
 int	ft_stack_words(t_words *words)
 {
 	int	i;
@@ -9,6 +23,10 @@ int	ft_stack_words(t_words *words)
 	{
 		if (words->type == 0)
 			i++;
+		if (words->type == 6)
+		{
+			i += ft_strlen_space(words);
+		}
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
 			words = words->next;
@@ -73,7 +91,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	return (dst[i] = NULL, dst);
 }
 
-t_joins	*ft_parse_stack(t_words **words, t_env *env)
+t_joins	*ft_parse_stack(t_words **words, t_env **env)
 {
 	t_joins	*stack_2;
 	t_joins	*new;
@@ -81,12 +99,16 @@ t_joins	*ft_parse_stack(t_words **words, t_env *env)
 	int		i;
 
 	stack_2 = ft_lstnew_joins(words);
+	stack_2->content = ft_create_list(stack_2, words);
+	if (stack_2->in == -1 || stack_2->out == -1)
+		ft_next_node_joins(&stack_2);
 	while ((*words))
 	{
 		if ((*words)->type == PIPE)
 		{
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
+			new->content = ft_create_list(stack_2, words);
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
@@ -100,20 +122,6 @@ t_joins	*ft_parse_stack(t_words **words, t_env *env)
 		if (tmp)
 			return (stack_2);
 		tmp = tmp->next;
-	}
-	t_joins *b = stack_2;
-	while (b)
-	{
-		int i = 0;
-		while (b->content[i])
-		{
-			printf("{%s}\n", b->content[i]);
-			i++;
-		}
-		printf("in : {%d}\n", b->in);
-		printf("out : {%d}", b->out);
-		puts("\n|\n");
-		b = b->next;
 	}
 	return (stack_2);
 }

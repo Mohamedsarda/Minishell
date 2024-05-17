@@ -38,3 +38,141 @@ skbash-3.2$ echo $HOME
 
 |d
 echo -nMnnnn -n h
+echo "$'cdhs"$"USER
+ echo "$'cdhs"
+
+
+
+
+
+ -----
+
+
+ Minishell$ echo "'cdhs"
+'cdhs
+Minishell$ echo "$'cdhs" // done
+'cdhs
+Minishell$ echo "$"cdhs"
+Minishell : unexpected EOF while looking for matching `"'
+Minishell$ echo "$"cdhs""
+$cdhs
+Minishell$ echo "$'cdhs"
+'cdhs
+Minishell$ echo "$'cdhs"$"USER"
+'cdhs$USER
+Minishell$ echo cda
+cda
+Minishell$ echo $USER$PATH'$PATH'UYS
+msarda/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/msarda/.brew/bin$PATHUYS
+Minishell$ echo $""HOME
+$HOME
+Minishell$ echo $''HOME
+''HOME
+Minishell$ echo ''$HOME // done
+Minishell$ echo -$nnn
+-
+Minishell$ echo "'$'"
+''
+Minishell$ echo "'$HOME'"
+'/Users/msarda'
+Minishell$ echo '$HOME'
+$HOME
+Minishell$ echo '"$HOME"'
+"$HOME"
+Minishell$ echo ''$HOME
+''/Users/msarda
+Minishell$ echo $HOME''
+/Users/msarda''
+Minishell$ echo ""$HOME
+/Users/msarda
+Minishell$ echo $HOME""
+/Users/msarda
+Minishell$ echo $HOM''E
+''E
+Minishell$ echo $HOM-E
+-E
+Minishell$ echo $HOM√E
+xf�
+Minishell$ echo $HOME√
+/Users/msard�xf
+Minishell$ echo $√
+xf
+Minishell$ echo $g√
+xf
+Minishell$ echo ----
+----
+Minishell$ echo "-nnnn "
+-nnnn 
+Minishell$ echo  "   -nnnn"
+   -nnnn
+Minishell$ echo  "-nnnn"
+Minishell$ echo  "-nnnn" "    "
+    Minishell$ echo  "-nnnn" ""
+Minishell$ echo  ""
+
+Minishell$ echo "-nn-"
+Minishell$ echo -n $g $g $g $HOME
+----
+
+Minishell$ export $a='$a'
+Minishell$ echo $a
+
+Minishell$ echo $a
+Minishell$ export a='$a'
+Minishell$ echo $a
+$a
+Minishell$ export a="$a"
+Minishell$ echo $a
+=$a
+Minishell$ echo $a
+=$a
+Minishell$ echo $a
+=$a
+Minishell$ export a="coco"
+Minishell$ echo $a
+=coco
+Minishell$ clear
+TERM environment variable not set.
+Minishell$ clear
+TERM environment variable not set.
+Minishell$ export _coco=coco
+Minishell$ export 0coco=coco
+
+///
+done
+- export 0coco=coco
+- export $a='$a'
+
+- export a="$a"
+Minishell$ echo $a
+=$a
+exit
+run
+//
+
+
+//
+Minishell$ unset HOME
+Minishell$ cd
+[1]    49238 segmentation fault  ./minishell
+
+//
+export ""  et unset ""
+
+//
+Minishell$ echo <<<<
+[1]    51026 segmentation fault  ./minishell
+
+
+//
+
+Minishell$ export var=a
+Minishell$ export $var=test
+Minishell$ echo $var $a
+a test
+Minishell$ 
+
+3 (48 bytes) << TOTAL >>
+      1 (16 bytes) ROOT LEAK: 0x7fb591506180 [16]
+      1 (16 bytes) ROOT LEAK: 0x7fb5915061b0 [16]
+      1 (16 bytes) ROOT LEAK: 0x7fb5928041a0 [16]

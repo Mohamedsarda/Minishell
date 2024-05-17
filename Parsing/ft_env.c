@@ -3,14 +3,22 @@
 t_env	*ft_lstnew_env(char *val_1, char *val_2)
 {
 	t_env	*head;
-
+	char	*t = val_2;
 	head = (t_env *)malloc(sizeof(t_env));
 	if (!head)
 		return (NULL);
-	if (*val_2 == '=')
-		val_2++;
+	if(!t)
+		head->equal = 0;
+	else if (*t == '=')
+	{
+		t++;
+		head->equal = 1;
+	}
+	else
+		head->equal = 0;
 	head->key = ft_strdup(val_1);
-	head->value = ft_strdup(val_2);
+	head->value = ft_strdup(t);
+	head->print = 1;
 	head->next = NULL;
 	return (head);
 }
@@ -52,6 +60,7 @@ char	**ft_empty_env(char **env, int *tmp)
 
 	j = 0;
 	(*tmp) = 1;
+	puts("------");
 	env = (char **)malloc(5 * sizeof(char *));
 	if (!env)
 		return (NULL);
@@ -86,6 +95,11 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 		free(key);
 		ft_lstadd_back_env(&head, node);
 	}
+	node = ft_lstnew_env("?", "=0");
+	if (!node)
+		return (NULL);
+	node->print = 0;
+	ft_lstadd_back_env(&head, node);
 	i = -1;
 	while (tmp && env[++i])
 		free(env[i]);

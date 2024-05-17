@@ -44,20 +44,34 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 {
 	t_words	*new_node;
 	char	*str;
+	char	*test;
 
 	str = NULL;
 	(void)env_stack;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
 	new_node->type = ft_check_type(content);
-	//done
-	str = handle_env(new_node, content, env_stack);
-	new_node->word = malloc(ft_strlen(str) + 1);
-	if (!new_node || !new_node->word)
-		return (NULL);
-	ft_memcpy(new_node->word, str, ft_strlen(str));
-	if (ft_strcmp(str, content) != 0)
-		free(str);
-	new_node->next = NULL;
+	// new_node->is = 1;
+	if(ft_strcmp(content, "\"\"") == 0)
+	{
+		test = ft_strdup(content);
+		new_node->word = malloc(ft_strlen(test) + 1);
+		if (!new_node || !new_node->word)
+			return (NULL);
+		ft_memcpy(new_node->word, test, ft_strlen(test));
+		free(test);
+		new_node->next = NULL;
+	}
+	else 
+	{
+		str = handle_env(new_node, content, env_stack);
+		new_node->word = malloc(ft_strlen(str) + 1);
+		if (!new_node || !new_node->word)
+			return (NULL);
+		ft_memcpy(new_node->word, str, ft_strlen(str));
+		if (ft_strcmp(str, content) != 0)
+			free(str);
+		new_node->next = NULL;
+	}
 	return (new_node);
 }

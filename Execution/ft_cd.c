@@ -1,11 +1,52 @@
 #include "../minishell.h"
 
-void	ft_cd(t_joins **head)
+char	*ft_get_val_env(char *tmp, t_env **env, char *key, int is)
 {
-	t_joins	*tmp;
+	t_env	*env_head;
+	char	buffer[1024];
 
-	tmp = (*head)->next;
-	if (chdir((*head)->content[1]) != 0)
+	env_head = (*env);
+	(void)is;
+	(void)tmp;
+	while (env_head)
+	{
+		if (ft_strcmp(env_head->key, key) == 0)
+			break ;
+		env_head = env_head->next;
+	}
+	if (is == 1)
+	{
+
+		getcwd(buffer, sizeof(buffer));
+		free(env_head->value);
+		env_head->value = NULL;
+		env_head->value = ft_strdup(buffer);
+	}
+	return (env_head->value);
+}
+
+void	ft_cd(t_joins **head, t_env **env)
+{
+	char	*tmp = NULL;
+	char	*home;
+	char	*pwd;
+
+	home = ft_get_val_env(tmp, env, "HOME", 0);
+	ft_exit_status(env, "0");
+	tmp = (*head)->content[1];
+	if (!tmp)
+		tmp = home;
+	if (chdir(tmp) != 0)
+	{
+		ft_exit_status(env, "1");
 		perror("Minishell$ ");
+	}
+	pwd = ft_get_val_env(tmp, env, "PWD", 1);
+	if (access(pwd, F_OK) == -1)
+	{
+		pwd = ft_get_val_env(tmp, env, "PWD", 2);
+		ft_exit_status(env, "1");
+		perror("Minishell$ ");
+	}
 	ft_lstclear_joins(head);
 }
