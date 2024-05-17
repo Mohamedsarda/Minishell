@@ -63,8 +63,11 @@ void	ft_herd_while(t_joins *stack_2, t_words **head)
 			free(str);
 			g_herd = 0;
 		}
-		if (!str || ft_strcmp((*head)->word, str) == 0)
+		if (!str || ft_strcmp((*head)->word, str) == 0 || ft_strcmp("", str) == 0)
+		{
+			free(str);
 			break ;
+		}
 		if (!str[0])
 		{
 			free(str);
