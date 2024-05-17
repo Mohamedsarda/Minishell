@@ -24,6 +24,8 @@ char	*add_sing_qou(char *str)
 	i = 0;
 	j = 0;
 	cont = malloc(ft_strlen(str) + 3);
+	if (!cont)
+		return (NULL);
 	cont[j++] = '\'';
 	while (str[i])
 	{

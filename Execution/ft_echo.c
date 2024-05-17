@@ -18,12 +18,15 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 
 void	ft_putstr_n(char *str, int fd)
 {
+	int	i;
+
+	i = 0;
 	if (!str)
 		return ;
-	while (*str)
+	while (str[i])
 	{
-		write(fd, str, 1);
-		str++;
+		write(fd, &str[i], 1);
+		i++;
 	}
 }
 
@@ -73,17 +76,17 @@ void	ft_print_echo(char **str, int fd, int *i)
 	}
 }
 
-void	ft_echo(t_joins **head, t_env *env)
+void	ft_echo(t_joins **head)
 {
 	t_joins	*tmp;
 	int		i;
 	int		j;
 
 	tmp = (*head);
-	(void)env;
 	i = 1;
 	if (!tmp->content[i])
 	{
+		ft_next_node_joins(head);
 		write(tmp->out, "\n", 1);
 		return ;
 	}
@@ -105,7 +108,7 @@ void	ft_echo(t_joins **head, t_env *env)
 
 #include <sys/wait.h>
 
-void	ft_after_pipe(t_joins **head, t_env *env)
+void	ft_after_pipe(t_joins **head, t_env **env)
 {
 	pid_t pid;
 

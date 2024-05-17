@@ -36,6 +36,8 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	int				print;
+	int				equal;
 	struct s_env	*next;
 }	t_env;
 
@@ -55,7 +57,7 @@ int		ft_strcmp(char *s1, char *s2);
 //
 void	ft_lstclear(t_words **lst);
 void	ft_lstdelone(t_words *lst);
-t_joins	*ft_parse_stack(t_words **words, t_env *env);
+t_joins	*ft_parse_stack(t_words **words, t_env **env);
 char	*ft_strjoin(char *s1, char *s2);
 //env
 t_env	*ft_create_env_stack(char **env, int tmp);
@@ -91,17 +93,21 @@ void	multiple(char **str, int is);
 int		quotes(char *str);
 char	*ft_rm_quotes(char *string, char c);
 //
-void	ft_echo(t_joins **head, t_env *env);
+void	ft_echo(t_joins **head);
 void	ft_pwd(t_joins	**stack_2);
 void	ft_next_node_joins(t_joins **head);
 //
-void	ft_env(t_env *env, t_joins **stack_2);
+void	ft_env(t_env **env, t_joins **stack_2);
 //
-void	ft_cd(t_joins **head);
+void	ft_cd(t_joins **head, t_env **env);
 //
-void	ft_run_commad(t_joins **head, t_env *env, char *type);
+void	ft_run_commad(t_joins **head, t_env **env, char *type);
 //
-void    ft_export(t_joins **head, t_env *env);
+void    ft_export(t_joins **head, t_env **env);
+//
+void    ft_unset(t_joins **head, t_env **env);
+//
+void ft_exit(t_joins **head, t_env **env);
 //handle_enva_checker.c
 char	*check_env(char *str, t_env *env);
 char	check_key(char c);
@@ -133,7 +139,10 @@ char	*add_one(char *s1, char s2);
 int		ft_strlen_c(const char *str, char c);
 void	multiple2(char **str);
 //end parsi.c
-void	ft_after_pipe(t_joins **head, t_env *env);
+void	ft_after_pipe(t_joins **head, t_env **env);
 
-void    ft_run(t_joins **head, t_env *env);
+void    ft_run(t_joins **head, t_env **env);
+void	env_equal(t_env **env);
+//
+void    ft_exit_status(t_env **env, char *status);
 #endif
