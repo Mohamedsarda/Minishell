@@ -55,6 +55,8 @@ char	*ft_parsing(char *str)
 	s = str;
 	a = 0;
 	str_sp = malloc(ft_strlen_str_sp(str) + 1);
+	if (!str_sp)
+		return (NULL);
 	t = str_sp;
 	while (str && *str)
 	{

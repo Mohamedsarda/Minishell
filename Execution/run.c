@@ -1,77 +1,99 @@
 #include "../minishell.h"
 
-void    run_com(char *com, t_joins **head)
+char	*get_path(t_env **env)
 {
-		pid_t p = fork();
-		if(p<0)
-		{
-			perror("fork fail");
-			exit(1);
-		}
-		if (p == 0)
-		{
-			if ((*head)->out != 1)
-				close(1);
-			dup2((*head)->out, STDOUT_FILENO);
-			execve(com, (*head)->content, NULL);
-		}
-		else
-			wait(NULL);
-}
+	char	*path;
+	t_env	*env_tmp;
 
-char    *get_path(t_env *env)
-{
-	char *PATH;
-	
-	PATH = NULL;
-	while(env)
+	path = NULL;
+	env_tmp = (*env);
+	while (env_tmp)
 	{
-		if(ft_strcmp(env->key, "PATH") == 0)
+		if (ft_strcmp(env_tmp->key, "PATH") == 0)
 		{
-			if (!env->value[0] || !env->value)
-				PATH = ft_strdup(NULL);
+			if (!env_tmp->value[0] || !env_tmp->value)
+				path = ft_strdup(NULL);
 			else
-				PATH = ft_strdup(env->value);
-			break;
+				path = ft_strdup(env_tmp->value);
+			break ;
 		}
-		env = env->next;
+		env_tmp = env_tmp->next;
 	}
-	return (PATH);
+	return (path);
 }
+// start
 
-void    ft_run(t_joins **head, t_env *env)
+void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 {
-	char    *command;
-	char    *PATH;
-	int		j;
-	int		i;
-	char    **tmp;
+	char		**tmp;
+	int			j;
+	int			i;
+	pid_t		p;
+	extern char	**environ;
 
 	j = -1;
 	i = 0;
-	command = ft_strdup((*head)->content[0]);
-	PATH = get_path(env);
-	tmp = ft_split(PATH, ':');
-	if (tmp == NULL || *tmp == NULL)
+	p = fork();
+	if (p < 0)
 	{
-		ft_putstr("command not found\n", 2);
-		return ;
+		ft_exit_status(env, "1");
+		perror("fork fail");
+		exit(1);
 	}
-	while (tmp[++j])
+	if (p == 0)
 	{
-		tmp[j] = test(tmp[j], "/");
-		tmp[j] = test(tmp[j], command);
-		if(access(tmp[j], X_OK) == 0)
+		if ((*head)->out != 1)
+			dup2((*head)->out, 1);
+		else if ((*head)->in != 0)
+			dup2((*head)->in, 0);
+		execve(command, (*head)->content, environ);
+		tmp = ft_split(PATH, ':');
+		if (tmp == NULL || *tmp == NULL)
 		{
-				i++;
-			run_com(tmp[j], head);
-			break;
+			ft_exit_status(env, "1");
+			//check if the content has /
+			perror("Minishell$ ");
+			return ;
 		}
+		while (tmp[++j])
+		{
+			tmp[j] = test(tmp[j], "/");
+			tmp[j] = test(tmp[j], command);
+			if (access(tmp[j], X_OK) == 0)
+				execve(tmp[j], (*head)->content, environ);
+		}
+		//check if the content has /
+		ft_exit_status(env, "127");
+		while(command[i])
+		{
+			if (command[i] == '/')
+			{
+				perror("Minishell$ ");
+				exit(1);
+			}
+			i++;
+		}
+		printf("Minishell$ command not found\n");
+		exit(1);
 	}
-	if(i == 0)
-		ft_putstr("command not found\n", 2);
-	free_split(tmp);
-	free(PATH);
-	free(command); 
+	else
+		wait(NULL);
+}
+
+void	ft_run(t_joins **head, t_env **env)
+{
+	char	*command;
+	char	*path;
+	int		j;
+	int		i;
+
+	j = -1;
+	i = 0;
+	// ft_exit_status(env, "0");
+	command = ft_strdup((*head)->content[0]);
+	path = get_path(env);
+	check_run(path, command, head, env);
+	free(path);
+	free(command);
 	ft_lstclear_joins(head);
 }
