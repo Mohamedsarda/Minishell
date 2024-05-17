@@ -16,6 +16,18 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {
 	if ((*head)->type == WORD)
 		dst[(*i)++] = ft_strdup((*head)->word);
+	else if ((*head)->type == 6)
+	{
+		char	**str;
+
+		str = ft_split((*head)->word, ' ');
+		if (!str)
+			return ;
+		int j = 0;
+		while (str[j])
+			dst[(*i)++] = str[j++];
+		// free_split(str);
+	}
 	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);
@@ -42,7 +54,6 @@ void	ft_herd_while(t_joins *stack_2, t_words **head)
 	char	*str;
 	int		j;
 
-	j = -1;
 	while (1)
 	{
 		str = readline("> ");
@@ -52,13 +63,17 @@ void	ft_herd_while(t_joins *stack_2, t_words **head)
 			free(str);
 			g_herd = 0;
 		}
-		if (!str || ft_strcmp((*head)->word, str) == 0)
+		if (!str || ft_strcmp((*head)->word, str) == 0 || ft_strcmp("", str) == 0)
+		{
+			free(str);
 			break ;
+		}
 		if (!str[0])
 		{
 			free(str);
 			continue ;
 		}
+		j = -1;
 		while (str[++j])
 			write(stack_2->out, &str[j], 1);
 		free(str);
@@ -74,6 +89,7 @@ void	ft_handle_herd(t_joins *stack_2, t_words **head)
 	rl_catch_signals = 0;
 	ft_herd_while(stack_2, head);
 	close(stack_2->out);
+	stack_2->out = 1;
 	stack_2->in = open(".herd_file", O_CREAT | O_RDONLY, 0777);
 }
 

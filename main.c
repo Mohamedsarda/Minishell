@@ -165,25 +165,24 @@ char *ft_rm_quotes(char *string, char c)
 
 char	*back_to_string(char	*string)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (string[i])
 	{
 		if (string[i] == '\'')
 		{
 			multiple(&string, 0);
-			// string = ft_rm_quotes(string, '\'');
 			return (string);
 		}
 		else if (string[i] == '\"')
 		{
 			multiple(&string, 0);
-			// string = ft_rm_quotes(string, '\"');
 			return (string);
 		}
 		i++;
 	}
-	return string;
+	return (string);
 }
 
 void	ft_leaks(void)
@@ -203,7 +202,7 @@ int	main(int ac, char **ar, char **env)
 	if (ac != 1)
 		return (1);
 	tmp = NULL;
-	atexit(ft_leaks);
+	// atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
 	rl_catch_signals = 0;
@@ -235,13 +234,13 @@ int	main(int ac, char **ar, char **env)
 		free(str_sp);
 		if (!hundle_error(words))
 		{
-			ft_putstr("Minishell : syntax error near unexpected token `newline' \n", 2);
+			printf("Minishell : syntax error near unexpected token\n");
 			ft_lstclear(&words);
 			continue ;
 		}
-		tmp = ft_parse_stack(&words, env_stack);
+		tmp = ft_parse_stack(&words, &env_stack);
+		ft_lstclear_joins(&tmp);
 	}
-	ft_lstclear_joins(&tmp);
 	ft_lstclear_env(&env_stack);
 	rl_clear_history();
 	return (0);

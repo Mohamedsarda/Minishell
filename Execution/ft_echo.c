@@ -18,12 +18,15 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 
 void	ft_putstr_n(char *str, int fd)
 {
+	int	i;
+
+	i = 0;
 	if (!str)
 		return ;
-	while (*str)
+	while (str[i])
 	{
-		write(fd, str, 1);
-		str++;
+		write(fd, &str[i], 1);
+		i++;
 	}
 }
 
@@ -45,10 +48,10 @@ static int	ft_check_after_echo(char *str)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
-		if (str[i] != '-' && str[i] != 'n')
+		if (str[i] != 'n')
 			return (0);
 		i++;
 	}
@@ -60,7 +63,8 @@ void	ft_print_echo(char **str, int fd, int *i)
 	int	j;
 
 	j = 1;
-	while (str[j] && ft_check_after_echo(str[j]) != 0 && ft_strncmp(str[j], "-n", 2) == 0)
+	while (str[j] && ft_strncmp(str[j], "-n", 2) == 0
+		&& ft_check_after_echo(str[j]) != 0)
 		j++;
 	(*i) = j;
 	while (str[(*i)])
@@ -72,7 +76,7 @@ void	ft_print_echo(char **str, int fd, int *i)
 	}
 }
 
-void	ft_echo(t_joins **head, t_env *env)
+void	ft_echo(t_joins **head)
 {
 	t_joins	*tmp;
 	int		i;
@@ -82,11 +86,13 @@ void	ft_echo(t_joins **head, t_env *env)
 	i = 1;
 	if (!tmp->content[i])
 	{
+		ft_next_node_joins(head);
 		write(tmp->out, "\n", 1);
 		return ;
 	}
 	j = 1;
-	if (ft_strncmp(tmp->content[j], "-n", 2) == 0 && ft_check_after_echo(tmp->content[j]))
+	if (ft_strncmp(tmp->content[j], "-n", 2) == 0
+		&& ft_check_after_echo(tmp->content[j]))
 	{
 		i++;
 		ft_print_echo(tmp->content, tmp->out, &i);
@@ -97,6 +103,23 @@ void	ft_echo(t_joins **head, t_env *env)
 		write(tmp->out, "\n", 1);
 	}
 	ft_next_node_joins(head);
+}
+
+
+#include <sys/wait.h>
+
+void	ft_after_pipe(t_joins **head, t_env **env)
+{
+	pid_t pid;
+
 	if ((*head))
-		ft_run_commad(head, env, (*head)->content[0]);
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			ft_run_commad(head, env, (*head)->content[0]);
+			exit(0);
+		}
+		wait(NULL);
+	}
 }
