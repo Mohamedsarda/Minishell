@@ -317,14 +317,19 @@ void    ft_export(t_joins **head, t_env **env)
 	key = NULL;
 	value = NULL;
 	i = 1;
-	if(ft_strlen((*head)->content[i]) == 0)
-		printf("export: `': not a valid identifier\n");
-	else if (!(*head)->content[i])
+
+	if (!(*head)->content[i])
 		print_sorted_env(env);
 	else
 	{
 		while ((*head)->content[i])
 		{
+			if(ft_strcmp((*head)->content[i], "\"\"") == 0)
+			{
+				printf("export: `': not a valid identifier\n");
+				ft_lstclear_joins(head);
+				return ;
+			}
 			command = ft_strdup((*head)->content[i]);
 			key = befor_equal(command);
 			if (check_key_env(key) == 1)

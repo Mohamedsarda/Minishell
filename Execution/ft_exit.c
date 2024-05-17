@@ -26,6 +26,6 @@ void	ft_exit_status(t_env **env, char *status)
 	free(tmp->value);
 	tmp->value = NULL;
 	tmp->value = ft_strdup(status);
-	printf("%s:%s\n", tmp->key, tmp->value);
-	puts("++++++");
+	// printf("%s:%s\n", tmp->key, tmp->value);
+	// puts("++++++");
 }
