@@ -24,18 +24,30 @@ void    ft_unset(t_joins **head, t_env **env)
 	while ((*head)->content[i])
 	{
 		tmp = (*env);
-		while (tmp && ft_search_key(env, (*head)->content[i]))
+		if(ft_strcmp((*head)->content[i], tmp->key) == 0)
 		{
-			cur = tmp->next;
-			if (ft_strcmp((*head)->content[i], cur->key) == 0)
-			{
-				tmp->next = cur->next;
-				free(cur->key);
-				free(cur->value);
-				free(cur);
-				break ;
-			}
+			cur = tmp;
 			tmp = tmp->next;
+			(*env) = (*env)->next;
+			free(cur->key);
+			free(cur->value);
+			free(cur);
+		}
+		else
+		{
+			while (tmp && ft_search_key(env, (*head)->content[i]))
+			{
+				cur = tmp->next;
+				if (ft_strcmp((*head)->content[i], cur->key) == 0)
+				{
+					tmp->next = cur->next;
+					free(cur->key);
+					free(cur->value);
+					free(cur);
+					break ;
+				}
+				tmp = tmp->next;
+			}
 		}
 		i++;
 	}
