@@ -31,16 +31,42 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 		ft_next_node(head);
 		stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
 	}
-	else if ((*head)->type == HERD)
-		ft_handle_herd(stack_2, head);
 	else if ((*head)->type == 7)
 		ft_next_node(head);
 }
 
-void	ft_herd_while(t_joins *stack_2, t_words **head)
+char	*ft_env_eq(t_env **env, char *key)
+{
+	t_env	*head;
+
+	head = (*env);
+	if (*key && key[0] == '$')
+	{
+		while (head)
+		{
+			if (ft_strcmp(head->key, key + 1) == 0)
+				return (head->value);
+			head = head->next;
+		}
+	}
+	return (key);
+}
+
+void	ft_print_free(char *str, int fd)
+{
+	int	j;
+
+	j = -1;
+	while (str[++j])
+		write(fd, &str[j], 1);
+	free(str);
+	write(fd, "\n", 1);
+}
+
+void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 {
 	char	*str;
-	int		j;
+	char	*tmp;
 
 	while (1)
 	{
@@ -61,21 +87,25 @@ void	ft_herd_while(t_joins *stack_2, t_words **head)
 			free(str);
 			continue ;
 		}
-		j = -1;
-		while (str[++j])
-			write(stack_2->out, &str[j], 1);
-		free(str);
-		write(stack_2->out, "\n", 1);
-	}
+		if (!(*head)->is)
+		{
+			tmp = ft_strdup(ft_env_eq(env, str));
+			free(str);
+			ft_print_free(tmp, stack_2->out);
+		}
+		else
+			ft_print_free(str, stack_2->out);
+
+		}
 }
 
-void	ft_handle_herd(t_joins *stack_2, t_words **head)
+void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 {
 	ft_next_node(head);
 	stack_2->out = open(".herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	signal(SIGINT, ft_herd_sig);
 	rl_catch_signals = 0;
-	ft_herd_while(stack_2, head);
+	ft_herd_while(stack_2, head, env);
 	close(stack_2->out);
 	stack_2->out = 1;
 	stack_2->in = open(".herd_file", O_CREAT | O_RDONLY, 0777);

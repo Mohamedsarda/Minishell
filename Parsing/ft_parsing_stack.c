@@ -57,7 +57,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (dst);
 }
 
-char	**ft_create_list(t_joins *stack_2, t_words **head)
+char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 {
 	char	**dst;
 	char	*err;
@@ -72,7 +72,12 @@ char	**ft_create_list(t_joins *stack_2, t_words **head)
 	while ((*head) && (*head)->type != PIPE)
 	{
 		if (i <= words)
-			ft_check_word_type(stack_2, head, &i, dst);
+		{
+			if ((*head)->type == HERD)
+				ft_handle_herd(stack_2, head, env);
+			else
+				ft_check_word_type(stack_2, head, &i, dst);
+		}
 		if (stack_2->in == -1 || stack_2->out == -1)
 		{
 			err = ft_strjoin("Minishell$ : ", (*head)->word);
@@ -95,7 +100,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	int		i;
 
 	stack_2 = ft_lstnew_joins(words);
-	stack_2->content = ft_create_list(stack_2, words);
+	stack_2->content = ft_create_list(stack_2, words, env);
 	if (stack_2->in == -1 || stack_2->out == -1)
 		ft_next_node_joins(&stack_2);
 	while ((*words))
@@ -104,7 +109,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		{
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
-			new->content = ft_create_list(stack_2, words);
+			new->content = ft_create_list(stack_2, words, env);
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
