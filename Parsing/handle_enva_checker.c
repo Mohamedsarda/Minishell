@@ -39,29 +39,43 @@ char	*add_sing_qou(char *str)
 	return (cont);
 }
 
+// char	*check_env(char *str, t_env *env)
+// {
+// 	int		i;
+// 	char	*cont;
+
+// 	i = 0;
+// 	while (env)
+// 	{
+// 		if (!ft_strcmp(str, env->key))
+// 		{
+// 			while (env->value[i])
+// 			{
+// 				if (env->value[i] == '\"')
+// 				{
+// 					cont = conv_str_ne(env->value, ft_strlen(env->value));
+// 					conv_all_pos(&cont);
+// 					cont = add_sing_qou(cont);
+// 					return (cont);
+// 				}
+// 				i++;
+// 			}
+// 			return (env->value);
+// 		}
+// 		env = env->next;
+// 	}
+// 	return ("\0");
+// }
+
 char	*check_env(char *str, t_env *env)
 {
 	int		i;
-	char	*cont;
 
 	i = 0;
 	while (env)
 	{
 		if (!ft_strcmp(str, env->key))
-		{
-			while (env->value[i])
-			{
-				if (env->value[i] == '\"')
-				{
-					cont = conv_str_ne(env->value, ft_strlen(env->value));
-					conv_all_pos(&cont);
-					cont = add_sing_qou(cont);
-					return (cont);
-				}
-				i++;
-			}
 			return (env->value);
-		}
 		env = env->next;
 	}
 	return ("\0");

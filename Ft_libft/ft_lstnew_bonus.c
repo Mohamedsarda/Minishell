@@ -47,10 +47,14 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 	char	*test;
 
 	str = NULL;
-	(void)env_stack;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
 	new_node->type = ft_check_type(content);
+	if((content[0] == '\'' || content[0] == '\"') &&
+		(content[ft_strlen(content) - 1] == '\'' || content[ft_strlen(content) - 1] == '\"'))
+		new_node->is = 1;
+	else
+		new_node->is = 0;
 	if (ft_strcmp(content, "\"\"") == 0 || ft_strcmp(content, "\'\'") == 0)
 	{
 		test = ft_strdup(content);
@@ -68,8 +72,7 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 		if (!new_node || !new_node->word)
 			return (NULL);
 		ft_memcpy(new_node->word, str, ft_strlen(str));
-		if (ft_strcmp(str, content) != 0)
-			free(str);
+		free(str);
 		new_node->next = NULL;
 	}
 	return (new_node);
