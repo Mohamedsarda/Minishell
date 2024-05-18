@@ -165,14 +165,9 @@ Minishell$ echo <<<<
 
 
 //
-
-Minishell$ export var=a
-Minishell$ export $var=test
-Minishell$ echo $var $a
-a test
+Minishell$ export a="$PWD"
+Minishell$ $a
+/Users/msarda/Desktop/prjs/Minishell
+Minishell$ echo $a
+PWD
 Minishell$ 
-
-3 (48 bytes) << TOTAL >>
-      1 (16 bytes) ROOT LEAK: 0x7fb591506180 [16]
-      1 (16 bytes) ROOT LEAK: 0x7fb5915061b0 [16]
-      1 (16 bytes) ROOT LEAK: 0x7fb5928041a0 [16]
