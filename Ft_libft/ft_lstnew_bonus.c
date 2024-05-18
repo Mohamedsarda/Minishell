@@ -51,8 +51,7 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
 	new_node->type = ft_check_type(content);
-	// new_node->is = 1;
-	if(ft_strcmp(content, "\"\"") == 0)
+	if (ft_strcmp(content, "\"\"") == 0 || ft_strcmp(content, "\'\'") == 0)
 	{
 		test = ft_strdup(content);
 		new_node->word = malloc(ft_strlen(test) + 1);

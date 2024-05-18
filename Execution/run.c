@@ -63,11 +63,11 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 				execve(tmp[j], (*head)->content, environ);
 		}
 		//check if the content has /
-		ft_exit_status(env, "127");
 		while(command[i])
 		{
 			if (command[i] == '/')
 			{
+				ft_exit_status(env, "127");
 				perror("Minishell$ ");
 				exit(1);
 			}
@@ -89,7 +89,6 @@ void	ft_run(t_joins **head, t_env **env)
 
 	j = -1;
 	i = 0;
-	// ft_exit_status(env, "0");
 	command = ft_strdup((*head)->content[0]);
 	path = get_path(env);
 	check_run(path, command, head, env);

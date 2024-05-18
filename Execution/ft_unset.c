@@ -24,6 +24,12 @@ void    ft_unset(t_joins **head, t_env **env)
 	while ((*head)->content[i])
 	{
 		tmp = (*env);
+		ft_exit_status(env, "0");
+		if (check_key((*head)->content[i][0]))
+		{
+			ft_exit_status(env, "1");
+			printf("Minishell$ unset: `%c': not a valid identifier\n", (*head)->content[i][0]);
+		}
 		if(ft_strcmp((*head)->content[i], tmp->key) == 0)
 		{
 			cur = tmp;

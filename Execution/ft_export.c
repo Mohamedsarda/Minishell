@@ -128,7 +128,7 @@ void	print_sorted_env(t_env **head)
 	i = -1;
 	while (++i < count)
 	{
-		if (arr[i]->print)
+		if (!arr[i]->print)
 		{
 			printf("declare -x %s", arr[i]->key);
 			if (arr[i]->equal)
