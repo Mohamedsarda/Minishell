@@ -78,14 +78,14 @@ void	ft_lstclear_joins(t_joins **lst);
 void	ft_herd_sig(int i);
 void	ft_check_word_type(t_joins *stack_2, t_words **head,
 			int *i, char **dst);
-void	ft_handle_herd(t_joins *stack_2, t_words **head);
+void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env);
 void	ft_next_node(t_words **head);
 int		ft_stack_words(t_words *words);
 //
 t_joins	*ft_lstnew_joins(t_words **words);
 void	ft_lstaddback_joins(t_joins **head, t_joins *node);
 void	free_split(char **tmp);
-char	**ft_create_list(t_joins *stack_2, t_words **head);
+char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env);
 
 // strlen_command
 int		ft_strlen_str_sp(char *str);
