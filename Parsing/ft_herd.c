@@ -19,14 +19,15 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	else if ((*head)->type == 6)
 	{
 		char	**str;
-
-		str = ft_split((*head)->word, ' ');
+		char	*t = ft_strdup((*head)->word);
+		char	*b =t;
+		str = ft_split(t, ' ');
 		if (!str)
 			return ;
 		int j = 0;
 		while (str[j])
 			dst[(*i)++] = str[j++];
-		// free_split(str);
+		free(b);
 	}
 	else if ((*head)->type == REDOU)
 	{

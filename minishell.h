@@ -21,6 +21,7 @@ typedef struct s_words
 {
 	char			*word;
 	int				type;
+	int				is;
 	struct s_words	*next;
 }	t_words;
 
