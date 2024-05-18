@@ -77,7 +77,8 @@ void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 			free(str);
 			g_herd = 0;
 		}
-		if (!str || ft_strcmp((*head)->word, str) == 0 || ft_strcmp("", str) == 0)
+		if (!str || ft_strcmp((*head)->word, str) == 0
+			|| ft_strcmp("", str) == 0)
 		{
 			free(str);
 			break ;
@@ -95,20 +96,19 @@ void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 		}
 		else
 			ft_print_free(str, stack_2->out);
-
-		}
+	}
 }
 
 void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 {
 	ft_next_node(head);
-	stack_2->out = open(".herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	stack_2->out = open("../.herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	signal(SIGINT, ft_herd_sig);
 	rl_catch_signals = 0;
 	ft_herd_while(stack_2, head, env);
 	close(stack_2->out);
 	stack_2->out = 1;
-	stack_2->in = open(".herd_file", O_CREAT | O_RDONLY, 0777);
+	stack_2->in = open("../.herd_file", O_CREAT | O_RDONLY, 0777);
 }
 
 void	ft_next_node(t_words **head)
