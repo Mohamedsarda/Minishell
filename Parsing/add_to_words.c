@@ -31,7 +31,7 @@ t_words	*ft_lstnew_herd(char *val_1)
 {
 	t_words	*head;
 
-	head = (t_words *)malloc(sizeof(t_env));
+	multiple(&val_1, 0);
 	head = NULL;
 	head = (t_words *)malloc(sizeof(t_words));
 	head->type = ft_check_type(val_1);
@@ -71,9 +71,8 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 				node = ft_lstnew_herd(tmp[j]);
 				ft_lstadd_back(words, node);
 			}
-			else
-				j--;
 		}
+		if(tmp[j])
 			j++;
 	}
 	free_split(tmp);
