@@ -124,7 +124,6 @@ void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 			g_herd = 0;
 		}
 		out = ft_herd_while_2(stack_2, head, env, str);
-		// printf("[%d]\n", out);
 		if (out == 1)
 			break ;
 		else if (out == 2)

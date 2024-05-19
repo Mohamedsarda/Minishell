@@ -178,33 +178,23 @@ export a"" (leask)
 ls > $dsds
 bash: $dsds: ambiguous redirect
 
-//
-Minishell$ cat << g
-> ls
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> ls
-> g
-ls
-ls
-Minishell$ 
-//
-Minishell$ cat << qwe
-> '$PATH'
-> qwe
-'$PATH'
-Minishell$ 
+
+
+
 
 
 //
 echo "$USER$HOME"
 echo "$12USER"
+
+//
+Minishell$ cat << qwe'' ||  the (*head)-> should be 1 not 0
+//
+Minishell$ echo "$USER$HOME"
+msardaHOME$
+
+//
+LEAKS
+Minishell$ export a
+Minishell$ export a
+Minishell$ export a
