@@ -19,31 +19,16 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);
-		if ((ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0 ) && ft_strlen((*head)->word) == 2)
-		{
-			stack_2->out = -1;
-			return ;
-		}
 		stack_2->out = open((*head)->word, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	}
 	else if ((*head)->type == REDIN)
 	{
 		ft_next_node(head);
-		if ((ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0 ) && ft_strlen((*head)->word) == 2)
-		{
-			stack_2->in = -1;
-			return ;
-		}
 		stack_2->in = open((*head)->word, O_RDONLY, 0777);
 	}
 	else if ((*head)->type == APPEND)
 	{
 		ft_next_node(head);
-		if ((ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0 ) && ft_strlen((*head)->word) == 2)
-		{
-			stack_2->out = -1;
-			return ;
-		}
 		stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
 	}
 	else if ((*head)->type == 7)
