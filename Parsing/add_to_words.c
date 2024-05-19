@@ -32,9 +32,11 @@ t_words	*ft_lstnew_herd(char *val_1)
 	t_words	*head;
 
 	head = (t_words *)malloc(sizeof(t_env));
+	head = NULL;
+	head = (t_words *)malloc(sizeof(t_words));
+	head->type = ft_check_type(val_1);
 	if (!head)
 		return (NULL);
-	head->type = 0;
 	if ((val_1[0] == '\'' || val_1[0] == '\"')
 		&& (val_1[ft_strlen(val_1) - 1] == '\''
 			|| val_1[ft_strlen(val_1) - 1] == '\"'))

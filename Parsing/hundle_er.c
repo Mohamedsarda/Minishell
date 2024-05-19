@@ -24,7 +24,7 @@ int	hundle_error(t_words *words)
 	{
 		len = check_length(a->word);
 		if ((a->type == 4 && len == 3))
-			return (0);
+			return (a->type = 7, 1);
 		else if ((a->type == 5 && len == 0) || (a->type == 4 && len == 0))
 			return (0);
 		if (a->type == REDOU || a->type == REDIN || a->type == PIPE
