@@ -15,7 +15,7 @@ static void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-static int	ft_check_type(char *content)
+int	ft_check_type(char *content)
 {
 	int	i;
 

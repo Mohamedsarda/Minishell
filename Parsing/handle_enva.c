@@ -181,10 +181,8 @@ char    *handle_single(char *result, char *str, int *i)
     free(result);
     return (res);
 }
-
-char    *handle_double(char *result, char *str, int *i)
+char    *ft_text_doub(char *result, char *str, int *i)
 {
-    (*i)++;
     int j = *i;
     while(str[*i] && str[*i] != '$' && str[*i] != '\"')
         (*i)++;
@@ -206,6 +204,15 @@ char    *handle_double(char *result, char *str, int *i)
     free(result);
     return (res);
 }
+char    *handle_double(char *result, char *str, int *i, t_env *env)
+{
+    (*i)++;
+    char    *res = NULL;
+    res = ft_text_doub(result, str, i);
+    if(str[*i] != '\"')
+        result = ft_expand(res, str, i, env);
+    return (result);
+}
 
 char    *all_expand(char *str, t_env *env)
 {
@@ -226,9 +233,14 @@ char    *all_expand(char *str, t_env *env)
         }
         else if(str[i] && str[i] == '\"')
         {
-            result = handle_double(result, str, &i);
-            if(str[i])
+            result = handle_double(result, str, &i, env);
+            if(str[i] && str[i] == '\'' && str[i] == '\"' && str[i] == '$')
                 i++;
+            else
+            {
+                result = ft_text(result, str, &i);
+                i++;
+            }
         }
         else
             result = ft_text(result, str, &i);
