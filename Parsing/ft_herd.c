@@ -82,10 +82,8 @@ int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 {
 	char	*tmp;
 
-	// if ((*head)->is && ft_strlen((*head)->word) > 2)
-	// {
-	// 	(*head)->word = ft_strtrim((*head)->word, "\"");
-	// }
+	if ((*head)->is && ft_strlen((*head)->word) > 2)
+		(*head)->word = ft_strtrim((*head)->word, "\"");
 	if (!str || (ft_strcmp((*head)->word, str) == 0
 			|| ft_strcmp("\"\"", str) == 0
 			|| ft_strcmp("\'\'", str) == 0)
