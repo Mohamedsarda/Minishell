@@ -115,7 +115,10 @@ void	ft_next_node(t_words **head)
 {
 	t_words	*tmp;
 
-	tmp = (*head)->next;
+	if (!(*head)->next)
+		tmp = NULL;
+	else
+		tmp = (*head)->next;
 	free((*head)->word);
 	free((*head));
 	(*head) = tmp;

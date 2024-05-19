@@ -171,3 +171,9 @@ Minishell$ $a
 Minishell$ echo $a
 PWD
 Minishell$ 
+
+
+export a"" (leask)
+
+ls > $dsds
+bash: $dsds: ambiguous redirect
