@@ -177,3 +177,34 @@ export a"" (leask)
 
 ls > $dsds
 bash: $dsds: ambiguous redirect
+
+//
+Minishell$ cat << g
+> ls
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> ls
+> g
+ls
+ls
+Minishell$ 
+//
+Minishell$ cat << qwe
+> '$PATH'
+> qwe
+'$PATH'
+Minishell$ 
+
+
+//
+echo "$USER$HOME"
+echo "$12USER"

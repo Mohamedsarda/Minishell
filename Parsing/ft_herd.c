@@ -13,22 +13,37 @@ void	ft_herd_sig(int i)
 }
 
 void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
-{
+{	
 	if ((*head)->type == WORD || (*head)->type == ENVV)
 		dst[(*i)++] = ft_strdup((*head)->word);
 	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);
+		if ((ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0 ) && ft_strlen((*head)->word) == 2)
+		{
+			stack_2->out = -1;
+			return ;
+		}
 		stack_2->out = open((*head)->word, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	}
 	else if ((*head)->type == REDIN)
 	{
 		ft_next_node(head);
+		if ((ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0 ) && ft_strlen((*head)->word) == 2)
+		{
+			stack_2->in = -1;
+			return ;
+		}
 		stack_2->in = open((*head)->word, O_RDONLY, 0777);
 	}
 	else if ((*head)->type == APPEND)
 	{
 		ft_next_node(head);
+		if ((ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0 ) && ft_strlen((*head)->word) == 2)
+		{
+			stack_2->out = -1;
+			return ;
+		}
 		stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
 	}
 	else if ((*head)->type == 7)
@@ -63,10 +78,44 @@ void	ft_print_free(char *str, int fd)
 	write(fd, "\n", 1);
 }
 
+int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
+{
+	char	*tmp;
+
+	if ((*head)->is && ft_strlen((*head)->word) > 2)
+	{
+		puts("!");
+		(*head)->word = ft_strtrim((*head)->word, "\"");
+	}
+	if (!str || (ft_strcmp((*head)->word, str) == 0
+			|| ft_strcmp("\"\"", str) == 0
+			|| ft_strcmp("\'\'", str) == 0)
+		|| (!str[0] && (*head)->is && ft_strlen((*head)->word) == 2))
+	{
+		free(str);
+		return (1);
+	}
+	if (!str)
+	{
+		free(str);
+		write(stack_2->out, "\n", 1);
+		return (2);
+	}
+	if (!(*head)->is)
+	{
+		tmp = ft_strdup(ft_env_eq(env, str));
+		free(str);
+		ft_print_free(tmp, stack_2->out);
+	}
+	else
+		ft_print_free(str, stack_2->out);
+	return (0);
+}
+
 void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 {
 	char	*str;
-	char	*tmp;
+	int		out;
 
 	while (1)
 	{
@@ -77,25 +126,12 @@ void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 			free(str);
 			g_herd = 0;
 		}
-		if (!str || ft_strcmp((*head)->word, str) == 0
-			|| ft_strcmp("", str) == 0)
-		{
-			free(str);
+		out = ft_herd_while_2(stack_2, head, env, str);
+		// printf("[%d]\n", out);
+		if (out == 1)
 			break ;
-		}
-		if (!str[0])
-		{
-			free(str);
-			continue ;
-		}
-		if (!(*head)->is)
-		{
-			tmp = ft_strdup(ft_env_eq(env, str));
-			free(str);
-			ft_print_free(tmp, stack_2->out);
-		}
-		else
-			ft_print_free(str, stack_2->out);
+		else if (out == 2)
+			break ;
 	}
 }
 
