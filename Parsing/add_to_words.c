@@ -37,9 +37,7 @@ t_words	*ft_lstnew_herd(char *val_1)
 	head->type = ft_check_type(val_1);
 	if (!head)
 		return (NULL);
-	if ((val_1[0] == '\'' || val_1[0] == '\"')
-		&& (val_1[ft_strlen(val_1) - 1] == '\''
-			|| val_1[ft_strlen(val_1) - 1] == '\"'))
+	if (check_double_qout(val_1))
 		head->is = 1;
 	else
 		head->is = 0;

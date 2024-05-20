@@ -286,7 +286,10 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 	else
 	{
 		if(check_key_in_path(key, env) == 1)
+		{
+			free(value);
 			return ;
+		}
 		node = ft_lstnew_env(key, value);
 		free(value);
 		ft_lstadd_back_env(env, node);

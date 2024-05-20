@@ -24,7 +24,7 @@ int	check_double_qout(char *str)
 {
 	while (*str)
 	{
-		if (*str == '\"')
+		if (*str == '\"' || *str == '\'')
 			return (1);
 		str++;
 	}
