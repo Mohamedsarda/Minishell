@@ -232,12 +232,12 @@ int	main(int ac, char **ar, char **env)
 		str_sp = back_to_string(str_sp);
 		add_struct(str_sp, &words, env_stack);
 		free(str_sp);
-		t_words *b = words;
-		while (b)
-		{
-			printf("[%s] || [%d]\n", b->word, b->is);
-			b = b->next;
-		}
+		// t_words *b = words;
+		// while (b)
+		// {
+		// 	printf("[%s] || [%d]\n", b->word, b->is);
+		// 	b = b->next;
+		// }
 		
 		if (!hundle_error(words))
 		{

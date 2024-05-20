@@ -22,7 +22,17 @@ char	*get_path(t_env **env)
 	return (path);
 }
 // start
-
+int	check_is_fath(char *str)
+{
+	int i = 0;
+	while(str[i])
+	{
+		if(str[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
@@ -42,6 +52,7 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 	}
 	if (p == 0)
 	{
+		
 		if ((*head)->out != 1)
 			dup2((*head)->out, 1);
 		else if ((*head)->in != 0)
@@ -53,7 +64,7 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 			ft_exit_status(env, "1");
 			//check if the content has /
 			perror("Minishell$ ");
-			return ;
+			exit(1) ;
 		}
 		while (tmp[++j])
 		{
@@ -69,11 +80,11 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 			{
 				ft_exit_status(env, "127");
 				perror("Minishell$ ");
-				exit(1);
+				exit(127);
 			}
 			i++;
 		}
-		printf("Minishell$ command not found\n");
+		ft_putstr("Minishell$ command not found\n", 2);
 		exit(1);
 	}
 	else
