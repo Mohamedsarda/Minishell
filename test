@@ -156,24 +156,6 @@ Minishell$ unset HOME
 Minishell$ cd
 [1]    49238 segmentation fault  ./minishell
 
-//
-export ""  et unset ""
-
-//
-Minishell$ echo <<<<
-[1]    51026 segmentation fault  ./minishell
-
-
-//
-Minishell$ export a="$PWD"
-Minishell$ $a
-/Users/msarda/Desktop/prjs/Minishell
-Minishell$ echo $a
-PWD
-Minishell$ 
-
-
-export a"" (leask)
 
 ls > $dsds
 bash: $dsds: ambiguous redirect
@@ -181,20 +163,3 @@ bash: $dsds: ambiguous redirect
 
 
 
-
-
-//
-echo "$USER$HOME"
-echo "$12USER"
-
-//
-Minishell$ cat << qwe'' ||  the (*head)-> should be 1 not 0
-//
-Minishell$ echo "$USER$HOME"
-msardaHOME$
-
-//
-LEAKS
-Minishell$ export a
-Minishell$ export a
-Minishell$ export a
