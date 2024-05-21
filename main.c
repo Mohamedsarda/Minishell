@@ -3,6 +3,8 @@
 void	ft_sighandler(int i)
 {
 	(void)i;
+	if (waitpid(-1 , NULL, 0) != 0)
+		return ;
 	rl_catch_signals = 0;
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -205,6 +207,7 @@ int	main(int ac, char **ar, char **env)
 	// atexit(ft_leaks);
 	words = NULL;
 	signal(SIGINT, ft_sighandler);
+	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	(void)env_stack;
 	env_stack = ft_create_env_stack(env, 0);

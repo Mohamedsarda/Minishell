@@ -52,7 +52,7 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 	}
 	if (p == 0)
 	{
-		
+		signal(SIGQUIT, SIG_DFL);
 		if ((*head)->out != 1)
 			dup2((*head)->out, 1);
 		else if ((*head)->in != 0)
