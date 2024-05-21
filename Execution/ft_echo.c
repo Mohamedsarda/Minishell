@@ -86,8 +86,8 @@ void	ft_echo(t_joins **head)
 	i = 1;
 	if (!tmp->content[i])
 	{
-		ft_next_node_joins(head);
 		write(tmp->out, "\n", 1);
+		ft_next_node_joins(head);
 		return ;
 	}
 	j = 1;
