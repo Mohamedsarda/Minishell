@@ -122,6 +122,30 @@ char	*get_only_key(char *str, int *i)
 	return res;
 }
 
+char	*test_1(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*dst;
+
+	if (!s1 && !s2)
+		return (NULL);
+	i = -1;
+	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!dst)
+		return (NULL);
+	if(s1)
+		while (s1[++i])
+			dst[i] = s1[i];
+	j = 0;
+	if(s2)
+		while (s2[j])
+			dst[++i] = s2[j++];
+	dst[i] = '\0';
+	free(s1);
+	return (dst);
+}
+
 char    *ft_expand(char *result, char *str, int *i, t_env *env)
 {
 	(*i)++;
@@ -131,7 +155,7 @@ char    *ft_expand(char *result, char *str, int *i, t_env *env)
 	else if (str[*i] >= '0' && str[*i] <= '9')
 		return ((*i)++, result);
 	else if  (!str[*i])
-		return (result = test(result, "$"));
+		return (test_1(result, "$"));
 	else
 	{
 		int c = 0;
@@ -151,7 +175,6 @@ char    *ft_expand(char *result, char *str, int *i, t_env *env)
 		}
 		res[c] = '\0';
 		free(result);
-		// free(sta);
 		free(key);
 		return (res);
 	}
