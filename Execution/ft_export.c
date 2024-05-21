@@ -94,15 +94,20 @@ void	ft_swap_env(t_env **a, t_env **b)
 	(*a) = tmp;
 }
 // export a; export a=; head has a= but he dont print it
-void	print_sorted_env(t_env **head)
+void	print_sorted_env(t_env **head, t_joins **stack_2)
 {
 	int		count;
 	t_env	*current;
 	t_env	**arr;
 	int		i;
 	int		j;
+	int		fd;
 
 	current = (*head);
+	if ((*stack_2)->out != 0 && (*stack_2)->in >= 0)
+		fd = (*stack_2)->out;
+	else
+		fd = (*stack_2)->in;
 	count = ft_env_size(current);
 	arr = (t_env **)malloc(count * sizeof(t_env *));
 	if (!arr)
@@ -130,16 +135,17 @@ void	print_sorted_env(t_env **head)
 	{
 		if (!arr[i]->print)
 		{
-			printf("declare -x %s", arr[i]->key);
+			ft_putstr("declare -x", fd);
+			ft_putstr(arr[i]->key, fd);
 			if (arr[i]->equal)
-				printf("=");
+				ft_putstr("=", fd);
 			if (arr[i]->equal && ft_strlen(arr[i]->value) >= 0)
 			{
-				printf("\"");
-				printf("%s", arr[i]->value);
-				printf("\"");
+				ft_putstr("\"", fd);
+				ft_putstr(arr[i]->value, fd);
+				ft_putstr("\"", fd);
 			}
-			printf("\n");
+			ft_putstr("\n", fd);
 		}
 	}
 	free(arr);
@@ -322,7 +328,7 @@ void    ft_export(t_joins **head, t_env **env)
 	i = 1;
 
 	if (!(*head)->content[i])
-		print_sorted_env(env);
+		print_sorted_env(env, head);
 	else
 	{
 		while ((*head)->content[i])
