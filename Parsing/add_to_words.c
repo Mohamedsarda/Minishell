@@ -5,7 +5,7 @@ static int	ft_add(t_words **head, char *str, t_env *env_stack)
 	t_words	*node;
 
 	multiple(&str, 0);
-	if (str[0] == '<' && str[0 + 1] == '<')
+	if (str[0] == '<' || str[0] == '>')
 		return (1);
 	node = ft_lstnew(str, env_stack);
 	if (node->word[0] == '\0')
