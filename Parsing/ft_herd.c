@@ -12,7 +12,6 @@ void	ft_herd_sig(int i)
 	}
 }
 
-
 void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {	
 	if ((*head)->type == WORD || (*head)->type == ENVV)
@@ -20,17 +19,31 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);
-		printf("[%s]\n", (*head)->word);
+		if (ft_strlen((*head)->word) == 2 && (*head)->is == 1)
+		{
+			stack_2->out = -1;
+			return ;
+		}
 		stack_2->out = open((*head)->word, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	}
 	else if ((*head)->type == REDIN)
 	{
 		ft_next_node(head);
+		if (ft_strlen((*head)->word) == 2 && (*head)->is == 1)
+		{
+			stack_2->in = -1;
+			return ;
+		}
 		stack_2->in = open((*head)->word, O_RDONLY, 0777);
 	}
 	else if ((*head)->type == APPEND)
 	{
 		ft_next_node(head);
+		if (ft_strlen((*head)->word) == 2 && (*head)->is == 1)
+		{
+			stack_2->out = -1;
+			return ;
+		}
 		stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
 	}
 	else if ((*head)->type == 7)
