@@ -12,8 +12,17 @@ void	ft_herd_sig(int i)
 	}
 }
 
+void	based_on_trim(char **str)
+{
+	if (*str[0] == '\"')
+		*str = ft_strtrim(*str, "\"");
+	else if (*str[0] == '\'')
+		*str= ft_strtrim(*str, "\'");
+}
+
+
 void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
-{	
+{
 	if ((*head)->type == WORD || (*head)->type == ENVV)
 		dst[(*i)++] = ft_strdup((*head)->word);
 	else if ((*head)->type == REDOU)
@@ -24,6 +33,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			stack_2->out = -1;
 			return ;
 		}
+		based_on_trim(&(*head)->word);
 		stack_2->out = open((*head)->word, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	}
 	else if ((*head)->type == REDIN)
@@ -34,6 +44,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			stack_2->in = -1;
 			return ;
 		}
+		based_on_trim(&(*head)->word);
 		stack_2->in = open((*head)->word, O_RDONLY, 0777);
 	}
 	else if ((*head)->type == APPEND)
@@ -44,6 +55,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			stack_2->out = -1;
 			return ;
 		}
+		based_on_trim(&(*head)->word);
 		stack_2->out = open((*head)->word, O_CREAT | O_RDWR | O_APPEND, 0777);
 	}
 	else if ((*head)->type == 7)
