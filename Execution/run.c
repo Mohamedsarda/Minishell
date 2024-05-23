@@ -84,7 +84,9 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 			}
 			i++;
 		}
-		ft_putstr("Minishell$ command not found\n", 2);
+		ft_putstr("Minishell$ ", 2);
+		ft_putstr(command, 2);
+		ft_putstr(": command not found\n", 2);
 		exit(1);
 	}
 	else
