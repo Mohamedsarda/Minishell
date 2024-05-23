@@ -133,7 +133,7 @@ void	print_sorted_env(t_env **head, t_joins **stack_2)
 	i = -1;
 	while (++i < count)
 	{
-		if (!arr[i]->print)
+		if (arr[i]->print)
 		{
 			ft_putstr("declare -x", fd);
 			ft_putstr(arr[i]->key, fd);
@@ -333,9 +333,9 @@ void    ft_export(t_joins **head, t_env **env)
 	{
 		while ((*head)->content[i])
 		{
-			if(ft_strcmp((*head)->content[i], "\"\"") == 0)
+			if(ft_strcmp((*head)->content[i], "\"\"") == 0 || ft_strcmp((*head)->content[i], "\'\'") == 0)
 			{
-				printf("export: `': not a valid identifier\n");
+				ft_putstr("Minishell$ export: `': not a valid identifier\n", 2);
 				ft_lstclear_joins(head);
 				return ;
 			}
@@ -343,7 +343,7 @@ void    ft_export(t_joins **head, t_env **env)
 			key = befor_equal(command);
 			if (check_key_env(key) == 1)
 			{
-				ft_putstr("syntax error near unexpected token\n", 2);
+				ft_putstr("Minishell$ syntax error near unexpected token\n", 2);
 				free(command);
 				free(key);
 				ft_lstclear_joins(head);
