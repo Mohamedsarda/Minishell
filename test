@@ -159,3 +159,24 @@ Minishell$ cd
 
 ls > $dsds
 bash: $dsds: ambiguous redirect
+
+
+
+//
+
+bash-3.2$ export "" test=a
+bash: export: `': not a valid identifier
+bash-3.2$ echo $test
+a
+bash-3.2$ 
+
+
+----------------------------
+
+Minishell$ export "" test=a
+Minishell$ export: `': not a valid identifier
+Minishell$ echo $test
+
+Minishell$ 
+
+///
