@@ -62,7 +62,6 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		if (tmp == NULL || *tmp == NULL)
 		{
 			ft_exit_status(env, "1");
-			//check if the content has /
 			perror("Minishell$ ");
 			exit(1) ;
 		}
@@ -73,13 +72,12 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 			if (access(tmp[j], X_OK) == 0)
 				execve(tmp[j], (*head)->content, environ);
 		}
-		//check if the content has /
 		while(command[i])
 		{
 			if (command[i] == '/')
 			{
 				ft_exit_status(env, "127");
-				perror("Minishell$ ");
+				printf("Minishell$ %s : No such file or directory\n", command);
 				exit(127);
 			}
 			i++;
