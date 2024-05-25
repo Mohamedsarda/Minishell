@@ -13,10 +13,10 @@ int ft_joinssize(t_joins *head)
     return (i);
 }
 
-void    ft_is_pipe(t_joins **head)
-{
+// void    ft_is_pipe(t_joins **head)
+// {
     
-}
+// }
 // void    ft_is_pipe(t_joins **head)
 // {
 //     int size = ft_joinssize(*head);

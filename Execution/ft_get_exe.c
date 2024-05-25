@@ -18,8 +18,8 @@ void	ft_run_commad(t_joins **head, t_env **env, char *type)
 		ft_exit(head, env);
 	else if (!(*head)->next)
 		ft_run(head, env);
-	else
-		ft_is_pipe(head);
+	// else
+	// 	ft_is_pipe(head);
 	// t_joins *tmp = *head;
 	// while (tmp)
 	// {
