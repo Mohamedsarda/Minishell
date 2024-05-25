@@ -107,5 +107,5 @@ void	ft_run(t_joins **head, t_env **env)
 	check_run(path, command, head, env);
 	free(path);
 	free(command);
-	ft_lstclear_joins(head);
+	ft_next_node_joins(head);
 }
