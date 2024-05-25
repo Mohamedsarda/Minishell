@@ -18,4 +18,15 @@ void	ft_run_commad(t_joins **head, t_env **env, char *type)
 		ft_exit(head, env);
 	else if (!(*head)->next)
 		ft_run(head, env);
+	else
+		ft_is_pipe(head);
+	// t_joins *tmp = *head;
+	// while (tmp)
+	// {
+	// 	int i = 0;
+	// 	while (tmp->content[i])
+	// 		printf("[%s]\n", tmp->content[i++]);
+	// 	printf("out : [%d] | in : [%d]\n", tmp->out, tmp->in);
+	// 	tmp = tmp->next;
+	// }
 }
