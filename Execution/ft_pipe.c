@@ -154,7 +154,7 @@ void    ft_is_pipe(t_joins **head, t_env **env)
             if (i != 0)
                 close(pipes[0]);
         old = pipes[0];
-        (*head) = (*head)->next;
+        ft_next_node_joins(head);
     }
     i = -1;
     waitpid(pid, NULL, 0);
