@@ -3,9 +3,9 @@
 void	ft_sighandler(int i)
 {
 	(void)i;
-	if (waitpid(-1 , NULL, 0) != 0)
-		return ;
 	rl_catch_signals = 0;
+	if (wait(NULL) != -1)
+		return ;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

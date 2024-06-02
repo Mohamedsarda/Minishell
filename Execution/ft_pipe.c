@@ -138,6 +138,18 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	int pid;
 	int old = -1;
 
+	// t_joins *tmp = (*head);
+	// while (tmp)
+	// {
+	// 	int i = 0;
+	// 	puts("{");
+	// 	while (tmp->content[i])
+	// 		printf("%s\n", tmp->content[i++]);
+	// 	printf("out : %d\nin : %d", tmp->out, tmp->in);
+	// 	puts("}");
+	// 	tmp = tmp->next;
+	// }
+
 	while ((*head))
 	{
 		pipe(pipes);
