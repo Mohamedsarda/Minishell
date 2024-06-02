@@ -58,5 +58,5 @@ void    ft_unset(t_joins **head, t_env **env)
 		}
 		i++;
 	}
-	ft_lstclear_joins(head);
+	// ft_lstclear_joins(head);
 }

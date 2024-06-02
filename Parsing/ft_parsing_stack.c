@@ -119,15 +119,14 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		}
 	}
 	tmp = stack_2;
-	while (tmp)
+	if (!tmp->next)
 	{
 		i = 0;
 		if (!tmp->content[i])
 			return (stack_2);
 		ft_run_commad(&stack_2, env, tmp->content[i]);
-		if (tmp)
-			return (stack_2);
-		tmp = tmp->next;
 	}
+	else
+		ft_is_pipe(&stack_2, env);
 	return (stack_2);
 }
