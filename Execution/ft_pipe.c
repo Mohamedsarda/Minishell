@@ -132,15 +132,6 @@ void	ft_dup(t_joins **head, int *fd, int *old)
 	}
 }
 
-void	ft_for_parent(t_joins **head, int *old, int *fd)
-{
-	close(fd[1]);
-	if ((*old) == -1)
-		close(*old);
-	(*old) = fd[0];
-	ft_next_node_joins(head);
-}
-
 void	ft_is_pipe(t_joins **head, t_env **env)
 {
 	int	pipes[2];
@@ -159,7 +150,13 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 			exit(0);
 		}
 		else if (pid > 0)
-			ft_for_parent(head, &old, pipes);
+		{
+			close(pipes[1]);
+			if (old != -1)
+				close(old);
+			old = pipes[0];
+			ft_next_node_joins(head);
+		}
 		else
 		{
 			perror("fork");
