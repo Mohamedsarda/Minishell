@@ -246,7 +246,7 @@ void	add_value(char *key, char *value, t_env **env, int append)
 			{
 				if (!t)
 					(tmp)->equal = 0;
-				else if (t[0] == '=')
+				else if (t[0] == '=' && tmp->value != NULL)
 				{
 					t++;
 					(tmp)->equal = 1;
@@ -336,8 +336,9 @@ void    ft_export(t_joins **head, t_env **env)
 			if(ft_strcmp((*head)->content[i], "\"\"") == 0 || ft_strcmp((*head)->content[i], "\'\'") == 0)
 			{
 				ft_putstr("Minishell$ export: `': not a valid identifier\n", 2);
-				ft_lstclear_joins(head);
-				return ;
+				// ft_lstclear_joins(head);
+				i++;
+				continue;
 			}
 			command = ft_strdup((*head)->content[i]);
 			key = befor_equal(command);
@@ -346,8 +347,9 @@ void    ft_export(t_joins **head, t_env **env)
 				ft_putstr("Minishell$ syntax error near unexpected token\n", 2);
 				free(command);
 				free(key);
-				ft_lstclear_joins(head);
-				return ;
+				// ft_lstclear_joins(head);
+				i++;
+				continue;
 			}
 			value = after_equal(command);
 			send_to_stack_env(value, key, env);
