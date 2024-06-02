@@ -2,7 +2,7 @@
 
 int	ft_joinssize(t_joins *head)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (head)
@@ -51,7 +51,7 @@ void	check_run_2(char *PATH, char *command, t_joins **head, t_env **env)
 	{
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");
-		exit(1) ;
+		exit(1);
 	}
 	while (tmp[++j])
 	{
@@ -60,7 +60,7 @@ void	check_run_2(char *PATH, char *command, t_joins **head, t_env **env)
 		if (access(tmp[j], X_OK) == 0)
 			execve(tmp[j], (*head)->content, environ);
 	}
-	while(command[i])
+	while (command[i])
 	{
 		if (command[i] == '/')
 		{
@@ -91,7 +91,7 @@ void	ft_run_2(t_joins **head, t_env **env)
 	free(command);
 }
 
-void	ft_run_commad_2(t_joins **head, t_env **env ,char *type)
+void	ft_run_commad_2(t_joins **head, t_env **env, char *type)
 {
 	if (ft_strcmp(type, "echo") == 0)
 		ft_echo(head);
@@ -132,24 +132,22 @@ void	ft_dup(t_joins **head, int *fd, int *old)
 	}
 }
 
+void	ft_for_parent(t_joins **head, int *old, int *fd)
+{
+	close(fd[1]);
+	if ((*old) == -1)
+		close(*old);
+	(*old) = fd[0];
+	ft_next_node_joins(head);
+}
+
 void	ft_is_pipe(t_joins **head, t_env **env)
 {
-	int pipes[2];
-	int pid;
-	int old = -1;
+	int	pipes[2];
+	int	pid;
+	int	old;
 
-	// t_joins *tmp = (*head);
-	// while (tmp)
-	// {
-	// 	int i = 0;
-	// 	puts("{");
-	// 	while (tmp->content[i])
-	// 		printf("%s\n", tmp->content[i++]);
-	// 	printf("out : %d\nin : %d", tmp->out, tmp->in);
-	// 	puts("}");
-	// 	tmp = tmp->next;
-	// }
-
+	old = -1;
 	while ((*head))
 	{
 		pipe(pipes);
@@ -161,19 +159,13 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 			exit(0);
 		}
 		else if (pid > 0)
-		{
-			close(pipes[1]);
-			if (old != -1)
-				close(old);
-			old = pipes[0];
-			ft_next_node_joins(head);
-		}
+			ft_for_parent(head, &old, pipes);
 		else
 		{
 			perror("fork");
 			exit(1);
 		}
 	}
-
-	while (wait(NULL) != -1);
+	while (wait(NULL) != -1)
+		;
 }
