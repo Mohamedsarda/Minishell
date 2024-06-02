@@ -114,7 +114,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		{
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
-			new->content = ft_create_list(stack_2, words, env);
+			new->content = ft_create_list(new, words, env);
 			ft_lstaddback_joins(&stack_2, new);
 		}
 	}
