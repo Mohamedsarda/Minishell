@@ -149,5 +149,5 @@ void    ft_exit_status(t_env **env, char *status);
 void	print_sorted_env(t_env **head, t_joins **stack_2);
 int	ft_check_type(char *content);
 //
-// void    ft_is_pipe(t_joins **head);
+void    ft_is_pipe(t_joins **head, t_env **env);
 #endif

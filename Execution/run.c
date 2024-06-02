@@ -55,7 +55,7 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		signal(SIGQUIT, SIG_DFL);
 		if ((*head)->out != 1)
 			dup2((*head)->out, 1);
-		else if ((*head)->in != 0)
+		if ((*head)->in != 0)
 			dup2((*head)->in, 0);
 		execve(command, (*head)->content, environ);
 		tmp = ft_split(PATH, ':');
@@ -105,5 +105,5 @@ void	ft_run(t_joins **head, t_env **env)
 	check_run(path, command, head, env);
 	free(path);
 	free(command);
-	ft_next_node_joins(head);
+	// ft_next_node_joins(head);
 }

@@ -87,7 +87,7 @@ void	ft_echo(t_joins **head)
 	if (!tmp->content[i])
 	{
 		write(tmp->out, "\n", 1);
-		ft_next_node_joins(head);
+		// ft_next_node_joins(head);
 		return ;
 	}
 	j = 1;
@@ -102,7 +102,6 @@ void	ft_echo(t_joins **head)
 		ft_print_echo(tmp->content, tmp->out, &i);
 		write(tmp->out, "\n", 1);
 	}
-	ft_next_node_joins(head);
 }
 
 

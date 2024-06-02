@@ -359,5 +359,5 @@ void    ft_export(t_joins **head, t_env **env)
 		}
 	}
 	// ft_exit_status(env, "0");
-	ft_lstclear_joins(head);
+	// ft_lstclear_joins(head);
 }

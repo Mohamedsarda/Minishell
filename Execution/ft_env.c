@@ -43,5 +43,5 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 	if (fd != 1)
 		close(fd);
 	ft_exit_status(env_tmp, "0");
-	ft_next_node_joins(stack_2);
+	// ft_next_node_joins(stack_2);
 }

@@ -53,5 +53,5 @@ void	ft_cd(t_joins **head, t_env **env)
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");
 	}
-	ft_lstclear_joins(head);
+	// ft_lstclear_joins(head);
 }
