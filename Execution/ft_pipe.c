@@ -134,29 +134,34 @@ void    ft_dup(t_joins **head, int *fd, int *old)
 
 void    ft_is_pipe(t_joins **head, t_env **env)
 {
-    int i;
     int pipes[2];
     int pid;
     int old = -1;
 
-    i = -1;
     while ((*head))
     {
         pipe(pipes);
         pid = fork();
         if (pid == 0)
         {
-            ft_dup(head, pipes, &old);
-            ft_run_commad_2(head, env,(*head)->content[0]);
+           ft_dup(head, pipes, &old);
+            ft_run_commad_2(head, env, (*head)->content[0]);
             exit(0);
         }
+        else if (pid > 0)
+        {
+            close(pipes[1]);
+            if (old != -1)
+                close(old);
+            old = pipes[0];
+            ft_next_node_joins(head);
+        }
         else
-            if (i != 0)
-                close(pipes[0]);
-        old = pipes[0];
-        ft_next_node_joins(head);
+        {
+            perror("fork");
+            exit(1);
+        }
     }
-    i = -1;
-    waitpid(pid, NULL, 0);
+
     while (wait(NULL) != -1);
 }
