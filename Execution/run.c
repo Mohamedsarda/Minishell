@@ -22,27 +22,37 @@ char	*get_path(t_env **env)
 	return (path);
 }
 // start
-int	check_is_fath(char *str)
+void	ft_check_slash(char *command, t_env **env)
 {
-	int i = 0;
-	while(str[i])
-	{
-		if(str[i] == '/')
-			return (1);
-		i++;
-	}
-	return (0);
+	int	i;
+	
+	i = 0;
+	while(command[i])
+		{
+			if (command[i] == '/')
+			{
+				ft_exit_status(env, "127");
+				printf("Minishell$ %s : No such file or directory\n", command);
+				exit(127);
+			}
+			i++;
+		}
+}
+void	com_not_found(char *command)
+{
+	ft_putstr("Minishell$ ", 2);
+	ft_putstr(command, 2);
+	ft_putstr(": command not found\n", 2);
+	exit(1);
 }
 void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
 	int			j;
-	int			i;
 	pid_t		p;
 	extern char	**environ;
 
 	j = -1;
-	i = 0;
 	p = fork();
 	if (p < 0)
 	{
@@ -58,6 +68,7 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		if ((*head)->in != 0)
 			dup2((*head)->in, 0);
 		execve(command, (*head)->content, environ);
+		ft_check_slash(command, env);
 		tmp = ft_split(PATH, ':');
 		if (tmp == NULL || *tmp == NULL)
 		{
@@ -68,24 +79,11 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		while (tmp[++j])
 		{
 			tmp[j] = test(tmp[j], "/");
-			tmp[j] = test(tmp[j], command);
+			tmp[j] = test(tmp[j], (*head)->content[0]);
 			if (access(tmp[j], X_OK) == 0)
 				execve(tmp[j], (*head)->content, environ);
 		}
-		while(command[i])
-		{
-			if (command[i] == '/')
-			{
-				ft_exit_status(env, "127");
-				printf("Minishell$ %s : No such file or directory\n", command);
-				exit(127);
-			}
-			i++;
-		}
-		ft_putstr("Minishell$ ", 2);
-		ft_putstr(command, 2);
-		ft_putstr(": command not found\n", 2);
-		exit(1);
+		com_not_found(command);
 	}
 	else
 		wait(NULL);
@@ -95,11 +93,7 @@ void	ft_run(t_joins **head, t_env **env)
 {
 	char	*command;
 	char	*path;
-	int		j;
-	int		i;
 
-	j = -1;
-	i = 0;
 	command = ft_strdup((*head)->content[0]);
 	path = get_path(env);
 	check_run(path, command, head, env);
