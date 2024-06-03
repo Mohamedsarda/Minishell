@@ -20,11 +20,37 @@ void	based_on_trim(char **str)
 		*str= ft_strtrim(*str, "\'");
 }
 
+int	ft_strchr(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {
-	if ((*head)->type == WORD || (*head)->type == ENVV)
+	// printf("[%s] [%d]\n",(*head)->word, (*head)->type);
+	if ((*head)->type == WORD)
 		dst[(*i)++] = ft_strdup((*head)->word);
+	else if ((*head)->type == 6 && (ft_strchr((*head)->word, ' ') || ft_strchr((*head)->word, '\t')))
+	{
+		char	**str;
+
+		str = ft_split((*head)->word, ' ');
+		if (!str)
+			return ;
+		int j = 0;
+		while (str[j])
+			dst[(*i)++] = str[j++];
+		// free_split(str);
+	}
 	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);

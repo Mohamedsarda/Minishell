@@ -3,11 +3,11 @@
 int	ft_strlen_space(t_words *words)
 {
 	char	**dst;
-	int		i = 0;
 
 	dst = ft_split(words->word, ' ');
 	if (!dst)
 		return (0);
+	int i = 0;
 	while (dst[i])
 		i++;
 	free_split(dst);
@@ -21,8 +21,12 @@ int	ft_stack_words(t_words *words)
 	i = 0;
 	while (words)
 	{
-		if (words->type == 0 || words->type == 6)
+		if (words->type == 0)
 			i++;
+		if (words->type == 6)
+		{
+			i += ft_strlen_space(words);
+		}
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
 			words = words->next;
@@ -32,6 +36,25 @@ int	ft_stack_words(t_words *words)
 	}
 	return (i);
 }
+
+// int	ft_stack_words(t_words *words)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (words)
+// 	{
+// 		if (words->type == 0 || words->type == 6)
+// 			i++;
+// 		else if (words->type == 2 || words->type == 1
+// 			|| words->type == 4 || words->type == 5)
+// 			words = words->next;
+// 		if (words->type == 3)
+// 			break ;
+// 		words = words->next;
+// 	}
+// 	return (i);
+// }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
