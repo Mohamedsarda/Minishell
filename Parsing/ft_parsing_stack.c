@@ -147,7 +147,11 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		i = 0;
 		if (!tmp->content[i])
 			return (stack_2);
-		ft_run_commad(&stack_2, env, tmp->content[i]);
+		// while (tmp->content[i])
+			// printf("[%s]\n", tmp->content[i++]);
+		if (tmp->in < 0 || tmp->out < 0)
+			return (stack_2);
+		ft_run_commad(&stack_2, env, tmp->content[0]);
 	}
 	else
 		ft_is_pipe(&stack_2, env);
