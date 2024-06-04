@@ -143,10 +143,18 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	{
 		pipe(pipes);
 		pid = fork();
+		if (pid == -1)
+		{
+			perror("Minishell$ ");
+			close(pipes[1]);
+			close(pipes[0]);
+			break;
+		}
 		if (pid == 0)
 		{
 			ft_dup(head, pipes, &old);
 			ft_run_commad_2(head, env, (*head)->content[0]);
+			close(pipes[1]);
 			exit(0);
 		}
 		else if (pid > 0)
@@ -163,6 +171,8 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 			exit(1);
 		}
 	}
+	if (old > 0)
+		close(old);
 	while (wait(NULL) != -1)
 		;
 }
