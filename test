@@ -180,3 +180,25 @@ Minishell$ echo $test
 Minishell$ 
 
 ///
+bash-3.2$ > $A
+bash: $A: ambiguous redirect
+bash-3.2$ export a="a b"
+bash-3.2$ > $a
+bash: $a: ambiguous redirect
+
+
+Minishell$ export A="ls 4"
+Minishell$ export b=$A
+Minishell$ syntax error near unexpected token
+Minishell$ export b=ls 4
+
+
+-a=1
+Minishell$ export -a=1
+
+bash-3.2$ unset HOME
+bash-3.2$ cd
+bash: cd: HOME not set
+bash-3.2$ cd Parsing/
+
+ß

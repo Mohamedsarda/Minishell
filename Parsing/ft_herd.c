@@ -39,7 +39,7 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	// printf("[%s] [%d]\n",(*head)->word, (*head)->type);
 	if ((*head)->type == WORD)
 		dst[(*i)++] = ft_strdup((*head)->word);
-	else if ((*head)->type == 6 && (ft_strchr((*head)->word, ' ') || ft_strchr((*head)->word, '\t')))
+	else if ((*head)->type == 6)
 	{
 		char	**str;
 
