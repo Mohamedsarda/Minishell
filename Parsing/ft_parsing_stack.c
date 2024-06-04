@@ -142,7 +142,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		}
 	}
 	tmp = stack_2;
-	if (!tmp->next)
+	if (tmp && !tmp->next)
 	{
 		i = 0;
 		if (!tmp->content[i])
