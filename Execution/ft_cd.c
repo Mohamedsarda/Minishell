@@ -18,9 +18,12 @@ char	*ft_get_val_env(char *tmp, t_env **env, char *key, int is)
 	{
 
 		getcwd(buffer, sizeof(buffer));
-		free(env_head->value);
-		env_head->value = NULL;
-		env_head->value = ft_strdup(buffer);
+		if (env_head)
+		{
+			free(env_head->value);
+			env_head->value = NULL;
+			env_head->value = ft_strdup(buffer);
+		}
 	}
 	return (NULL);
 }
@@ -32,7 +35,7 @@ void	ft_cd(t_joins **head, t_env **env)
 	char	*pwd;
 
 	home = ft_get_val_env(tmp, env, "HOME", 0);
-	if (!home)
+	if (!home && !(*head)->content[1])
 	{
 		ft_putstr("Minishell$ cd: HOME not set\n", 2);
 		return ;
@@ -47,8 +50,16 @@ void	ft_cd(t_joins **head, t_env **env)
 		perror("Minishell$ ");
 	}
 	pwd = ft_get_val_env(tmp, env, "PWD", 1);
+	if (!pwd)
+	{
+		char	buffer[1024];
+
+		getcwd(buffer, sizeof(buffer));
+		pwd = buffer;
+	}
 	if (access(pwd, F_OK) == -1)
 	{
+		puts("+++++++++");
 		pwd = ft_get_val_env(tmp, env, "PWD", 2);
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");

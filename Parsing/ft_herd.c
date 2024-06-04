@@ -38,7 +38,11 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 {
 	// printf("[%s] [%d]\n",(*head)->word, (*head)->type);
 	if ((*head)->type == WORD)
+	{
 		dst[(*i)++] = ft_strdup((*head)->word);
+		if (ft_strcmp((*head)->word, "export") == 0 && (*head)->next)
+			(*head)->next->type = 0;
+	}
 	else if ((*head)->type == 6)
 	{
 		char	**str;
@@ -48,8 +52,8 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			return ;
 		int j = 0;
 		while (str[j])
-			dst[(*i)++] = str[j++];
-		// free_split(str);
+			dst[(*i)++] = ft_strdup(str[j++]);
+		free_split(str);
 	}
 	else if ((*head)->type == REDOU)
 	{
