@@ -153,4 +153,6 @@ int	ft_check_type(char *content);
 void    ft_is_pipe(t_joins **head, t_env **env);
 //
 int	hundle_error(t_words *words);
+void	ft_check_slash(char *command, t_env **env);
+void	com_not_found(char *command);
 #endif

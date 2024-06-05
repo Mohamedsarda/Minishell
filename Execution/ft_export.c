@@ -135,7 +135,7 @@ void	print_sorted_env(t_env **head, t_joins **stack_2)
 	{
 		if (arr[i]->print)
 		{
-			ft_putstr("declare -x", fd);
+			ft_putstr("declare -x ", fd);
 			ft_putstr(arr[i]->key, fd);
 			if (arr[i]->equal)
 				ft_putstr("=", fd);
@@ -309,7 +309,7 @@ int check_key_env(char *key)
 	while(*key)
 	{
 		if ((*key < 'a' || *key > 'z') && (*key < 'A' || *key <= 'Z')
-			&& (*key < '0' || *key > '9') && *key == '_')
+			&& (*key < '0' || *key > '9') && *key != '_')
 			return (1);
 		key++;
 	}
