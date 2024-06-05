@@ -242,18 +242,7 @@ int	main(int ac, char **ar, char **env)
 		// 	b = b->next;
 		// }
 		
-		if (hundle_error(words) == 0)
-		{
-			printf("Minishell : syntax error near unexpected token\n");
-			ft_lstclear(&words);
-			continue ;
-		}
-		if (hundle_error(words) == 10)
-		{
-			printf("Minishell : ambiguous redirect\n");
-			ft_lstclear(&words);
-			continue ;
-		}
+		
 		tmp = ft_parse_stack(&words, &env_stack);
 		ft_lstclear_joins(&tmp);
 	}

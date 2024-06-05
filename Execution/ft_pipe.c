@@ -139,7 +139,7 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	int	old;
 
 	old = -1;
-	while ((*head))
+	while ((*head) && !(*head)->error)
 	{
 		pipe(pipes);
 		pid = fork();

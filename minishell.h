@@ -30,6 +30,7 @@ typedef struct s_joins
 	char			**content;
 	int				in;
 	int				out;
+	int				error;
 	struct s_joins	*next;
 }	t_joins;
 
@@ -150,4 +151,6 @@ void	print_sorted_env(t_env **head, t_joins **stack_2);
 int	ft_check_type(char *content);
 //
 void    ft_is_pipe(t_joins **head, t_env **env);
+//
+int	hundle_error(t_words *words);
 #endif

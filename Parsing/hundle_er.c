@@ -30,27 +30,27 @@ int	hundle_error(t_words *words)
 	int		len;
 
 	a = words;
-	while (a)
+	// while (a)
+	// {
+	len = check_length(a->word);
+	if ((a->type == HERD && len >= 3))
+		return (0);
+	else if ((a->type == APPEND && len == 0) || (a->type == HERD && len == 0))
+		return (0);
+	if (a->type == REDOU || a->type == REDIN
+		|| a->type == HERD || a->type == APPEND || a->word == NULL)
 	{
-		len = check_length(a->word);
-		if ((a->type == 4 && len >= 3))
+		if (!a->next)
 			return (0);
-		else if ((a->type == 5 && len == 0) || (a->type == 4 && len == 0))
+		if (a->next->word[0] == '\0' || (a->next->is == 0 && a->next->type == 6 && check_space(a->next->word, ' ') == 1))
+			return (10);
+		else if (a->next->type == REDOU || a->next->type == REDIN
+			|| a->next->type == PIPE || a->next->type == HERD
+			|| a->next->type == APPEND || a->next->word == NULL)
 			return (0);
-		if (a->next != NULL && !a->next->word  && (a->next->word[0] == '\0' || (a->next->is == 0 && a->next->type == 6 && check_space(a->next->word, ' ') == 1)))
-				return (10);
-		if (a->type == REDOU || a->type == REDIN
-			|| a->type == HERD || a->type == APPEND || a->word == NULL)
-		{
-			if (!a->next)
-				return (0);
-			else if (a->next->type == REDOU || a->next->type == REDIN
-				|| a->next->type == PIPE || a->next->type == HERD
-				|| a->next->type == APPEND || a->next->word == NULL)
-				return (0);
-		}
-		a = a->next;
 	}
+	// 	a = a->next;
+	// }
 	return (1);
 }
 
