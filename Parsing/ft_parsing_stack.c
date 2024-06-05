@@ -23,9 +23,12 @@ int	ft_stack_words(t_words *words)
 	{
 		if (words->type == 0)
 			i++;
-		if (words->type == 6)
+		if (words->type == 6 && words->word[0] != '\0')
 		{
-			i += ft_strlen_space(words);
+			if(words->is == 1)
+				i++;
+			else
+				i += ft_strlen_space(words);
 		}
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
@@ -96,6 +99,20 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 	{
 		if (i <= words)
 		{
+			if (hundle_error(*head) == 0)
+			{
+				printf("Minishell : syntax error near unexpected token\n");
+				ft_lstclear(head);
+				stack_2->error = 1;
+				break;
+			}
+			if (hundle_error(*head) == 10)
+			{
+				printf("Minishell : ambiguous redirect\n");
+				ft_lstclear(head);
+				stack_2->error = 1;
+				break;
+			}
 			if ((*head)->type == HERD)
 				ft_handle_herd(stack_2, head, env);
 			else
@@ -138,14 +155,23 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
 			new->content = ft_create_list(new, words, env);
+			if (!stack_2->content)
+				return (stack_2);
 			ft_lstaddback_joins(&stack_2, new);
 		}
+	}
+	tmp = stack_2;
+	while (tmp)
+	{
+		if (tmp->error)
+			return (stack_2);
+		tmp = tmp->next;
 	}
 	tmp = stack_2;
 	if (tmp && !tmp->next)
 	{
 		i = 0;
-		if (!tmp->content[i])
+		if (!tmp->content && !tmp->content[i])
 			return (stack_2);
 		// while (tmp->content[i])
 			// printf("[%s]\n", tmp->content[i++]);

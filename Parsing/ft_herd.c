@@ -43,10 +43,14 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 		if ((ft_strcmp((*head)->word, "export") == 0 || ft_strcmp((*head)->word, "awk") == 0) && (*head)->next)
 			(*head)->next->type = 0;
 	}
-	else if ((*head)->type == 6)
+	else if ((*head)->type == 6 && (*head)->word[0] != '\0')
 	{
+		if((*head)->is == 1)
+		{
+			dst[(*i)++] = ft_strdup((*head)->word);
+			return ;
+		}
 		char	**str;
-
 		str = ft_split((*head)->word, ' ');
 		if (!str)
 			return ;
