@@ -1,5 +1,5 @@
 #include "../minishell.h"
-
+#include <sys/stat.h>
 int	ft_joinssize(t_joins *head)
 {
 	int	i;
@@ -46,6 +46,7 @@ void	check_run_2(char *PATH, char *command, t_joins **head, t_env **env)
 	i = 0;
 	signal(SIGQUIT, SIG_DFL);
 	execve(command, (*head)->content, environ);
+	ft_check_slash(command, env);
 	tmp = ft_split(PATH, ':');
 	if (tmp == NULL || *tmp == NULL)
 	{
@@ -56,23 +57,11 @@ void	check_run_2(char *PATH, char *command, t_joins **head, t_env **env)
 	while (tmp[++j])
 	{
 		tmp[j] = test(tmp[j], "/");
-		tmp[j] = test(tmp[j], command);
+		tmp[j] = test(tmp[j], (*head)->content[0]);
 		if (access(tmp[j], X_OK) == 0)
 			execve(tmp[j], (*head)->content, environ);
 	}
-	while (command[i])
-	{
-		if (command[i] == '/')
-		{
-			ft_exit_status(env, "127");
-			printf("Minishell$ %s : No such file or directory\n", command);
-			exit(127);
-		}
-		i++;
-	}
-	ft_putstr("Minishell$ ", 2);
-	ft_putstr(command, 2);
-	ft_putstr(": command not found\n", 2);
+	com_not_found(command);
 }
 
 void	ft_run_2(t_joins **head, t_env **env)
