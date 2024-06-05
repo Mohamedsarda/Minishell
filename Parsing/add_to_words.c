@@ -5,14 +5,14 @@ static int	ft_add(t_words **head, char *str, t_env *env_stack)
 	t_words	*node;
 
 	multiple(&str, 0);
-	if (str[0] == '<' || str[0] == '>')
+	if (str[0] == '<' || str[1] == '<')
 		return (1);
 	node = ft_lstnew(str, env_stack);
-	if (node->word[0] == '\0')
-	{
-		ft_lstdelone(node);
-		return (0);
-	}
+	// if (node->word[0] == '\0')
+	// {
+	// 	ft_lstdelone(node);
+	// 	return (0);
+	// }
 	ft_lstadd_back(head, node);
 	return (0);
 }
