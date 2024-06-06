@@ -56,16 +56,18 @@ int	ft_get_env_len(char *str, char c)
 
 char	**ft_empty_env(char **env, int *tmp)
 {
-	int	j;
+	int		j;
+	char	buffer[1024];
 
+	getcwd(buffer, sizeof(buffer));
 	j = 0;
 	(*tmp) = 1;
 	env = (char **)malloc(4 * sizeof(char *));
 	if (!env)
 		return (NULL);
-	env[j++] = ft_strdup("USER=msarda");
-	env[j++] = ft_strdup("HOME=/Users/msarda");
+	env[j++] = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 	env[j++] = ft_strdup("SHLVL=1");
+	env[j++] = ft_strjoin("PWD=", buffer);
 	env[j] = NULL;
 	return (env);
 }
