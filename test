@@ -219,8 +219,3 @@ bash: $a: ambiguous redirect
 
 handle ft_handle_herd in syntex error
 `
-
-Minishell$ | ls
-[|] [0]
-[ls] [6]
-Minishell$ |: command not found
