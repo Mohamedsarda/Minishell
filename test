@@ -201,7 +201,7 @@ bash: $a: ambiguous redirect
 # bash: cd: HOME not set
 # bash-3.2$ cd Parsing/
 
-ß
+
 
 exit -1     ==== -1 + 256
 exit 257     ==== 257 % 256
