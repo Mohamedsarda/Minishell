@@ -89,7 +89,6 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 	char	*err;
 	int		words;
 	int		i;
-
 	words = ft_stack_words(*head);
 	dst = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!dst)
@@ -155,7 +154,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
 			new->content = ft_create_list(new, words, env);
-			if (!stack_2->content)
+			if (stack_2 && !stack_2->content)
 				return (stack_2);
 			ft_lstaddback_joins(&stack_2, new);
 		}

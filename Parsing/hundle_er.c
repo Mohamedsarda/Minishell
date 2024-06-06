@@ -49,6 +49,13 @@ int	hundle_error(t_words *words)
 			|| a->next->type == APPEND || a->next->word == NULL)
 			return (0);
 	}
+	if(a->type == PIPE)
+	{
+		if (!a->next)
+			return (0);
+		if(a->next->type == PIPE)
+			return (0);
+	}
 	// 	a = a->next;
 	// }
 	return (1);

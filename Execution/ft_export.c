@@ -308,7 +308,7 @@ int check_key_env(char *key)
 		return (1);
 	while(*key)
 	{
-		if ((*key < 'a' || *key > 'z') && (*key < 'A' || *key <= 'Z')
+		if ((*key < 'a' || *key > 'z') && (*key < 'A' || *key > 'Z')
 			&& (*key < '0' || *key > '9') && *key != '_')
 			return (1);
 		key++;
