@@ -151,6 +151,11 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	{
 		if ((*words)->type == PIPE)
 		{
+			if (!stack_2->content[0])
+			{
+					ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
+					return (stack_2);
+			}
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
 			new->content = ft_create_list(new, words, env);
