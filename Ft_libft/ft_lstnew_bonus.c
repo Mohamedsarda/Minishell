@@ -23,7 +23,11 @@ int	ft_check_type(char *content)
 	while (content[i])
 	{
 		if (content[i] == '$')
+		{
+			if(content[0] != '$')
+				return (0);
 			return (6);
+		}
 		i++;
 	}
 	if (*content == '>' && *(content + 1) == '>')
