@@ -17,7 +17,10 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 	else
 		head->equal = 0;
 	head->key = ft_strdup(val_1);
-	head->value = ft_strdup(t);
+	if (ft_strcmp(val_1, "_") == 0)
+		head->value = ft_strdup("/usr/bin/env");
+	else
+		head->value = ft_strdup(t);
 	head->print = 1;
 	head->next = NULL;
 	return (head);
@@ -62,12 +65,13 @@ char	**ft_empty_env(char **env, int *tmp)
 	getcwd(buffer, sizeof(buffer));
 	j = 0;
 	(*tmp) = 1;
-	env = (char **)malloc(4 * sizeof(char *));
+	env = (char **)malloc(5 * sizeof(char *));
 	if (!env)
 		return (NULL);
 	env[j++] = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-	env[j++] = ft_strdup("SHLVL=1");
 	env[j++] = ft_strjoin("PWD=", buffer);
+	env[j++] = ft_strdup("SHLVL=1");
+	env[j++] = ft_strdup("_=");
 	env[j] = NULL;
 	return (env);
 }
@@ -88,6 +92,8 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 		str = env[i];
 		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
 		node = ft_lstnew_env(key, str);
+		if (tmp && ft_strcmp("PATH", key) == 0)
+			node->print = 0;
 		if (!node)
 			return (free(key), NULL);
 		free(key);
