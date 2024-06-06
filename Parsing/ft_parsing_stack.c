@@ -33,9 +33,10 @@ int	ft_stack_words(t_words *words)
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
 			words = words->next;
-		if (words->type == 3)
+		if (words != NULL&& words->type == 3)
 			break ;
-		words = words->next;
+		if(words != NULL)
+			words = words->next;
 	}
 	return (i);
 }
