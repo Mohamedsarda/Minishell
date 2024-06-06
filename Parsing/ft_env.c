@@ -60,16 +60,12 @@ char	**ft_empty_env(char **env, int *tmp)
 
 	j = 0;
 	(*tmp) = 1;
-	puts("------");
-	env = (char **)malloc(5 * sizeof(char *));
+	env = (char **)malloc(4 * sizeof(char *));
 	if (!env)
 		return (NULL);
 	env[j++] = ft_strdup("USER=msarda");
 	env[j++] = ft_strdup("HOME=/Users/msarda");
 	env[j++] = ft_strdup("SHLVL=1");
-	env[j++] = ft_strdup("PATH=/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/\
-		usr/sbin:/sbin:/usr/local/munki:/Library/\
-		Apple/usr/bin:/Users/msarda/.brew/bin");
 	env[j] = NULL;
 	return (env);
 }

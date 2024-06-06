@@ -24,6 +24,11 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 	int		fd;
 	
 	env = (*env_tmp);
+	if (ft_env_size(env) == 1)
+	{
+			ft_putstr("Minishell$ env: No such file or directory\n", 2);
+			return ;
+	}
 	tmp = (*stack_2);
 	if (tmp->out != 0 && tmp->in >= 0)
 		fd = tmp->out;

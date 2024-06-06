@@ -155,4 +155,6 @@ void    ft_is_pipe(t_joins **head, t_env **env);
 int	hundle_error(t_words *words);
 void	ft_check_slash(char *command, t_env **env);
 void	com_not_found(char *command);
+int	ft_env_size(t_env *head);
+int check_key_env(char *key);
 #endif

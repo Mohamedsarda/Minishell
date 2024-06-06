@@ -3,10 +3,7 @@
 void	ft_run_commad(t_joins **head, t_env **env, char *type)
 {
 	if(type == NULL)
-	{
-		// ft_next_node_joins(head);
 		return ;
-	}
 	if (ft_strcmp(type, "echo") == 0)
 		ft_echo(head);
 	else if (ft_strcmp(type, "pwd") == 0)
