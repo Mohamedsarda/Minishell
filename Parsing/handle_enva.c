@@ -152,7 +152,6 @@ char	*test_1(char *s1, char *s2)
 char    *ft_expand(char *result, char *str, int *i, t_env *env)
 {
 	(*i)++;
-	int j = 0;
 	if(str[*i] == '\'' || str[*i] == '\"')
 		return result;
 	else if (str[*i] >= '0' && str[*i] <= '9')
@@ -163,25 +162,11 @@ char    *ft_expand(char *result, char *str, int *i, t_env *env)
 		return ((*i)++, test_1(result, "$$"));
 	else
 	{
-		int c = 0;
 		char	*key = get_only_key(str, i);
 		char *sta = check_env(key, env);
-		char    *res = malloc(ft_strlen(sta) + 1 + ft_strlen(result));
-		while (result != NULL && result[c])
-		{
-			res[c] = result[c];
-			c++;
-		}
-		while(sta[j])
-		{
-			res[c] = sta[j];
-			j++;
-			c++;
-		}
-		res[c] = '\0';
-		free(result);
+		result = test_1(result, sta);
 		free(key);
-		return (res);
+		return (result);
 	}
 	return result;
 }
@@ -302,7 +287,6 @@ char    *ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 		char	*key = get_only_key(str, i);
 		char *sta = check_env(key, env);
 		result = test_1(result, sta);
-		
 		free(key);
 		return (result);
 	}
