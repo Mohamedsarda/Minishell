@@ -239,3 +239,6 @@ Ft_libft        Parsing         main.c          minishell       test
 // if (ft_strcmp("_", tmp->key) != 0)
 		// 	return ;
 bad
+
+
+ps aux | grep "root" | wc -l

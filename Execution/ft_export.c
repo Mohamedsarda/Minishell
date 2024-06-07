@@ -344,7 +344,7 @@ void    ft_export(t_joins **head, t_env **env)
 			key = befor_equal(command);
 			if (check_key_env(key) == 1)
 			{
-				printf("Minishell$ unset: `%s': not a valid identifier\n", command);
+				printf("Minishell$ export: `%s': not a valid identifier\n", command);
 				free(command);
 				free(key);
 				// ft_lstclear_joins(head);
