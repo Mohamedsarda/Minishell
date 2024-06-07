@@ -65,7 +65,7 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 				ft_lstadd_back(words, node);
 			}
 		}
-		if(tmp[j])
+		if (tmp[j])
 			j++;
 	}
 	free_split(tmp);

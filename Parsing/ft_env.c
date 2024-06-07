@@ -3,11 +3,13 @@
 t_env	*ft_lstnew_env(char *val_1, char *val_2)
 {
 	t_env	*head;
-	char	*t = val_2;
+	char	*t;
+
+	t = val_2;
 	head = (t_env *)malloc(sizeof(t_env));
 	if (!head)
 		return (NULL);
-	if(!t)
+	if (!t)
 		head->equal = 0;
 	else if (*t == '=')
 	{

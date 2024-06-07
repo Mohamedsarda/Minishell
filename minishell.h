@@ -160,4 +160,13 @@ void	com_not_found(char *command);
 int	ft_env_size(t_env *head);
 int check_key_env(char *key);
 char    *all_expand(char *str, t_env *env, int is);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+int	check_in_set(char c, char *set);
+void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env);
+size_t	get_current_time(void);
+void	ft_print_free(char *str, int fd);
+void	based_on_trim(char **str);
+int	ft_strchr(char *str, char c);
+char	*ft_itoa(int n);
+int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str);
 #endif

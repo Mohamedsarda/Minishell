@@ -3,11 +3,12 @@
 int	ft_strlen_space(t_words *words)
 {
 	char	**dst;
+	int		i;
 
+	i = 0;
 	dst = ft_split(words->word, ' ');
 	if (!dst)
 		return (0);
-	int i = 0;
 	while (dst[i])
 		i++;
 	free_split(dst);
@@ -25,7 +26,7 @@ int	ft_stack_words(t_words *words)
 			i++;
 		if (words->type == 6 && words->word[0] != '\0')
 		{
-			if(words->is == 1)
+			if (words->is == 1)
 				i++;
 			else
 				i += ft_strlen_space(words);
@@ -33,32 +34,13 @@ int	ft_stack_words(t_words *words)
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
 			words = words->next;
-		if (words != NULL&& words->type == 3)
+		if (words != NULL && words->type == 3)
 			break ;
-		if(words != NULL)
+		if (words != NULL)
 			words = words->next;
 	}
 	return (i);
 }
-
-// int	ft_stack_words(t_words *words)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (words)
-// 	{
-// 		if (words->type == 0 || words->type == 6)
-// 			i++;
-// 		else if (words->type == 2 || words->type == 1
-// 			|| words->type == 4 || words->type == 5)
-// 			words = words->next;
-// 		if (words->type == 3)
-// 			break ;
-// 		words = words->next;
-// 	}
-// 	return (i);
-// }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -105,14 +87,14 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 				printf("Minishell : syntax error near unexpected token\n");
 				ft_lstclear(head);
 				stack_2->error = 1;
-				break;
+				break ;
 			}
 			if (hundle_error(*head) == 10)
 			{
 				printf("Minishell : ambiguous redirect\n");
 				ft_lstclear(head);
 				stack_2->error = 1;
-				break;
+				break ;
 			}
 			if ((*head)->type == HERD)
 				ft_handle_herd(stack_2, head, env);
@@ -121,7 +103,8 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 		}
 		if (stack_2->in == -1 || stack_2->out == -1)
 		{
-			if (ft_strcmp("\'\'", (*head)->word) == 0 || ft_strcmp("\"\"", (*head)->word) == 0)
+			if (ft_strcmp("\'\'", (*head)->word) == 0
+				|| ft_strcmp("\"\"", (*head)->word) == 0)
 				printf("Minishell$: No such file or directory\n");
 			else
 			{
@@ -177,8 +160,6 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		i = 0;
 		if (!tmp->content && !tmp->content[i])
 			return (stack_2);
-		// while (tmp->content[i])
-			// printf("[%s]\n", tmp->content[i++]);
 		if (tmp->in < 0 || tmp->out < 0)
 			return (stack_2);
 		ft_run_commad(&stack_2, env, tmp->content[0]);
