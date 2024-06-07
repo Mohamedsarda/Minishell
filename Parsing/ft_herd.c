@@ -146,7 +146,7 @@ int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 	}
 	if (!(*head)->is)
 	{
-		(*head)->word = all_expand((*head)->word, *env, 1);
+		tmp = all_expand(str, *env, 1);
 		free(str);
 		ft_print_free(tmp, stack_2->out);
 	}
