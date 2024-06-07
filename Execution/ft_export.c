@@ -349,7 +349,7 @@ void    ft_export(t_joins **head, t_env **env)
 				free(key);
 				// ft_lstclear_joins(head);
 				i++;
-				continue;
+				break ;
 			}
 			value = after_equal(command);
 			send_to_stack_env(value, key, env);
