@@ -90,6 +90,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 	char	*err;
 	int		words;
 	int		i;
+
 	words = ft_stack_words(*head);
 	dst = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!dst)
