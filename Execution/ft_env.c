@@ -39,6 +39,11 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		if (env->value && env->equal && env->print)
 		{
 			ft_putstr(env->key, fd);
+			if (ft_strcmp(env->key, "PWD") == 0)
+			{
+				free(env->value);
+				env->value = ft_pwd(stack_2, 1);
+			}
 			ft_putstr("=", fd);
 			ft_putstr(env->value, fd);
 			ft_putstr("\n", fd);
