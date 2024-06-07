@@ -142,8 +142,6 @@ char	*test(char *s1, char *s2);
 char	*add_one(char *s1, char s2);
 int		ft_strlen_c(const char *str, char c);
 void	multiple2(char **str);
-//end parsi.c
-void	ft_after_pipe(t_joins **head, t_env **env);
 
 void    ft_run(t_joins **head, t_env **env);
 void	env_equal(t_env **env);
@@ -169,4 +167,5 @@ void	based_on_trim(char **str);
 int	ft_strchr(char *str, char c);
 char	*ft_itoa(int n);
 int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str);
+t_env	*ft_get_status_pos(t_env *env, char *key);
 #endif

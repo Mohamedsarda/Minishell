@@ -38,7 +38,7 @@ void	ft_next_node_joins(t_joins **head)
 	stack = (*head)->next;
 	i = 0;
 	if ((*head)->in > 2)
-			close((*head)->in);
+		close((*head)->in);
 	if ((*head)->out > 2)
 		close((*head)->out);
 	while ((*head)->content[i])
@@ -91,7 +91,6 @@ void	ft_echo(t_joins **head)
 	if (!tmp->content[i])
 	{
 		write(tmp->out, "\n", 1);
-		// ft_next_node_joins(head);
 		return ;
 	}
 	j = 1;
@@ -105,24 +104,5 @@ void	ft_echo(t_joins **head)
 	{
 		ft_print_echo(tmp->content, tmp->out, &i);
 		write(tmp->out, "\n", 1);
-	}
-}
-
-
-#include <sys/wait.h>
-
-void	ft_after_pipe(t_joins **head, t_env **env)
-{
-	pid_t pid;
-
-	if ((*head))
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			ft_run_commad(head, env, (*head)->content[0]);
-			exit(0);
-		}
-		wait(NULL);
 	}
 }
