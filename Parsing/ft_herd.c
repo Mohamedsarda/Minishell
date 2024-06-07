@@ -40,8 +40,12 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 	if ((*head)->type == WORD)
 	{
 		dst[(*i)++] = ft_strdup((*head)->word);
-		if ((ft_strcmp((*head)->word, "export") != 0 || ft_strcmp((*head)->word, "awk") == 0) && (*head)->next && (*head)->next->type == 0)
-			(*head)->next->type = 6;
+		// printf("%s\n", (*head)->word);
+		// if ((*head)->word[0] == '$' && (ft_strcmp((*head)->word, "export") != 0 || ft_strcmp((*head)->word, "awk") == 0) && (*head)->next && (*head)->next->type == 0)
+		// {
+		// 	puts("---");
+		// 	(*head)->next->type = 6;
+		// }	
 	}
 	else if ((*head)->type == 6 && (*head)->word[0] != '\0')
 	{
@@ -127,14 +131,23 @@ void	ft_print_free(char *str, int fd)
 int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 {
 	char	*tmp;
+	int		is;
 
+	is = 0;
 	if ((*head)->is && ft_strlen((*head)->word) > 2)
-		(*head)->word = ft_strtrim((*head)->word, "\"");
-	if (!str || (ft_strcmp((*head)->word, str) == 0
+	{
+		tmp = all_expand((*head)->word, *env, 1);
+		is = 1;
+	}
+	if (!str 
+			|| (ft_strcmp(tmp, str) == 0
+			|| ft_strcmp((*head)->word, str) == 0
 			|| ft_strcmp("\"\"", str) == 0
 			|| ft_strcmp("\'\'", str) == 0)
-		|| (!str[0] && (*head)->is && ft_strlen((*head)->word) == 2))
+		|| (!str[0] && (*head)->is && ft_strlen(tmp) == 2))
 	{
+		if (is)
+			free(tmp);
 		free(str);
 		return (1);
 	}
@@ -146,12 +159,15 @@ int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 	}
 	if (!(*head)->is)
 	{
-		tmp = ft_strdup(ft_env_eq(env, str));
+		tmp = all_expand(str, *env, 0);
 		free(str);
 		ft_print_free(tmp, stack_2->out);
 	}
 	else
+	{
+		free(tmp);
 		ft_print_free(str, stack_2->out);
+	}
 	return (0);
 }
 
