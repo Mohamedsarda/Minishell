@@ -90,6 +90,7 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 	char	*err;
 	int		words;
 	int		i;
+
 	words = ft_stack_words(*head);
 	dst = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!dst)
@@ -146,16 +147,14 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 
 	stack_2 = ft_lstnew_joins(words);
 	stack_2->content = ft_create_list(stack_2, words, env);
-	if (stack_2->in == -1 || stack_2->out == -1)
-		ft_next_node_joins(&stack_2);
 	while ((*words))
 	{
 		if ((*words)->type == PIPE)
 		{
 			if (!stack_2->content[0])
 			{
-					ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
-					return (stack_2);
+				ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
+				return (stack_2);
 			}
 			ft_next_node(words);
 			new = ft_lstnew_joins(words);
