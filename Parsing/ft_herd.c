@@ -193,16 +193,67 @@ void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
 	}
 }
 
+static int	ft_num_len(long num)
+{
+	int		i;
+
+	i = 0;
+	if (num <= 0)
+		num *= -1;
+	while (num > 0)
+	{
+		num /= 10;
+		i++;
+	}
+	return (i);
+}
+
+char	*ft_itoa(int n)
+{
+	int		n_len;
+	char	*str;
+	long	num;
+
+	num = n;
+	n_len = ft_num_len(num);
+	str = (char *)malloc((n_len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	str[n_len--] = '\0';
+	if (num == 0)
+		str[0] = '0';
+	if (num < 0)
+		num *= -1;
+	while (num > 0 && n_len >= 0)
+	{
+		str[n_len] = '0' + (num % 10);
+		num /= 10;
+		n_len--;
+	}
+	return (str);
+}
+
+size_t	get_current_time(void)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		write(2, "gettimeofday() error\n", 22);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
 void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 {
+	char	*file = ft_strjoin("../.herd_file", ft_itoa((int)get_current_time()));
+
 	ft_next_node(head);
-	stack_2->out = open("../.herd_file", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	stack_2->out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	signal(SIGINT, ft_herd_sig);
 	rl_catch_signals = 0;
 	ft_herd_while(stack_2, head, env);
 	close(stack_2->out);
 	stack_2->out = 1;
-	stack_2->in = open("../.herd_file", O_CREAT | O_RDONLY, 0777);
+	stack_2->in = open(file, O_CREAT | O_RDONLY, 0777);
 }
 
 void	ft_next_node(t_words **head)

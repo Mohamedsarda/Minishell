@@ -8,6 +8,8 @@
 # include "readline/history.h"
 # include <signal.h>
 # include <fcntl.h>
+#include <string.h>
+#include <sys/time.h>
 
 # define WORD 0
 # define REDIN 1 // <
