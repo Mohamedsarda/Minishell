@@ -133,12 +133,13 @@ int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 	char	*tmp;
 
 	if ((*head)->is && ft_strlen((*head)->word) > 2)
-		(*head)->word = all_expand((*head)->word, *env, 1);
-	if (!str || (ft_strcmp((*head)->word, str) == 0
+		tmp = all_expand((*head)->word, *env, 1);
+	if (!str || (ft_strcmp(tmp, str) == 0
 			|| ft_strcmp("\"\"", str) == 0
 			|| ft_strcmp("\'\'", str) == 0)
-		|| (!str[0] && (*head)->is && ft_strlen((*head)->word) == 2))
+		|| (!str[0] && (*head)->is && ft_strlen(tmp) == 2))
 	{
+		free(tmp);
 		free(str);
 		return (1);
 	}
@@ -155,7 +156,10 @@ int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 		ft_print_free(tmp, stack_2->out);
 	}
 	else
+	{
+		free(tmp);
 		ft_print_free(str, stack_2->out);
+	}
 	return (0);
 }
 
