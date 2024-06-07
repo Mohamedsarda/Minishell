@@ -131,15 +131,23 @@ void	ft_print_free(char *str, int fd)
 int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 {
 	char	*tmp;
+	int		is;
 
+	is = 0;
 	if ((*head)->is && ft_strlen((*head)->word) > 2)
+	{
 		tmp = all_expand((*head)->word, *env, 1);
-	if (!str || (ft_strcmp(tmp, str) == 0
+		is = 1;
+	}
+	if (!str 
+			|| (ft_strcmp(tmp, str) == 0
+			|| ft_strcmp((*head)->word, str) == 0
 			|| ft_strcmp("\"\"", str) == 0
 			|| ft_strcmp("\'\'", str) == 0)
 		|| (!str[0] && (*head)->is && ft_strlen(tmp) == 2))
 	{
-		free(tmp);
+		if (is)
+			free(tmp);
 		free(str);
 		return (1);
 	}
@@ -151,7 +159,7 @@ int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str)
 	}
 	if (!(*head)->is)
 	{
-		tmp = all_expand(str, *env, 1);
+		tmp = all_expand(str, *env, 0);
 		free(str);
 		ft_print_free(tmp, stack_2->out);
 	}
