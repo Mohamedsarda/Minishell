@@ -239,6 +239,8 @@ int	check_sing(char *str, int *i)
 	j++;
 	while (str[j])
 	{
+		if(str[j] == '\"')
+			return (0);
 		if(str[j] == '\'')
 			return (1);
 		j++;
@@ -250,7 +252,7 @@ char    *ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
 {
 	(*i)++;
 	result = test_1(result, "\'");
-	while(str[*i] != '\'')
+	while(str[*i] != '\'' && str[*i] != '\"')
 	{
 		result = ft_text(result, str, i);
 		if(str[*i] == '$')
@@ -279,6 +281,8 @@ char    *ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
 				}
 			}
 		}
+		if(str[*i])
+			(*i)++;
 	}
 	return result;
 }
@@ -342,7 +346,7 @@ char    *all_expand(char *str, t_env *env, int is)
 		else if(str[i] && str[i] == '\"')
 		{
 			result = handle_double(result, str, &i, env);
-			if(str[i] && str[i] == '\'' && str[i] == '\"' && str[i] == '$')
+			if(str[i] && (str[i] == '\'' || str[i] == '\"' || str[i] == '$'))
 				i++;
 			else
 			{
