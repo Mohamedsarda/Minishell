@@ -43,7 +43,7 @@ echo "$'cdhs"$"USER
 
 
 
-
+//done
 
  -----
 
@@ -219,3 +219,23 @@ bash: $a: ambiguous redirect
 
 handle ft_handle_herd in syntex error
 `
+
+
+Minishell$ << a cat
+> $PWD''"$PWD"$$USER
+> a
+$PWD''"$PWD"$$USER
+
+
+bash-3.2$ export a="ls -la"
+bash-3.2$ $a' -la'
+ls: illegal option --  
+usage: ls [-@ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1%] [file ...]
+
+Minishell$ unset PATH
+Minishell$ ls
+Execution       Makefile        leaks.sh        main.o          minishell.h
+Ft_libft        Parsing         main.c          minishell       test
+// if (ft_strcmp("_", tmp->key) != 0)
+		// 	return ;
+bad
