@@ -157,4 +157,5 @@ void	ft_check_slash(char *command, t_env **env);
 void	com_not_found(char *command);
 int	ft_env_size(t_env *head);
 int check_key_env(char *key);
+char    *all_expand(char *str, t_env *env, int is);
 #endif
