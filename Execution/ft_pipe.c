@@ -85,7 +85,7 @@ void	ft_run_commad_2(t_joins **head, t_env **env, char *type)
 	if (ft_strcmp(type, "echo") == 0)
 		ft_echo(head);
 	else if (ft_strcmp(type, "pwd") == 0)
-		ft_pwd(head);
+		ft_pwd(head, 0);
 	else if (ft_strcmp(type, "env") == 0)
 		ft_env(env, head);
 	else if (ft_strcmp(type, "cd") == 0)
@@ -142,6 +142,8 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 		if (pid == 0)
 		{
 			ft_dup(head, pipes, &old);
+			if (!(*head)->content[0])
+				exit(0);
 			ft_run_commad_2(head, env, (*head)->content[0]);
 			close(pipes[1]);
 			exit(0);

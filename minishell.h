@@ -8,6 +8,8 @@
 # include "readline/history.h"
 # include <signal.h>
 # include <fcntl.h>
+#include <string.h>
+#include <sys/time.h>
 
 # define WORD 0
 # define REDIN 1 // <
@@ -96,7 +98,7 @@ int		quotes(char *str);
 char	*ft_rm_quotes(char *string, char c);
 //
 void	ft_echo(t_joins **head);
-void	ft_pwd(t_joins	**stack_2);
+char	*ft_pwd(t_joins	**stack_2, int is);
 void	ft_next_node_joins(t_joins **head);
 //
 void	ft_env(t_env **env, t_joins **stack_2);
