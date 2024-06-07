@@ -31,8 +31,6 @@ void    ft_unset(t_joins **head, t_env **env)
 			printf("Minishell$ unset: `%s': not a valid identifier\n", (*head)->content[i]);
 			break ;
 		}
-		if (ft_strcmp("_", tmp->key) == 0)
-			return ;
 		if(ft_strcmp((*head)->content[i], tmp->key) == 0)
 		{
 			cur = tmp;
@@ -47,6 +45,8 @@ void    ft_unset(t_joins **head, t_env **env)
 			while (tmp && ft_search_key(env, (*head)->content[i]))
 			{
 				cur = tmp->next;
+				if (ft_strcmp("_", cur->key) == 0)
+					return ;
 				if (ft_strcmp((*head)->content[i], cur->key) == 0)
 				{
 					tmp->next = cur->next;
