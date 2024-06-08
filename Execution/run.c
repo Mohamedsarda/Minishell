@@ -43,7 +43,7 @@ void	com_not_found(char *command)
 	ft_putstr("Minishell$ ", 2);
 	ft_putstr(command, 2);
 	ft_putstr(": command not found\n", 2);
-	exit(1);
+	exit(127);
 }
 void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 {
@@ -56,7 +56,6 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 	p = fork();
 	if (p < 0)
 	{
-		ft_exit_status(env, "1");
 		perror("fork fail");
 		exit(1);
 	}
@@ -72,9 +71,8 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		tmp = ft_split(PATH, ':');
 		if (tmp == NULL || *tmp == NULL)
 		{
-			ft_exit_status(env, "1");
 			perror("Minishell$ ");
-			exit(1) ;
+			exit(127) ;
 		}
 		while (tmp[++j])
 		{

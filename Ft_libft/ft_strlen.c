@@ -30,7 +30,7 @@ static void	ft_lstdel_joins(t_joins *lst)
 		return ;
 	i = 0;
 	if (lst->in > 2)
-			close(lst->in);
+		close(lst->in);
 	if (lst->out > 2)
 		close(lst->out);
 	while (lst && lst->content[i])
