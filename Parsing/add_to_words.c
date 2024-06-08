@@ -7,7 +7,7 @@ static int	ft_add(t_words **head, char *str, t_env *env_stack)
 	multiple(&str, 0);
 	if (str[0] == '<' && str[1] == '<')
 		return (1);
-	node = ft_lstnew(str, env_stack);
+	node = ft_lstnew(head, str, env_stack);
 	ft_lstadd_back(head, node);
 	return (0);
 }
@@ -29,7 +29,7 @@ t_words	*ft_lstnew_herd(char *val_1)
 	multiple(&val_1, 0);
 	head = NULL;
 	head = (t_words *)malloc(sizeof(t_words));
-	head->type = ft_check_type(val_1);
+	head->type = ft_check_type(NULL, val_1);
 	if (!head)
 		return (NULL);
 	if (check_double_qout(val_1))
@@ -56,7 +56,7 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 	{
 		if (ft_add(words, tmp[j], env_stack))
 		{
-			node = ft_lstnew(tmp[j], env_stack);
+			node = ft_lstnew(words, tmp[j], env_stack);
 			ft_lstadd_back(words, node);
 			j++;
 			if (tmp[j])

@@ -18,6 +18,7 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 	}
 	else
 		head->equal = 0;
+	head->is = 0;
 	head->key = ft_strdup(val_1);
 	if (ft_strcmp(val_1, "_") == 0)
 		head->value = ft_strdup("/usr/bin/env");

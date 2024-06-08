@@ -28,8 +28,12 @@ void	ft_next_node(t_words **head)
 void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 {
 	char	*file;
+	int		i;
 
-	file = ft_strjoin("../.herd_file", ft_itoa((int)get_current_time()));
+	file = ft_strdup("../.herd_file");
+	i = 0;
+	while (access(file, F_OK) == 0)
+		file = ft_strjoin("../.herd_file", ft_itoa(i++));
 	ft_next_node(head);
 	stack_2->out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	signal(SIGINT, ft_herd_sig);
@@ -38,6 +42,8 @@ void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 	close(stack_2->out);
 	stack_2->out = 1;
 	stack_2->in = open(file, O_CREAT | O_RDONLY, 0777);
+	unlink(file);
+	free(file);
 }
 
 void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)

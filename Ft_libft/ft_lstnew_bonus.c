@@ -1,5 +1,20 @@
 #include "../minishell.h"
 
+int	check_if_export(t_words **head, char *content)
+{
+	t_words *a;
+	if(head == NULL)
+		return (6);
+	a = *head;
+	while(a)
+	{
+		if(!ft_strcmp(a->word, "export") && ft_strchr(content, '=') == 1)
+			return (0);
+		a = a->next;
+	}
+	return (6);
+}
+
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	unsigned char	*d;
@@ -15,7 +30,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-int	ft_check_type(char *content)
+int	ft_check_type(t_words **head, char *content)
 {
 	int	i;
 
@@ -24,7 +39,7 @@ int	ft_check_type(char *content)
 	{
 		if (content[i] == '$')
 		{
-			if (content[0] != '$')
+			if(check_if_export(head, content) == 0)
 				return (0);
 			return (6);
 		}
@@ -44,7 +59,7 @@ int	ft_check_type(char *content)
 		return (0);
 }
 
-t_words	*ft_lstnew(char *content, t_env *env_stack)
+t_words	*ft_lstnew(t_words **head, char *content, t_env *env_stack)
 {
 	t_words	*new_node;
 	char	*str;
@@ -53,7 +68,7 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 	str = NULL;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
-	new_node->type = ft_check_type(content);
+	new_node->type = ft_check_type(head, content);
 	if ((content[0] == '\'' || content[0] == '\"')
 		&& (content[ft_strlen(content) - 1] == '\''
 			|| content[ft_strlen(content) - 1] == '\"'))
