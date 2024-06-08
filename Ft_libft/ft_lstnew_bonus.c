@@ -2,7 +2,10 @@
 
 int	check_if_export(t_words **head, char *content)
 {
-	t_words *a = *head;
+	t_words *a;
+	if(head == NULL)
+		return (6);
+	a = *head;
 	while(a)
 	{
 		if(!ft_strcmp(a->word, "export") && ft_strchr(content, '=') == 1)

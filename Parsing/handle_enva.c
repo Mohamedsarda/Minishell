@@ -178,11 +178,11 @@ char	*handle_single(char *result, char *str, int *i)
 {
 	int		j;
 	char	*res;
-	int		c;
 
 	j = ++(*i);
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
+	int		c;
 	res = malloc((*i - j) + 1 + ft_strlen(result));
 	c = 0;
 	while (result != NULL && result[c])
@@ -287,27 +287,39 @@ char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
 	return (result);
 }
 
-char	*ft_expand_in_double(char *result, char *str, int *i, t_env *env)
+char    *ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 {
-	char	*key;
-	char	*sta;
-
 	(*i)++;
+	int j = 0;
 	if (str[*i] >= '0' && str[*i] <= '9')
 		return ((*i)++, result);
 	else if (str[*i] == '\"' || str[*i] == '\'')
 		return (test_1(result, "$"));
-	else if (str[*i] == '$')
+	else if(str[*i] == '$')
 		return ((*i)++, test_1(result, "$$"));
 	else
 	{
-		key = get_only_key(str, i);
-		sta = check_env(key, env);
-		result = test_1(result, sta);
+		int c = 0;
+		char	*key = get_only_key(str, i);
+		char *sta = check_env(key, env);
+		char    *res = malloc(ft_strlen(sta) + 1 + ft_strlen(result));
+		while (result != NULL && result[c])
+		{
+			res[c] = result[c];
+			c++;
+		}
+		while(sta[j])
+		{
+			res[c] = sta[j];
+			j++;
+			c++;
+		}
+		res[c] = '\0';
+		free(result);
 		free(key);
-		return (result);
+		return (res);
 	}
-	return (result);
+	return result;
 }
 
 char	*handle_double(char *result, char *str, int *i, t_env *env)
@@ -316,17 +328,24 @@ char	*handle_double(char *result, char *str, int *i, t_env *env)
 	while (str[*i] != '\"')
 	{
 		result = ft_text(result, str, i);
-		if (str[*i] == '$')
+		if (str[*i] == '$' && !env->is)
 			result = ft_expand_in_double(result, str, i, env);
 		else if (str[*i] == '\'' && check_sing(str, i) == 1)
 			result = ft_expand_doub_sing(result, str, i, env);
 		else
 			result = ft_text_doub(result, str, i);
+		if(str[*i] == '$'  && env->is)
+		{
+			result = test_1(result, "$");
+			(*i)++;
+		}
 	}
+	if(result == NULL)
+		result = test_1(result, "");
 	return (result);
 }
 
-char	*all_expand(char *str, t_env *env, int is)
+char	*all_expand(char *str, t_env *env)
 {
 	char	*result;
 	int		i;
@@ -337,7 +356,7 @@ char	*all_expand(char *str, t_env *env, int is)
 		result = ft_text(result, str, &i);
 	while (str[i])
 	{
-		if (str[i] && str[i] == '$' && !is)
+		if (str[i] && str[i] == '$' && !env->is)
 			result = ft_expand(result, str, &i, env);
 		if (str[i] && str[i] == '\'')
 		{
@@ -365,8 +384,8 @@ char	*all_expand(char *str, t_env *env, int is)
 static char	*handle_type_6(char *content, t_env *env)
 {
 	char	*str;
-
-	str = all_expand(content, env, 0);
+	env->is = 0;
+	str = all_expand(content, env);
 	return (str);
 }
 
