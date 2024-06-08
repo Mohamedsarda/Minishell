@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	unsigned char	*d;
 	unsigned char	*s;
@@ -24,7 +24,7 @@ int	ft_check_type(char *content)
 	{
 		if (content[i] == '$')
 		{
-			if(content[0] != '$')
+			if (content[0] != '$')
 				return (0);
 			return (6);
 		}
@@ -54,8 +54,9 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
 	new_node->type = ft_check_type(content);
-	if((content[0] == '\'' || content[0] == '\"') &&
-		(content[ft_strlen(content) - 1] == '\'' || content[ft_strlen(content) - 1] == '\"'))
+	if ((content[0] == '\'' || content[0] == '\"')
+		&& (content[ft_strlen(content) - 1] == '\''
+			|| content[ft_strlen(content) - 1] == '\"'))
 		new_node->is = 1;
 	else
 		new_node->is = 0;
@@ -69,7 +70,7 @@ t_words	*ft_lstnew(char *content, t_env *env_stack)
 		free(test);
 		new_node->next = NULL;
 	}
-	else 
+	else
 	{
 		str = handle_env(new_node, content, env_stack);
 		new_node->word = malloc(ft_strlen(str) + 1);
