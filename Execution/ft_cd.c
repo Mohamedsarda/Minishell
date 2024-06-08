@@ -19,13 +19,42 @@ void	ft_change_pwd(t_joins **head, t_env **env)
 {
 	t_env	*oldpwd;
 	t_env	*pwd;
+	char	*newpwd;
 
 	pwd = ft_get_status_pos(*env, "PWD");
 	oldpwd = ft_get_status_pos(*env, "OLDPWD");
-	free(oldpwd->value);
-	oldpwd->value = ft_strdup(pwd->value);
-	free(pwd->value);
-	pwd->value = ft_pwd(head, 1);
+	if ((pwd && oldpwd))
+	{
+		puts("--");
+		free(oldpwd->value);
+		oldpwd->value = ft_strdup(pwd->value);
+		oldpwd->equal = 1;
+		free(pwd->value);
+		pwd->value = ft_pwd(head, 1);
+	}
+	else
+	{
+		newpwd = ft_pwd(head, 1);
+		if (!pwd)
+		{
+			pwd = ft_lstnew_env("PWD", newpwd);
+			pwd->print = 0;
+			ft_lstadd_back_env(env, pwd);
+			if (oldpwd)
+			{
+				free(oldpwd->value);
+				oldpwd->value = ft_strdup("");
+				oldpwd->equal = 1;
+			}
+		}
+		if (!oldpwd)
+		{
+			oldpwd = ft_lstnew_env("OLDPWD", "=");
+			oldpwd->print = 0;
+			ft_lstadd_back_env(env, oldpwd);
+		}
+		free(newpwd);
+	}
 }
 
 void	ft_cd(t_joins **head, t_env **env)
@@ -38,6 +67,7 @@ void	ft_cd(t_joins **head, t_env **env)
 	if (!home && !(*head)->content[1])
 	{
 		ft_putstr("Minishell$ cd: HOME not set\n", 2);
+		ft_exit_status(env, "1");
 		return ;
 	}
 	ft_exit_status(env, "0");

@@ -239,6 +239,7 @@ void	add_value(char *key, char *value, t_env **env, int append)
 			if(append == 1)
 			{
 				value = delete_eq(value);
+				tmp->print = 1;
 				tmp->value = test(tmp->value, value);
 				free(value);
 			}
@@ -253,6 +254,7 @@ void	add_value(char *key, char *value, t_env **env, int append)
 				}
 				free(tmp->value);
 				tmp->value = ft_strdup(t);
+				tmp->print = 1;
 				free(value);
 			}
 			return ;
@@ -261,7 +263,7 @@ void	add_value(char *key, char *value, t_env **env, int append)
 	}
 }
 
-void	send_to_stack_env(char *value, char *key, t_env **env)
+void	send_to_stack_env(t_joins **head, char *value, char *key, t_env **env)
 {
 	t_env	*node;
 
@@ -296,7 +298,15 @@ void	send_to_stack_env(char *value, char *key, t_env **env)
 			free(value);
 			return ;
 		}
-		node = ft_lstnew_env(key, value);
+		if (ft_strcmp(key, "PWD") == 0 && value && !value[0])
+		{
+			free(value);
+			value = ft_pwd(head, 1);
+			node = ft_lstnew_env(key, value);
+			node->equal = 1;
+		}
+		else
+			node = ft_lstnew_env(key, value);
 		free(value);
 		ft_lstadd_back_env(env, node);
 	}
@@ -352,7 +362,7 @@ void    ft_export(t_joins **head, t_env **env)
 				break ;
 			}
 			value = after_equal(command);
-			send_to_stack_env(value, key, env);
+			send_to_stack_env(head, value, key, env);
 			free(command);
 			free(key);
 			i++;

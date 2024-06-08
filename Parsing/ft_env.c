@@ -93,7 +93,15 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 	{
 		str = env[i];
 		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
-		node = ft_lstnew_env(key, str);
+		if (ft_strcmp(key, "OLDPWD") == 0)
+		{
+			str = ft_strdup("");
+			node = ft_lstnew_env(key, str);
+			free(str);
+			node->print = 1;
+		}
+		else
+			node = ft_lstnew_env(key, str);
 		if (tmp && ft_strcmp("PATH", key) == 0)
 			node->print = 0;
 		if (!node)
