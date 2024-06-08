@@ -49,7 +49,7 @@ int		ft_strlen_str_sp(char *str);
 char	*ft_parsing(char *str);
 void	add_struct(char *str, t_words **words, t_env *env_stack);
 int		hundle_error(t_words *words);
-t_words	*ft_lstnew(char *content, t_env *env_stack);
+t_words	*ft_lstnew(t_words **head, char *content, t_env *env_stack);
 void	ft_lstadd_back(t_words **head, t_words *node);
 size_t	ft_strlen(char *s);
 
@@ -148,7 +148,7 @@ void	env_equal(t_env **env);
 //
 void    ft_exit_status(t_env **env, char *status);
 void	print_sorted_env(t_env **head, t_joins **stack_2);
-int	ft_check_type(char *content);
+int	ft_check_type(t_words **head, char *content);
 //
 void    ft_is_pipe(t_joins **head, t_env **env);
 //
