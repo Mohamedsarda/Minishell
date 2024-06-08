@@ -42,6 +42,7 @@ typedef struct s_env
 	char			*value;
 	int				print;
 	int				equal;
+	int				is;
 	struct s_env	*next;
 }	t_env;
 
@@ -157,7 +158,7 @@ void	ft_check_slash(char *command, t_env **env);
 void	com_not_found(char *command);
 int	ft_env_size(t_env *head);
 int check_key_env(char *key);
-char    *all_expand(char *str, t_env *env, int is);
+char    *all_expand(char *str, t_env *env);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 int	check_in_set(char c, char *set);
 void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env);
