@@ -25,7 +25,6 @@ void	ft_change_pwd(t_joins **head, t_env **env)
 	oldpwd = ft_get_status_pos(*env, "OLDPWD");
 	if ((pwd && oldpwd))
 	{
-		puts("--");
 		free(oldpwd->value);
 		oldpwd->value = ft_strdup(pwd->value);
 		oldpwd->equal = 1;
