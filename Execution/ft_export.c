@@ -346,7 +346,6 @@ void    ft_export(t_joins **head, t_env **env)
 			if(ft_strcmp((*head)->content[i], "\"\"") == 0 || ft_strcmp((*head)->content[i], "\'\'") == 0)
 			{
 				ft_putstr("Minishell$ export: `': not a valid identifier\n", 2);
-				// ft_lstclear_joins(head);
 				i++;
 				continue;
 			}
@@ -355,11 +354,8 @@ void    ft_export(t_joins **head, t_env **env)
 			if (check_key_env(key) == 1)
 			{
 				printf("Minishell$ export: `%s': not a valid identifier\n", command);
-				free(command);
-				free(key);
-				// ft_lstclear_joins(head);
 				i++;
-				break ;
+				continue;
 			}
 			value = after_equal(command);
 			send_to_stack_env(head, value, key, env);
