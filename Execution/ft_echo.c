@@ -80,7 +80,7 @@ void	ft_print_echo(char **str, int fd, int *i)
 	}
 }
 
-void	ft_echo(t_joins **head)
+void	ft_echo(t_joins **head, t_env **env)
 {
 	t_joins	*tmp;
 	int		i;
@@ -88,6 +88,7 @@ void	ft_echo(t_joins **head)
 
 	tmp = (*head);
 	i = 1;
+	ft_exit_status(env, "0");
 	if (!tmp->content[i])
 	{
 		write(tmp->out, "\n", 1);

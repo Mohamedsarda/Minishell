@@ -70,7 +70,6 @@ void	ft_cd(t_joins **head, t_env **env)
 		ft_exit_status(env, "1");
 		return ;
 	}
-	ft_exit_status(env, "0");
 	tmp = (*head)->content[1];
 	if (!tmp)
 		tmp = home;

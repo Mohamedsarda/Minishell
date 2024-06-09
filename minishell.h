@@ -98,7 +98,7 @@ void	multiple(char **str, int is);
 int		quotes(char *str);
 char	*ft_rm_quotes(char *string, char c);
 //
-void	ft_echo(t_joins **head);
+void	ft_echo(t_joins **head, t_env **env);
 char	*ft_pwd(t_joins	**stack_2, int is);
 void	ft_next_node_joins(t_joins **head);
 //
@@ -161,12 +161,12 @@ int check_key_env(char *key);
 char    *all_expand(char *str, t_env *env);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 int	check_in_set(char c, char *set);
-void	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env);
-size_t	get_current_time(void);
+int	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env);
 void	ft_print_free(char *str, int fd);
 void	based_on_trim(char **str);
 int	ft_strchr(char *str, char c);
 char	*ft_itoa(int n);
 int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str);
 t_env	*ft_get_status_pos(t_env *env, char *key);
+char	*test_1(char *s1, char *s2);
 #endif
