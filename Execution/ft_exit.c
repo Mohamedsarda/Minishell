@@ -48,19 +48,25 @@ unsigned int ft_atoi(char *str)
 
 void	ft_exit(t_joins **head, t_env **env)
 {
+	t_env		*tmp;
 	unsigned int nbr;
 	int i;
-	ft_lstclear_env(env);
 	i = 1;
+
+	tmp = ft_get_status_pos(*env, "?");
 	while ((*head)->content[i])
 		i++;
+	if(i == 1)
+		exit(ft_atoi(tmp->value));
 	if(i != 2)
 	{
-		printf("bash: exit: too many arguments\n");
+		printf("Minishell$: exit: too many arguments\n");
+		ft_exit_status(env, "1");
 		return ;
 	}
 	nbr = ft_atoi((*head)->content[1]);
 	ft_lstclear_joins(head);
+	ft_lstclear_env(env);
 	exit(nbr);
 }
 
@@ -78,12 +84,15 @@ t_env	*ft_get_status_pos(t_env *env, char *key)
 void	ft_exit_status(t_env **env, char *status)
 {
 	t_env	*tmp;
-
 	tmp = (*env);
+
 	tmp = ft_get_status_pos(tmp, "?");
+	if (!tmp)
+		return ;
 	free(tmp->value);
 	tmp->value = NULL;
+	// if (is)
+	// 	tmp->value = status;
+	// else
 	tmp->value = ft_strdup(status);
-	// printf("%s:%s\n", tmp->key, tmp->value);
-	// puts("++++++");
 }

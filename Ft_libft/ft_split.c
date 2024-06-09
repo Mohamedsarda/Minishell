@@ -83,7 +83,7 @@ char	**ft_split(char const *s, char c)
 	while (*s == ' ' || *s == '\t')
 		s++;
 	if (*s == '\0')
-		exit(0);
+		return(NULL);
 	words = ft_words_counter(s, c);
 	dst = (char **)malloc((words + 1) * sizeof(char *));
 	if (!dst)

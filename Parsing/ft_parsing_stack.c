@@ -101,16 +101,21 @@ char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env)
 			else
 				ft_check_word_type(stack_2, head, &i, dst);
 		}
-		if (stack_2->in == -1 || stack_2->out == -1)
+		if ((stack_2->in == -1 || stack_2->in == -5) || stack_2->out == -1)
 		{
 			if (ft_strcmp("\'\'", (*head)->word) == 0
 				|| ft_strcmp("\"\"", (*head)->word) == 0)
 				printf("Minishell$: No such file or directory\n");
-			else
+			else if (stack_2->in != -5)
 			{
 				err = ft_strjoin("Minishell$ : ", (*head)->word);
 				perror(err);
 				free(err);
+			}
+			else
+			{
+				while ((*head))
+					ft_next_node(head);
 			}
 			while ((*head) && (*head)->type != PIPE)
 				ft_next_node(head);
