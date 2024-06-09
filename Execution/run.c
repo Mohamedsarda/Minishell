@@ -47,16 +47,39 @@ void	com_not_found(char *command)
 	ft_putstr(": command not found\n", 2);
 	exit(127);
 }
-void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
+char	**ft_create_env_from_stack(t_env *env)
+{
+	char	**dst;
+	int		size;
+	// char	*tmp;
+	int		i;
+
+	size = ft_env_size(env);
+	i = 0;
+	dst = (char **)malloc(sizeof(char *) * size + 1);
+	if (!dst)
+		return (NULL);
+	while (i < size)
+	{
+		dst[i] = ft_strjoin(env->key, "=");
+		dst[i] = test(dst[i], env->value);
+		i++;
+		env = env->next;
+	}
+	return (dst[i] = NULL, dst);
+}
+
+void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
 	int			j;
 	pid_t		p;
 	int			status;
-	extern char	**environ;
-	// int exit_status =0;
+	char		*path;
+
 	j = -1;
 	p = fork();
+	path = get_path(env);
 	if (p < 0)
 	{
 		perror("fork fail");
@@ -71,7 +94,7 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 			dup2((*head)->in, 0);
 		execve(command, (*head)->content, environ);
 		ft_check_slash(command, env);
-		tmp = ft_split(PATH, ':');
+		tmp = ft_split(path, ':');
 		if (tmp == NULL || *tmp == NULL)
 		{
 			perror("Minishell$ ");
@@ -100,17 +123,17 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		ft_exit_status(env, ppppp);
 		free(ppppp);
 	}
+	free(path);
 }
 
 void	ft_run(t_joins **head, t_env **env)
 {
 	char	*command;
-	char	*path;
 
 	command = ft_strdup((*head)->content[0]);
-	path = get_path(env);
-	check_run(path, command, head, env);
-	free(path);
+	char **environ = ft_create_env_from_stack(*env);
+	check_run(environ, command, head, env);
 	free(command);
+	free_split(environ);
 	// ft_next_node_joins(head);
 }

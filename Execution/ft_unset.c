@@ -28,7 +28,9 @@ void    ft_unset(t_joins **head, t_env **env)
 		if (check_key_env((*head)->content[i]) || ft_strcmp((*head)->content[0], "?") == 0)
 		{
 			ft_exit_status(env, "1");
-			printf("Minishell$ unset: `%s': not a valid identifier\n", (*head)->content[i]);
+			ft_putstr("Minishell$ unset: `", 2);
+			ft_putstr((*head)->content[i], 2);
+			ft_putstr("': not a valid identifier\n", 2);
 			break ;
 		}
 		if(ft_strcmp((*head)->content[i], tmp->key) == 0)

@@ -354,3 +354,17 @@ Minishell$
 # bash: export: `?=1': not a valid identifier
 # bash-3.2$ export ?=fa
 # bash: export: `?=fa': not a valid identifier
+
+
+export cmd=" -la "
+ls > $cmd
+not ab
+Minishell$ ls > ''
+Minishell : ambiguous redirect
+ls >>> f
+| ls |  >f
+ls | d | << f |
+
+Minishell$ ls > $das | ls > $dsa
+Minishell : ambiguous redirect
+Minishell$ 

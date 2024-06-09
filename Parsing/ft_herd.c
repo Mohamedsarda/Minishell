@@ -22,6 +22,8 @@ void	ft_check_word_type(t_joins *stack_2, t_words **head, int *i, char **dst)
 			dst[(*i)++] = ft_strdup(str[j++]);
 		free_split(str);
 	}
+	else if ((*head)->type == 6 && (*head)->word[0] == '\0' && (*head)->is)
+		dst[(*i)++] = ft_strdup((*head)->word);
 	else if ((*head)->type == REDOU)
 	{
 		ft_next_node(head);
