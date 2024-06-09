@@ -78,6 +78,27 @@ char	**ft_empty_env(char **env, int *tmp)
 	env[j] = NULL;
 	return (env);
 }
+// int ft_atoi(char *s)
+// {
+// 	int i = 0;
+// 	int nmbr = 0;
+// 	while (s[i] && s[i] != '=')
+// 		i++;
+// 	while(s[i])
+// 	{
+// 		if(s[i] >= '0' && s[i] <= '9')
+// 			nmbr = nmbr *10 + (s[i] - '0');
+// 		else
+// 			break;
+// 	}
+// 	if(!s[i])
+// 		return (9999);
+// 	if(nmbr == 999)
+// 		return (10000);
+// 	if(nmbr > 999)
+// 		return (10001);
+// 	return (nmbr);
+// }
 
 t_env	*ft_create_env_stack(char **env, int tmp)
 {
@@ -94,6 +115,12 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 	{
 		str = env[i];
 		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
+		
+		// if (ft_strcmp(key, "SHLVL") == 0)
+		// {
+		// 	int a = ft_atoi(str);
+			
+		// }
 		if (ft_strcmp(key, "OLDPWD") == 0)
 		{
 			str = ft_strdup("");
