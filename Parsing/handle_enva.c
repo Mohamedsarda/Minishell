@@ -70,6 +70,35 @@
 // 	free_split(tmp);
 // 	return (str);
 // }
+
+
+char	*test_1(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*dst;
+
+	if (!s1 && !s2)
+		return (NULL);
+	i = 0;
+	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!dst)
+		return (NULL);
+	if (s1)
+		while (s1[i])
+		{
+			dst[i] = s1[i];
+			i++;
+		}
+	j = 0;
+	if (s2)
+		while (s2[j])
+			dst[i++] = s2[j++];
+	dst[i] = '\0';
+	free(s1);
+	return (dst);
+}
+
 char	*ft_text(char *result, char *str, int *i)
 {
 	int		j;
@@ -101,10 +130,12 @@ char	*get_only_key(char *str, int *i)
 {
 	int		j;
 	int		c;
-	char	*res;
+	char	*res = NULL;
 
 	j = *i;
 	c = 0;
+	if(str[*i] == '?')
+		return ((*i)++, res = test_1(res, "?"));
 	while (str[*i] && ((str[*i] >= 'a' && str[*i] <= 'z')
 			|| (str[*i] >= 'A' && str[*i] <= 'Z')
 			|| (str[*i] >= '0' && str[*i] <= '9') || str[*i] == '_'))
@@ -122,32 +153,6 @@ char	*get_only_key(char *str, int *i)
 	return (res);
 }
 
-char	*test_1(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*dst;
-
-	if (!s1 && !s2)
-		return (NULL);
-	i = 0;
-	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!dst)
-		return (NULL);
-	if (s1)
-		while (s1[i])
-		{
-			dst[i] = s1[i];
-			i++;
-		}
-	j = 0;
-	if (s2)
-		while (s2[j])
-			dst[i++] = s2[j++];
-	dst[i] = '\0';
-	free(s1);
-	return (dst);
-}
 
 char	*ft_expand(char *result, char *str, int *i, t_env *env)
 {
@@ -281,6 +286,8 @@ char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
 				}
 			}
 		}
+		else if(str[*i] == '\'')
+			result = test(result, "\'");
 		if (str[*i])
 			(*i)++;
 	}
@@ -297,6 +304,8 @@ char    *ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 		return (test_1(result, "$"));
 	else if(str[*i] == '$')
 		return ((*i)++, test_1(result, "$$"));
+	else if(str[*i] == ' ')
+		return (test_1(result, "$"));
 	else
 	{
 		int c = 0;

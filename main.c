@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int	g_exit;
+
 void	ft_sighandler(int i)
 {
 	(void)i;
@@ -10,6 +12,7 @@ void	ft_sighandler(int i)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_exit = 1;
 }
 
 void	multiple(char **str, int is)
@@ -72,6 +75,42 @@ void	ft_leaks(void)
 	system("leaks minishell");
 }
 
+static int	ft_sign(const char str)
+{
+	if (str == '-')
+		return (-1);
+	return (1);
+}
+
+int	ft_atoi4(const char *str)
+{
+	long int	nbr;
+	long int	nb;
+	int			sign;
+
+	nbr = 0;
+	sign = 1;
+	while ((*str == ' ' || *str == '\t' || *str == '\n' 
+			|| *str == '\v' || *str == '\f' || *str == '\r') && (str++));
+	if (*str == '-' || *str == '+')
+	{
+		sign = ft_sign(*str);
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		nb = nbr * 10 + (*str - '0');
+		if (nbr > nb && sign == 1)
+			return (-1);
+		else if (nbr > nb && sign == -1)
+			return (0);
+		str++;
+		nbr = nb;
+	}
+	return (nbr * sign);
+}
+
+
 int	main(int ac, char **ar, char **env)
 {
 	t_words	*words;
@@ -94,8 +133,13 @@ int	main(int ac, char **ar, char **env)
 	{
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
+		if (g_exit)
+			ft_exit_status(&env_stack, "1");
 		if (!string)
-			break ;
+		{
+			t_env *tmp = ft_get_status_pos(env_stack, "?");
+			exit(ft_atoi4(tmp->value));
+		}
 		else if (!string[0])
 		{
 			free(string);

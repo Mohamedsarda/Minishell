@@ -21,10 +21,10 @@ void    ft_unset(t_joins **head, t_env **env)
 	t_env	*cur;
 
 	i = 1;
+	ft_exit_status(env, "0");
 	while ((*head)->content[i])
 	{
 		tmp = (*env);
-		ft_exit_status(env, "0");
 		if (check_key_env((*head)->content[i]) || ft_strcmp((*head)->content[0], "?") == 0)
 		{
 			ft_exit_status(env, "1");
