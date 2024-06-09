@@ -356,7 +356,9 @@ void    ft_export(t_joins **head, t_env **env)
 			if (check_key_env(key) == 1)
 			{
 				ft_exit_status(env, "1");
-				printf("Minishell$ export: `%s': not a valid identifier\n", command);
+				ft_putstr("Minishell$ export: `", 2);
+				ft_putstr(command, 2);
+				ft_putstr("': not a valid identifier\n", 2);
 			}
 			else
 			{
