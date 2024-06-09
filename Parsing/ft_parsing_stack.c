@@ -31,6 +31,8 @@ int	ft_stack_words(t_words *words)
 			else
 				i += ft_strlen_space(words);
 		}
+		else if (words->type == 6 && words->word[0] == '\0' && words->is)
+			i++;
 		else if (words->type == 2 || words->type == 1
 			|| words->type == 4 || words->type == 5)
 			words = words->next;
