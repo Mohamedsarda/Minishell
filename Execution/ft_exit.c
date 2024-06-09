@@ -84,12 +84,15 @@ t_env	*ft_get_status_pos(t_env *env, char *key)
 void	ft_exit_status(t_env **env, char *status)
 {
 	t_env	*tmp;
-
 	tmp = (*env);
+
 	tmp = ft_get_status_pos(tmp, "?");
+	if (!tmp)
+		return ;
 	free(tmp->value);
 	tmp->value = NULL;
+	// if (is)
+	// 	tmp->value = status;
+	// else
 	tmp->value = ft_strdup(status);
-	// printf("%s:%s\n", tmp->key, tmp->value);
-	// puts("++++++");
 }

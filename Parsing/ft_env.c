@@ -78,11 +78,14 @@ char	**ft_empty_env(char **env, int *tmp)
 	env[j] = NULL;
 	return (env);
 }
-// int ft_atoi(char *s)
+
+// int ft_atoi1(char *s)
 // {
 // 	int i = 0;
 // 	int nmbr = 0;
 // 	while (s[i] && s[i] != '=')
+// 		i++;
+// 	if(s[i] == '=')
 // 		i++;
 // 	while(s[i])
 // 	{
@@ -90,13 +93,13 @@ char	**ft_empty_env(char **env, int *tmp)
 // 			nmbr = nmbr *10 + (s[i] - '0');
 // 		else
 // 			break;
+// 			i++;
 // 	}
-// 	if(!s[i])
+// 	if(s[i] != '\0'
+// 	 || nmbr > 999)
 // 		return (9999);
 // 	if(nmbr == 999)
 // 		return (10000);
-// 	if(nmbr > 999)
-// 		return (10001);
 // 	return (nmbr);
 // }
 
@@ -118,8 +121,17 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 		
 		// if (ft_strcmp(key, "SHLVL") == 0)
 		// {
-		// 	int a = ft_atoi(str);
-			
+		// 	printf("%s\n", str);
+		// 	int a = ft_atoi1(str);
+		// 	if(a == 9999)
+		// 		str = ft_itoa(1);
+		// 	else if(a == 10000)
+		// 		str = ft_strdup("");
+		// 	else
+		// 		str = ft_itoa(a + 1);
+		// 	node = ft_lstnew_env(key, str);
+		// 	node->equal = 1;
+		// 	free(str);
 		// }
 		if (ft_strcmp(key, "OLDPWD") == 0)
 		{
