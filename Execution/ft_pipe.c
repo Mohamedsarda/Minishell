@@ -83,7 +83,7 @@ void	ft_run_2(t_joins **head, t_env **env)
 void	ft_run_commad_2(t_joins **head, t_env **env, char *type)
 {
 	if (ft_strcmp(type, "echo") == 0)
-		ft_echo(head);
+		ft_echo(head, env);
 	else if (ft_strcmp(type, "pwd") == 0)
 		ft_pwd(head, 0);
 	else if (ft_strcmp(type, "env") == 0)
@@ -126,6 +126,7 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	int	pipes[2];
 	int	pid;
 	int	old;
+	int	status;
 
 	old = -1;
 	while ((*head) && !(*head)->error)
@@ -155,6 +156,16 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 				close(old);
 			old = pipes[0];
 			ft_next_node_joins(head);
+			if (waitpid(pid, &status, 0) == -1 )
+			{
+				perror("waitpid() failed");
+				ft_exit_status(env, "1");
+				exit(EXIT_FAILURE);
+			}
+			int es = WEXITSTATUS(status);
+			char *ppppp = ft_itoa(es);
+			ft_exit_status(env, ppppp);
+			free(ppppp);
 		}
 		else
 		{

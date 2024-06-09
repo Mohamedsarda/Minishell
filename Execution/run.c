@@ -26,13 +26,12 @@ void	ft_check_slash(char *command, t_env **env)
 {
 	int	i;
 	char	*err;
-	
+	(void)env;
 	i = 0;
 	while(command[i])
 		{
 			if (command[i] == '/')
 			{
-				ft_exit_status(env, "127");
 				err = ft_strjoin("Minishell$ : ", command);
 				perror(err);
 				free(err);
@@ -53,8 +52,9 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 	char		**tmp;
 	int			j;
 	pid_t		p;
+	int			status;
 	extern char	**environ;
-
+	// int exit_status =0;
 	j = -1;
 	p = fork();
 	if (p < 0)
@@ -87,7 +87,19 @@ void	check_run(char *PATH, char *command, t_joins **head, t_env **env)
 		com_not_found(command);
 	}
 	else
-		wait(NULL);
+	{
+		if (waitpid(p, &status, 0) == -1 )
+		{
+			perror("waitpid() failed");
+			ft_exit_status(env, "1");
+			exit(EXIT_FAILURE);
+		}
+
+		int es = WEXITSTATUS(status);
+		char *ppppp = ft_itoa(es);
+		ft_exit_status(env, ppppp);
+		free(ppppp);
+	}
 }
 
 void	ft_run(t_joins **head, t_env **env)

@@ -4,7 +4,7 @@ static void	check_symbols(char *str, int *i)
 {
 	if (*str == '|')
 	{
-		if (*(str - 1) != ' ')
+		if (str[0]  != '|' && *(str - 1) != ' ')
 			*i += 1;
 		if (*(str + 1) != ' ')
 			*i += 1;
