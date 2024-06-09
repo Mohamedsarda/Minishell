@@ -141,7 +141,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	{
 		if ((*words)->type == PIPE)
 		{
-			if (!stack_2->content[0] && stack_2->in >= 2 && stack_2->out >= 2)
+			if (!stack_2->content[0] && stack_2->in <= 1 &&  stack_2->out <= 2)
 			{
 				ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
 				return (stack_2);
