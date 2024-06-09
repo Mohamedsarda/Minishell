@@ -169,4 +169,5 @@ char	*ft_itoa(int n);
 int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str);
 t_env	*ft_get_status_pos(t_env *env, char *key);
 char	*test_1(char *s1, char *s2);
+int	ft_atoi4(const char *str);
 #endif

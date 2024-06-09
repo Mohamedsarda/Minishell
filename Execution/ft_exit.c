@@ -57,16 +57,23 @@ void	ft_exit(t_joins **head, t_env **env)
 	while ((*head)->content[i])
 		i++;
 	if(i == 1)
-		exit(ft_atoi(tmp->value));
+	{
+		t_env *tmp = ft_get_status_pos(*env, "?");
+		ft_putstr("exit\n", 2);
+		exit(ft_atoi4(tmp->value));
+	}
 	if(i != 2)
 	{
-		printf("Minishell$: exit: too many arguments\n");
+		ft_putstr("Minishell$: exit: too many arguments\n", 2);
 		ft_exit_status(env, "1");
 		return ;
 	}
 	nbr = ft_atoi((*head)->content[1]);
 	ft_lstclear_joins(head);
 	ft_lstclear_env(env);
+	char	*a = ft_itoa(nbr);
+	ft_exit_status(env, a);
+	free(a);
 	exit(nbr);
 }
 
