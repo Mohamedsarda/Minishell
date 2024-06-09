@@ -242,3 +242,115 @@ bad
 
 
 ps aux | grep "root" | wc -l
+
+
+------------------------------
+
+<< a << b << c cat | ls
+> a
+> 
+> ctr+c
+
+shelvl
+ECHO puercase
+
+
+
+
+Minishell$ / : No such file or directory
+Minishell$ ls
+Execution       Parsing         leaks.sh        minishell
+Ft_libft        a               main.c          minishell.h
+Makefile        fd_leaks.sh     main.o          test
+Minishell$ 
+.git/        Parsing/     main.c       test
+Execution/   a            main.o       
+Ft_libft/    fd_leaks.sh  minishell    
+Makefile     leaks.sh     minishell.h  
+Minishell$ 
+.git/        Parsing/     main.c       test
+Execution/   a            main.o       
+Ft_libft/    fd_leaks.sh  minishell    
+Makefile     leaks.sh     minishell.h  
+Minishell$ ./Parsing/
+Minishell$ ./Parsing/ : No such file or directory
+
+
+Minishell$ |    
+Minishell$ ||
+Minishell$ |||||
+Minishell$ ls |
+Minishell$ | ls |
+//done
+
+
+
+# Minishell$ ls
+# Execution       Parsing         leaks.sh        minishell
+# Ft_libft        a               main.c          minishell.h
+# Makefile        fd_leaks.sh     main.o          test
+# Minishell$ pwd
+# /Users/eel-ghal/Desktop/Minishell
+# Minishell$ env
+# PWD=/Users/eel-ghal/Desktop/Minishell
+# SHLVL=1
+# _=/usr/bin/env
+# Minishell$ ls
+# Execution       Parsing         leaks.sh        minishell
+# Ft_libft        a               main.c          minishell.h
+# Makefile        fd_leaks.sh     main.o          test
+# Minishell$ pwd
+# /Users/eel-ghal/Desktop/Minishell
+# Minishell$ exprot PATH=ZZ
+# Minishell$ exprot: command not found
+# Minishell$ expORt PATH=ZZ
+# Minishell$ expORt: command not found
+# Minishell$ export PATH=ZZ
+# Minishell$ ls
+# Minishell$ ls: command not found
+# Minishell$ unset PATH
+# Minishell$ LS
+# Minishell$ : No such file or directory
+# Minishell$ ls
+# Minishell$ : No such file or directory
+
+
+# Minishell$ export ++=PATH
+# Minishell$ export: `++=PATH': not a valid identifier
+
+#     1 (16 bytes) ROOT LEAK: 0x7fee05e04620 [16]  length: 1  "+" 
+# //done
+
+
+Minishell$ << zz
+> Minishell$ %   
+
+
+Minishell$ << a << b << c cat | ls
+> 
+> 
+> 
+Minishell$ ls
+: command not found
+Minishell$ 
+
+# Minishell$ 
+# Minishell$ $a
+# ➜  Minishell
+//done
+
+
+
+# Minishell$ unset ?
+# Minishell$ unset: `?': not a valid identifier
+# Minishell$ export ?
+# Minishell$ export: `?': not a valid identifier
+# Minishell$ 
+
+# bash-3.2$ export ?="ls -la"
+# bash: export: `?=ls -la': not a valid identifier
+# bash-3.2$ export ?
+# bash-3.2$ export ?=1
+# bash: export: `?=1': not a valid identifier
+# bash-3.2$ export ?=fa
+# bash: export: `?=fa': not a valid identifier

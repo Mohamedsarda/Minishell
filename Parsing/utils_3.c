@@ -22,45 +22,76 @@ int	ft_strchr(char *str, char c)
 	return (0);
 }
 
-static int	ft_num_len(long num)
+static int	ft_intlen(int n)
 {
-	int		i;
+	int	nbdg;
+	int	tmp;
 
-	i = 0;
-	if (num <= 0)
-		num *= -1;
-	while (num > 0)
+	nbdg = 0;
+	tmp = n;
+	while (tmp != 0)
 	{
-		num /= 10;
-		i++;
+		tmp /= 10;
+		nbdg++;
 	}
-	return (i);
+	return (nbdg);
+}
+
+static char	*zero(void)
+{
+	char	*arr;
+
+	arr = malloc(2 * sizeof(char));
+	if (arr == NULL)
+		return (NULL);
+	arr[0] = '0';
+	arr[1] = '\0';
+	return (arr);
+}
+
+static void	fillarr(char *res, int n, int nbrdg, int isnegative)
+{
+	int	index;
+	int	digit;
+
+	index = nbrdg - 1;
+	while (n != 0)
+	{
+		if (n < 0)
+			digit = -(n % 10);
+		else
+			digit = n % 10;
+		res[index] = digit + '0';
+		n /= 10;
+		index--;
+	}
+	if (isnegative != 0)
+		res[0] = '-';
+	res[nbrdg] = '\0';
 }
 
 char	*ft_itoa(int n)
 {
-	int		n_len;
-	char	*str;
-	long	num;
+	int		nbrdg;
+	int		isnegative;
+	char	*res;
 
-	num = n;
-	n_len = ft_num_len(num);
-	str = (char *)malloc((n_len + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	str[n_len--] = '\0';
-	if (num == 0)
-		str[0] = '0';
-	if (num < 0)
-		num *= -1;
-	while (num > 0 && n_len >= 0)
+	if (n == 0)
+		return (zero());
+	nbrdg = ft_intlen(n);
+	isnegative = 0;
+	if (n < 0)
 	{
-		str[n_len] = '0' + (num % 10);
-		num /= 10;
-		n_len--;
+		isnegative = 1;
+		nbrdg++;
 	}
-	return (str);
+	res = malloc((nbrdg + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	fillarr(res, n, nbrdg, isnegative);
+	return (res);
 }
+
 
 int	check_in_set(char c, char *set)
 {

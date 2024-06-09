@@ -63,13 +63,13 @@ void	ft_cd(t_joins **head, t_env **env)
 
 	tmp = NULL;
 	home = ft_get_val_env(head, env, "HOME");
+	ft_exit_status(env, "0");
 	if (!home && !(*head)->content[1])
 	{
 		ft_putstr("Minishell$ cd: HOME not set\n", 2);
 		ft_exit_status(env, "1");
 		return ;
 	}
-	ft_exit_status(env, "0");
 	tmp = (*head)->content[1];
 	if (!tmp)
 		tmp = home;
