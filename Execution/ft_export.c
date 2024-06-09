@@ -352,18 +352,16 @@ void    ft_export(t_joins **head, t_env **env)
 			command = ft_strdup((*head)->content[i]);
 			key = befor_equal(command);
 			if (check_key_env(key) == 1)
-			{
 				printf("Minishell$ export: `%s': not a valid identifier\n", command);
-				i++;
-				continue;
+			else
+			{
+				value = after_equal(command);
+				send_to_stack_env(head, value, key, env);
 			}
-			value = after_equal(command);
-			send_to_stack_env(head, value, key, env);
 			free(command);
 			free(key);
 			i++;
 		}
 	}
-	// ft_exit_status(env, "0");
-	// ft_lstclear_joins(head);
+	ft_exit_status(env, "0");
 }

@@ -25,6 +25,7 @@ char	*get_path(t_env **env)
 void	ft_check_slash(char *command, t_env **env)
 {
 	int	i;
+	char	*err;
 	
 	i = 0;
 	while(command[i])
@@ -32,7 +33,9 @@ void	ft_check_slash(char *command, t_env **env)
 			if (command[i] == '/')
 			{
 				ft_exit_status(env, "127");
-				printf("Minishell$ %s : No such file or directory\n", command);
+				err = ft_strjoin("Minishell$ : ", command);
+				perror(err);
+				free(err);
 				exit(127);
 			}
 			i++;
