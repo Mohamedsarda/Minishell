@@ -156,12 +156,14 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 				close(old);
 			old = pipes[0];
 			ft_next_node_joins(head);
-			if (waitpid(pid, &status, 0) == -1 )
-			{
-				perror("waitpid() failed");
-				ft_exit_status(env, "1");
-				exit(EXIT_FAILURE);
-			}
+			// while (waitpid(pid, &status, 0) == 0);
+			waitpid(pid, &status, 0);
+			// {
+			// 	perror("waitpid() failed");
+			// 	ft_exit_status(env, "1");
+			// 	exit(EXIT_FAILURE);
+			// }
+			// while (wait(NULL) != -1);
 			int es = WEXITSTATUS(status);
 			char *ppppp = ft_itoa(es);
 			ft_exit_status(env, ppppp);

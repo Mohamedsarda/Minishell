@@ -28,7 +28,7 @@ void	ft_unlink_free(char *str)
 	free(str);
 }
 
-void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
+void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env)
 {
 	char	*file;
 	int		i;
@@ -40,7 +40,7 @@ void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 		free(file);
 		file = ft_strjoin("../.herd_file", ft_itoa(i++));
 	}
-	ft_next_node(head);
+	head = head->next;
 	stack_2->out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	signal(SIGINT, ft_herd_sig);
 	rl_catch_signals = 0;
@@ -55,7 +55,7 @@ void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env)
 	ft_unlink_free(file);
 }
 
-int	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env)
+int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env)
 {
 	char	*str;
 	int		out;

@@ -56,7 +56,7 @@ char	**ft_create_env_from_stack(t_env *env)
 
 	size = ft_env_size(env);
 	i = 0;
-	dst = (char **)malloc(sizeof(char *) * size + 1);
+	dst = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!dst)
 		return (NULL);
 	while (i < size)
@@ -111,12 +111,14 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 	}
 	else
 	{
-		if (waitpid(p, &status, 0) == -1 )
-		{
-			perror("waitpid() failed");
-			ft_exit_status(env, "1");
-			exit(EXIT_FAILURE);
-		}
+		waitpid(p, &status, 0);
+		wait(NULL);
+		// if (waitpid(p, &status, 0) == 0)
+		// {
+		// 	perror("waitpid() failed");
+		// 	ft_exit_status(env, "1");
+		// 	exit(EXIT_FAILURE);
+		// }
 
 		int es = WEXITSTATUS(status);
 		char *ppppp = ft_itoa(es);
