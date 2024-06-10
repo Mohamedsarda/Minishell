@@ -1,49 +1,55 @@
 #include "../minishell.h"
-
+#include <limits.h>
 int ft_sign(char **str)
 {
-	int sign = 0;
+	int sign = 1;
 	if(**str == '-' || **str == '+')
 	{
-		if(**str == '+')
-			(*str)++;
-		else
-			while(**str == '-')
-			{
-				sign += 1;
-				(*str)++;
-        	}
+		if(**str == '-')
+			sign *= -1;
+		(*str)++;
 	}
 	return (sign);
 }
 
-unsigned int ft_atoi(char *str)
+unsigned char ft_atoi(char *str)
 {
-	unsigned int nbr;
+	size_t nbr;
 	int	sign;
-	int	is;
 
 	nbr = 0;
-	sign = 0;
-	is = 0;
+	sign = 1;
 	while(*str && *str == ' ')
 		str++;
 	sign = ft_sign(&str);
 	while(*str >= '0' && *str <= '9')
 	{
-		is = 1;
 		nbr = nbr * 10 + (*str - '0');
+		if(nbr > LONG_MAX && !(nbr == ((size_t)LONG_MAX + 1) && sign == -1))
+			return (255);
 		str++;
 	}
 	while(*str && *str == ' ')
 		str++;
-	if(sign == 2 && is == 0)
-		return (0);
-	else if(*str != '\0')
+	if(*str != '\0')
 		return (255);
-	if(sign % 2 == 0)
-		return nbr;
-	return (nbr * -1);
+	return (nbr * sign);
+}
+
+int	check_nmbr(char *str)
+{
+	int i =0;
+	while(str[i] && str[i] == ' ')
+		i++;
+	if(str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+		i++;
+	while(str[i] && str[i] == ' ')
+		i++;
+	if(str[i] != '\0')
+		return (1);
+	return (0);
 }
 
 void	ft_exit(t_joins **head, t_env **env)
@@ -52,28 +58,45 @@ void	ft_exit(t_joins **head, t_env **env)
 	unsigned int nbr;
 	int i;
 	i = 1;
-
+	nbr = 0;
 	tmp = ft_get_status_pos(*env, "?");
 	while ((*head)->content[i])
 		i++;
+	ft_putstr("exit\n", 2);
 	if(i == 1)
-	{
-		t_env *tmp = ft_get_status_pos(*env, "?");
-		ft_putstr("exit\n", 2);
 		exit(ft_atoi4(tmp->value));
-	}
 	if(i != 2)
 	{
-		ft_putstr("Minishell$: exit: too many arguments\n", 2);
-		ft_exit_status(env, "1");
-		return ;
+		if(check_nmbr((*head)->content[1]))
+		{
+			ft_putstr("Minishell$: exit: numeric argument required\n", 2);
+			ft_exit_status(env, "255");
+			exit(255);
+		}
+		else
+		{
+			ft_putstr("Minishell$: exit: too many arguments\n", 2);
+			ft_exit_status(env, "1");
+			return ;
+		}
 	}
-	nbr = ft_atoi((*head)->content[1]);
-	ft_lstclear_joins(head);
-	ft_lstclear_env(env);
-	char	*a = ft_itoa(nbr);
-	ft_exit_status(env, a);
-	free(a);
+	else
+	{
+		if(check_nmbr((*head)->content[1]) == 255)
+		{
+			ft_putstr("Minishell$: exit: numeric argument required\n", 2);
+			ft_exit_status(env, "255");
+		}
+		else
+		{
+			nbr = ft_atoi((*head)->content[1]);
+			ft_lstclear_joins(head);
+			ft_lstclear_env(env);
+			char	*a = ft_itoa(nbr);
+			ft_exit_status(env, a);
+			free(a);
+		}
+	}
 	exit(nbr);
 }
 
