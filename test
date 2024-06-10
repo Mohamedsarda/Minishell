@@ -368,3 +368,13 @@ ls | d | << f |
 Minishell$ ls > $das | ls > $dsa
 Minishell : ambiguous redirect
 Minishell$ 
+
+
+{
+    Minishell$ ls | ls < a | << a
+    Minishell$ : a: No such file or directory
+    > 
+
+    bash-3.2$ ls | ls < a | << a
+    > 
+}
