@@ -80,16 +80,16 @@ void	ft_lstclear_env(t_env **lst);
 //
 void	ft_lstclear_joins(t_joins **lst);
 void	ft_herd_sig(int i);
-void	ft_check_word_type(t_joins *stack_2, t_words **head,
+void	ft_check_word_type(t_joins *stack_2, t_words *head,
 			int *i, char **dst);
-void	ft_handle_herd(t_joins *stack_2, t_words **head, t_env **env);
+void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env);
 void	ft_next_node(t_words **head);
 int		ft_stack_words(t_words *words);
 //
 t_joins	*ft_lstnew_joins(t_words **words);
 void	ft_lstaddback_joins(t_joins **head, t_joins *node);
 void	free_split(char **tmp);
-char	**ft_create_list(t_joins *stack_2, t_words **head, t_env **env);
+char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env);
 
 // strlen_command
 int		ft_strlen_str_sp(char *str);
@@ -161,12 +161,12 @@ int check_key_env(char *key);
 char    *all_expand(char *str, t_env *env);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 int	check_in_set(char c, char *set);
-int	ft_herd_while(t_joins *stack_2, t_words **head, t_env **env);
+int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env);
 void	ft_print_free(char *str, int fd);
 void	based_on_trim(char **str);
 int	ft_strchr(char *str, char c);
 char	*ft_itoa(int n);
-int	ft_herd_while_2(t_joins *stack_2, t_words **head, t_env **env, char *str);
+int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str);
 t_env	*ft_get_status_pos(t_env *env, char *key);
 char	*test_1(char *s1, char *s2);
 int	ft_atoi4(const char *str);
