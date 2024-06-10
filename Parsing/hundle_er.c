@@ -14,17 +14,23 @@ int	check_length(char *str)
 	return (1);
 }
 
-int	check_space(char *str, char c)
+int    check_space(char *str, char c)
 {
-	int	i;
+	int    i;
 
 	i = 0;
+	while(str[i] && str[i] == c)
+		i++;
 	while (str[i])
 	{
 		if (str[i] == c)
-			return (1);
+			break;
 		i++;
 	}
+	while(str[i] && str[i] == c)
+		i++;
+	if(str[i])
+		return (1);
 	return (0);
 }
 
@@ -35,7 +41,7 @@ int	hundle_error(t_words *words)
 
 	a = words;
 	len = check_length(a->word);
-	if ((a->type == HERD && len >= 3))
+	if (((a->type == HERD  || a->type == APPEND) && len >= 3))
 		return (0);
 	else if ((a->type == APPEND && len == 0) || (a->type == HERD && len == 0))
 		return (0);
@@ -44,9 +50,8 @@ int	hundle_error(t_words *words)
 	{
 		if (!a->next)
 			return (0);
-		if (a->next->word[0] == '\0'
-			|| (a->next->is == 0 && a->next->type == 6
-				&& check_space(a->next->word, ' ') == 1))
+		if (a->next->is == 0 && a->next->type == 6
+				&& check_space(a->next->word, ' ') == 1)
 			return (10);
 		else if (a->next->type == REDOU || a->next->type == REDIN
 			|| a->next->type == PIPE || a->next->type == HERD
