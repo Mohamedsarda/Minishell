@@ -84,7 +84,17 @@ int	ft_words(t_words *head)
 				head = head->next;
 			continue;
 		}
-		i++;
+		if (head->type == 6 && head->word[0] != '\0')
+		{
+			if (head->is == 1)
+				i++;
+			else
+				i += ft_strlen_space(head);
+		}
+		else if (head->type == 6 && head->word[0] == '\0' && head->is)
+			i++;
+		else 
+			i++;
 		if(head)
 			head = head->next;
 	}
@@ -124,9 +134,32 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 				head = head->next;
 			}
 			else
-				dst[i++] = ft_strdup(head->word);
+			{
+				if(head->type != 6)
+					dst[i++] = ft_strdup(head->word);
+				else if (head->type == 6 && head->word[0] != '\0')
+				{
+					char **str;
+					if (head->is == 1)
+					{
+						dst[i++] = ft_strdup(head->word);
+						head = head->next;
+						continue;
+					}
+					str = ft_split(head->word, ' ');
+					if (!str)
+						return (NULL);
+					int j = 0;
+					while (str[j])
+						dst[i++] = ft_strdup(str[j++]);
+					free_split(str);
+				}
+				else if (head->type == 6 && head->word[0] == '\0' && head->is)
+					dst[i++] = ft_strdup(head->word);
+			}
 		}
-		head = head->next;
+		if(head)
+			head = head->next;
 	}
 	return (dst[i] = NULL, dst);
 }
