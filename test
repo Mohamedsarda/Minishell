@@ -341,8 +341,8 @@ Minishell$
 
 
 
-# Minishell$ unset ?
-# Minishell$ unset: `?': not a valid identifier
+Minishell$ unset ?
+Minishell$ unset: `?': not a valid identifier
 # Minishell$ export ?
 # Minishell$ export: `?': not a valid identifier
 # Minishell$ 
@@ -356,25 +356,25 @@ Minishell$
 # bash: export: `?=fa': not a valid identifier
 
 
-export cmd=" -la "
-ls > $cmd
-not ab
-Minishell$ ls > ''
-Minishell : ambiguous redirect
-ls >>> f
-| ls |  >f
-ls | d | << f |
+# export cmd=" -la "
+# ls > $cmd
+# not ab
+# Minishell$ ls > ''
+# Minishell : ambiguous redirect
+# ls >>> f
+# | ls |  >f
+# ls | d | << f |
 
-Minishell$ ls > $das | ls > $dsa
-Minishell : ambiguous redirect
-Minishell$ 
+# Minishell$ ls > $das | ls > $dsa
+# Minishell : ambiguous redirect
+# Minishell$ 
 
 
 {
-    Minishell$ ls | ls < a | << a
-    Minishell$ : a: No such file or directory
-    > 
+    # Minishell$ ls | ls < a | << a
+    # Minishell$ : a: No such file or directory
+    # > 
 
-    bash-3.2$ ls | ls < a | << a
-    > 
+    # bash-3.2$ ls | ls < a | << a
+    # > 
 }

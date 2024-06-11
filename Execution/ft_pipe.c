@@ -35,19 +35,20 @@ char	*get_path_2(t_env **env)
 	return (path);
 }
 
-void	check_run_2(char *PATH, char *command, t_joins **head, t_env **env)
+void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
 	int			j;
 	int			i;
-	extern char	**environ;
+	char		*path;
 
 	j = -1;
 	i = 0;
+	path = get_path_2(env);
 	signal(SIGQUIT, SIG_DFL);
 	execve(command, (*head)->content, environ);
 	ft_check_slash(command, env);
-	tmp = ft_split(PATH, ':');
+	tmp = ft_split(path, ':');
 	if (tmp == NULL || *tmp == NULL)
 	{
 		ft_exit_status(env, "1");
@@ -62,21 +63,21 @@ void	check_run_2(char *PATH, char *command, t_joins **head, t_env **env)
 			execve(tmp[j], (*head)->content, environ);
 	}
 	com_not_found(command);
+	free(path);
 }
 
 void	ft_run_2(t_joins **head, t_env **env)
 {
 	char	*command;
-	char	*path;
 	int		j;
 	int		i;
 
 	j = -1;
 	i = 0;
 	command = ft_strdup((*head)->content[0]);
-	path = get_path_2(env);
-	check_run_2(path, command, head, env);
-	free(path);
+	char **environ = ft_create_env_from_stack(*env);
+	check_run_2(environ, command, head, env);
+	free_split(environ);
 	free(command);
 }
 
@@ -156,18 +157,6 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 				close(old);
 			old = pipes[0];
 			ft_next_node_joins(head);
-			// while (waitpid(pid, &status, 0) == 0);
-			waitpid(pid, &status, 0);
-			// {
-			// 	perror("waitpid() failed");
-			// 	ft_exit_status(env, "1");
-			// 	exit(EXIT_FAILURE);
-			// }
-			// while (wait(NULL) != -1);
-			int es = WEXITSTATUS(status);
-			char *ppppp = ft_itoa(es);
-			ft_exit_status(env, ppppp);
-			free(ppppp);
 		}
 		else
 		{
@@ -177,6 +166,11 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	}
 	if (old > 0)
 		close(old);
+	waitpid(pid, &status, 0);
 	while (wait(NULL) != -1)
 		;
+	int es = WEXITSTATUS(status);
+	char *ppppp = ft_itoa(es);
+	ft_exit_status(env, ppppp);
+	free(ppppp);
 }

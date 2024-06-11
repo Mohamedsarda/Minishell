@@ -101,11 +101,28 @@ int	ft_words(t_words *head)
 	return (i);
 }
 
+int	ft_check_ctr_herd(t_joins *head, t_words **words, int is)
+{
+	t_joins *tmp = head;
+	while (tmp)
+	{
+		if (tmp->in == -5 || tmp->error)
+		{
+			if (is)
+				ft_lstclear(words);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 {
 	char	**dst;
 	int		words;
 	int		i;
+	static int in;
 
 	words = ft_words(head);
 	dst = (char **)malloc(sizeof(char *) * (words + 1));
@@ -118,19 +135,26 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 		{
 			if (hundle_error(head) == 0)
 			{
-				printf("Minishell : syntax error near unexpected token\n");
-				stack_2->error = 1;
+				if (in != -5)
+				{
+					printf("Minishell : syntax error near unexpected token\n");
+					stack_2->error = 1;
+				}
 				break ;
 			}
 			if (hundle_error(head) == 10)
 			{
-				printf("Minishell : ambiguous redirect\n");
-				stack_2->error = 1;
+				if (in != -5)
+				{
+					printf("Minishell : ambiguous redirect\n");
+					stack_2->error = 1;
+				}
 				break ;
 			}
 			if (head->type == HERD)
 			{
 				ft_handle_herd(stack_2, head, env);
+				in = stack_2->in;
 				head = head->next;
 			}
 			else
@@ -164,10 +188,12 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 	return (dst[i] = NULL, dst);
 }
 
-int	ft_syntax_error(t_joins *node, t_words **words)
+int	ft_syntax_error(t_joins *head, t_joins *node, t_words **words)
 {
 	if (!node->content[0] && (node->in == 0 && node->out == 1) && !node->error)
 	{
+		if (ft_check_ctr_herd(head, words, 1))
+			return (0);
 		ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
 		ft_lstclear(words);
 		return (0);
@@ -268,7 +294,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 
 	stack_2 = ft_lstnew_joins(words);
 	stack_2->content = ft_create_list(stack_2, *words, env);
-	if (!ft_syntax_error(stack_2, words))
+	if (!ft_syntax_error(stack_2 ,stack_2, words))
 		return (stack_2);
 	head = (*words);
 	while (head)
@@ -281,25 +307,19 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 			if (new && !new->content)
 				return (stack_2);
 			ft_lstaddback_joins(&stack_2, new);
-			if (!ft_syntax_error(new, words))
+			if (!ft_syntax_error(stack_2, new, words))
 				return (stack_2);
 		}
 		else
 			head = head->next;
 	}
+	if (ft_check_ctr_herd(stack_2, words, 1))
+		return (stack_2);
 	open_files(&stack_2);
 	tmp = stack_2;
 	while (tmp)
 	{
 		tmp->content = ft_create_exe_dst(tmp->content);
-		tmp = tmp->next;
-	}
-
-	tmp = stack_2;
-	while (tmp)
-	{
-		if (tmp->in == -5)
-			return (ft_lstclear(words), stack_2);
 		tmp = tmp->next;
 	}
 	tmp = stack_2;
@@ -308,7 +328,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	{
 		if (tmp->in == -1  || tmp->out == -1)
 		{
-			while (head && head->type == WORD)
+			while (head && head->type != WORD)
 				head = head->next;
 			if ( head && head->next)
 				head = head->next;
