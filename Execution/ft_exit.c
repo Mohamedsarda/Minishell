@@ -62,7 +62,7 @@ void	ft_exit(t_joins **head, t_env **env)
 	tmp = ft_get_status_pos(*env, "?");
 	while ((*head)->content[i])
 		i++;
-	ft_putstr("exit\n", 2);
+	ft_putstr("exit\n", 1);
 	if(i == 1)
 		exit(ft_atoi4(tmp->value));
 	if(i != 2)

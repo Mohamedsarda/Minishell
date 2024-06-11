@@ -19,6 +19,8 @@ int    check_space(char *str, char c)
 	int    i;
 
 	i = 0;
+	if(str[i] == '\0')
+		return (1);
 	while(str[i] && str[i] == c)
 		i++;
 	while (str[i])

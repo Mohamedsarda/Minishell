@@ -38,7 +38,9 @@ void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env)
 	while (access(file, F_OK) == 0)
 	{
 		free(file);
-		file = ft_strjoin("../.herd_file", ft_itoa(i++));
+		char *nb = ft_itoa(i++);
+		file = ft_strjoin("../.herd_file", nb);
+		free(nb);
 	}
 	head = head->next;
 	stack_2->out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
