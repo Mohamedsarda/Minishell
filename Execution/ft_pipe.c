@@ -96,7 +96,7 @@ void	ft_run_commad_2(t_joins **head, t_env **env, char *type)
 	else if (ft_strcmp(type, "unset") == 0)
 		ft_unset(head, env);
 	else if (ft_strcmp(type, "exit") == 0)
-		ft_exit(head, env);
+		ft_exit(head, env, 1);
 	else
 		ft_run_2(head, env);
 }

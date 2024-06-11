@@ -17,7 +17,7 @@ void	ft_run_commad(t_joins **head, t_env **env, char *type)
 	else if (ft_strcmp(type, "unset") == 0)
 		ft_unset(head, env);
 	else if (ft_strcmp(type, "exit") == 0)
-		ft_exit(head, env);
+		ft_exit(head, env, 2);
 	else if (!(*head)->next)
 		ft_run(head, env);
 	ft_next_node_joins(head);
