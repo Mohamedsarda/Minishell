@@ -75,3 +75,6 @@ char	*ft_parsing(char *str)
 	free(s);
 	return (t);
 }
+
+
+//cat < minishell.h | ls
