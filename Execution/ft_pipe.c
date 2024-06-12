@@ -144,9 +144,10 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 		if (pid == 0)
 		{
 			ft_dup(head, pipes, &old);
-			if (!(*head)->content[0])
+			if ((*head)->content && !(*head)->content[0])
 				exit(0);
-			ft_run_commad_2(head, env, (*head)->content[0]);
+			if ((*head)->content)
+				ft_run_commad_2(head, env, (*head)->content[0]);
 			close(pipes[1]);
 			exit(0);
 		}

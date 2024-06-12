@@ -378,3 +378,25 @@ Minishell$ unset: `?': not a valid identifier
     # bash-3.2$ ls | ls < a | << a
     # > 
 }
+
+
+
+
+
+
+
+bash-3.2$ ls < das | ls < fadf
+bash: das: No such file or directory
+bash: fadf: No such file or directory
+
+
+bash-3.2$ ls < dsa | < > | ks < dasf
+bash: syntax error near unexpected token `>'
+
+Minishell$ ls | | 
+Minishell$ asdas :syntax error near unexpected token
+
+
+bash-3.2$  ls  < qwe > $kfldf | > asd
+bash: qwe: No such file or directory
+bash-3.2$ 

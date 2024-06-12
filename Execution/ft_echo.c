@@ -41,8 +41,9 @@ void	ft_next_node_joins(t_joins **head)
 		close((*head)->in);
 	if ((*head)->out > 2)
 		close((*head)->out);
-	while ((*head)->content[i])
-		free((*head)->content[i++]);
+	if ((*head)->content)
+		while ((*head)->content[i])
+			free((*head)->content[i++]);
 	free((*head)->content);
 	free((*head));
 	(*head) = stack;
