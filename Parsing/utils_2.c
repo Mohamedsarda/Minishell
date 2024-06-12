@@ -69,6 +69,7 @@ int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env)
 		{
 			dup2(STDIN_FILENO, open(ttyname(1), O_RDONLY, 0777));
 			free(str);
+			close(stack_2->in);
 			stack_2->in = -5;
 			return (-1);
 		}

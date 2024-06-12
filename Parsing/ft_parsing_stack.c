@@ -72,7 +72,7 @@ int	ft_words(t_words *head)
 {
 	int i = 0;
 	
-	while (head)
+	while (head && hundle_error(head) != 0)
 	{
 		if (head->type == PIPE)
 			return (i);
@@ -125,36 +125,21 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 	static int in;
 
 	words = ft_words(head);
+	// printf("[%d]\n", words);
 	dst = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!dst)
 		return (NULL);
 	i = 0;
-	while (head && head->type != PIPE)
+	while (head && head->type != PIPE && hundle_error(head) != 0)
 	{
 		if (i <= words)
 		{
-			if (hundle_error(head) == 0)
-			{
-				if (in != -5)
-				{
-					printf("Minishell : syntax error near unexpected token\n");
-					stack_2->error = 1;
-				}
-				break ;
-			}
-			if (hundle_error(head) == 10)
-			{
-				if (in != -5)
-				{
-					printf("Minishell : ambiguous redirect\n");
-					stack_2->error = 1;
-				}
-				break ;
-			}
 			if (head->type == HERD)
 			{
 				ft_handle_herd(stack_2, head, env);
 				in = stack_2->in;
+				if(stack_2->in == -5)
+					return (dst[i] = NULL, dst);
 				head = head->next;
 			}
 			else
@@ -170,6 +155,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 						head = head->next;
 						continue;
 					}
+					
 					str = ft_split(head->word, ' ');
 					if (!str)
 						return (NULL);
@@ -178,7 +164,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 						dst[i++] = ft_strdup(str[j++]);
 					free_split(str);
 				}
-				else if (head->type == 6 && head->word[0] == '\0' && head->is)
+				else if (head->type == 6 && head->word[0] == '\0')
 					dst[i++] = ft_strdup(head->word);
 			}
 		}
@@ -188,20 +174,31 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 	return (dst[i] = NULL, dst);
 }
 
-int	ft_syntax_error(t_joins *head, t_joins *node, t_words **words)
-{
-	if (!node->content[0] && (node->in == 0 && node->out == 1) && !node->error)
-	{
-		if (ft_check_ctr_herd(head, words, 1))
-			return (0);
-		ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
-		ft_lstclear(words);
-		return (0);
-	}
-	return (1);
-}
+// int	ft_syntax_error(t_joins *head, t_joins *node, t_words **words)
+// {
+// 	if (!node->content[0] && (node->in == 0 && node->out == 1) && !node->error)
+// 	{
+// 		if (ft_check_ctr_herd(head, words, 1))
+// 			return (0);
+// 		ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
+// 		ft_lstclear(words);
+// 		return (0);
+// 	}
+// 	return (1);
+// }
 
-void	open_files(t_joins **stack_2)
+
+// if (hundle_error(head) == 10)
+// {
+// 	if (in != -5)
+// 	{
+// 		printf("Minishell : ambiguous redirect\n");
+// 		stack_2->error = 1;
+// 	}
+// 	break ;
+// }
+
+void	open_files(t_joins **stack_2, t_words *words)
 {
 	t_joins *tmp = *stack_2;
 	int		i;
@@ -209,29 +206,69 @@ void	open_files(t_joins **stack_2)
 	while(tmp)
 	{
 		i = 0;
-		while(tmp->content[i])
+		if (hundle_error(words) == 10)
 		{
-			if(ft_strcmp(tmp->content[i], ">") == 0)
-			{
-				if (tmp->out > 1)
-					close(tmp->out);
-				tmp->out = open(tmp->content[++i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
-			}
-			else if(ft_strcmp(tmp->content[i], "<") == 0)
-			{
-				if (tmp->in > 0)
-					close(tmp->in);
-				tmp->in = open(tmp->content[++i], O_RDONLY, 0777);
-			}
-			else if(ft_strcmp(tmp->content[i], ">>") == 0)
-			{
-				if (tmp->out > 1)
-					close(tmp->out);
-				tmp->out = open(tmp->content[++i], O_CREAT | O_RDWR | O_APPEND, 0777);
-			}
-			i++;
+			printf("Minishell : ambiguous redirect\n");
+			//delete the node
+			free_split(tmp->content);
+			tmp->content = NULL;
+			// tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		else
+		{
+			while(tmp->content[i])
+			{
+				if (hundle_error(words) == 10)
+				{
+					printf("Minishell : ambiguous redirect\n");
+					free_split(tmp->content);
+					tmp->content = NULL;
+					// tmp = tmp->next;
+					//delete the node
+					break;
+				}
+				if(ft_strcmp(tmp->content[i], ">") == 0)
+				{
+					if (tmp->out > 1)
+						close(tmp->out);
+					tmp->out = open(tmp->content[++i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+					if(words)
+						words = words->next;
+				}
+				else if(ft_strcmp(tmp->content[i], "<") == 0)
+				{
+					if (tmp->in > 0)
+						close(tmp->in);
+					tmp->in = open(tmp->content[++i], O_RDONLY, 0777);
+					if(words)
+						words = words->next;
+				}
+				else if(ft_strcmp(tmp->content[i], ">>") == 0)
+				{
+					if (tmp->out > 1)
+						close(tmp->out);
+					tmp->out = open(tmp->content[++i], O_CREAT | O_RDWR | O_APPEND, 0777);
+					if(words)
+						words = words->next;
+				}
+				if (!tmp->error && (tmp->in == -1 || tmp->out == -1))
+				{
+					ft_putstr("Minishell$: ", 2);
+					ft_putstr(tmp->content[i], 2);
+					ft_putstr(" No such file or directory\n", 2);
+					break ;
+				}
+				if(words)
+					words = words->next;
+				i++;
+			}
+		}
+		while(words && words->type != PIPE)
+				words = words->next;
+		if(words)
+			words = words->next;
+		if(tmp)
+			tmp = tmp->next;
 	}
 }
 
@@ -284,6 +321,26 @@ char	**ft_create_exe_dst(char **ptr)
 
 }
 
+int	ft_check_for_syntax(t_words *head, int *herd)
+{
+	int	i;
+
+	i = 0;
+	(*herd) = 0;
+	while (head)
+	{
+		if (head->type == HERD)
+			(*herd)++;
+		if (hundle_error(head) == 0)
+		{
+			printf("Minishell : syntax error near unexpected token\n");
+			return (1);
+		}
+		head = head->next;
+	}
+	return (0);
+}
+
 t_joins	*ft_parse_stack(t_words **words, t_env **env)
 {
 	t_joins	*stack_2;
@@ -291,12 +348,15 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	t_joins	*tmp;
 	t_words *head;
 	int		i;
+	int		syntax;
+	int		num_herd;
 
+	head = (*words);
+	syntax = ft_check_for_syntax(*words, &num_herd);
 	stack_2 = ft_lstnew_joins(words);
 	stack_2->content = ft_create_list(stack_2, *words, env);
-	if (!ft_syntax_error(stack_2 ,stack_2, words))
-		return (stack_2);
-	head = (*words);
+	if (hundle_error(head) == 0)
+		return (ft_lstclear(words), stack_2);
 	while (head)
 	{
 		if (head->type == PIPE)
@@ -304,10 +364,10 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 			head = head->next;
 			new = ft_lstnew_joins(words);
 			new->content = ft_create_list(new, head, env);
-			if (new && !new->content)
-				return (stack_2);
 			ft_lstaddback_joins(&stack_2, new);
-			if (!ft_syntax_error(stack_2, new, words))
+			if (hundle_error(head) == 0)
+				return (ft_lstclear(words), stack_2);
+			if (new && !new->content)
 				return (stack_2);
 		}
 		else
@@ -315,33 +375,12 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	}
 	if (ft_check_ctr_herd(stack_2, words, 1))
 		return (stack_2);
-	open_files(&stack_2);
+	open_files(&stack_2, *words);
 	tmp = stack_2;
 	while (tmp)
 	{
-		tmp->content = ft_create_exe_dst(tmp->content);
-		tmp = tmp->next;
-	}
-	tmp = stack_2;
-	head = (*words);
-	while(tmp)
-	{
-		if (tmp->in == -1  || tmp->out == -1)
-		{
-			while (head && head->type != WORD)
-				head = head->next;
-			if ( head && head->next)
-				head = head->next;
-			ft_putstr("Minishell$: ", 2);
-			ft_putstr(head->word, 2);
-			ft_putstr(" No such file or directory\n", 2);
-			while (head && head->type != PIPE)
-				head = head->next;
-		}
-		while (head && head->type != PIPE)
-			head = head->next;
-		if (head && head->next)
-			head = head->next;
+		if (tmp->content)
+			tmp->content = ft_create_exe_dst(tmp->content);
 		tmp = tmp->next;
 	}
 	ft_lstclear(words);
