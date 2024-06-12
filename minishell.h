@@ -33,6 +33,7 @@ typedef struct s_joins
 	int				in;
 	int				out;
 	int				error;
+	int				quotes;
 	struct s_joins	*next;
 }	t_joins;
 
@@ -124,7 +125,7 @@ char	*atest(char *key, t_env *env, char *str);
 char	*rm_single_qoutes(char *str);
 int		check_double_qout(char *str);
 char	*delete_double_qoutes(char *str);
-char	*delete_qoutes(const char *str, char c);
+char	*delete_qoutes(char *str, char c);
 char	*delete_all_double_qoutes(char *str);
 //end handle_enva_qoutes_part1.c
 
@@ -171,4 +172,5 @@ t_env	*ft_get_status_pos(t_env *env, char *key);
 char	*test_1(char *s1, char *s2);
 int	ft_atoi4(const char *str);
 char	**ft_create_env_from_stack(t_env *env);
+char	*dele_quotes(char **str);
 #endif

@@ -42,6 +42,8 @@ int	hundle_error(t_words *words)
 	int		len;
 
 	a = words;
+	if (a == NULL)
+		return (1);
 	len = check_length(a->word);
 	if (((a->type == HERD  || a->type == APPEND) && len >= 3))
 		return (0);

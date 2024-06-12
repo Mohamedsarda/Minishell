@@ -79,29 +79,32 @@ char	**ft_empty_env(char **env, int *tmp)
 	return (env);
 }
 
-// int ft_atoi1(char *s)
-// {
-// 	int i = 0;
-// 	int nmbr = 0;
-// 	while (s[i] && s[i] != '=')
-// 		i++;
-// 	if(s[i] == '=')
-// 		i++;
-// 	while(s[i])
-// 	{
-// 		if(s[i] >= '0' && s[i] <= '9')
-// 			nmbr = nmbr *10 + (s[i] - '0');
-// 		else
-// 			break;
-// 			i++;
-// 	}
-// 	if(s[i] != '\0'
-// 	 || nmbr > 999)
-// 		return (9999);
-// 	if(nmbr == 999)
-// 		return (10000);
-// 	return (nmbr);
-// }
+int ft_atoi1(char *s)
+{
+	int i = 0;
+	int nmbr = 0;
+	while (s[i] && s[i] != '=')
+		i++;
+	if(s[i] == '=')
+		i++;
+	if(s[i] == '-')
+		return (-1);
+	if(s[i] == '+')
+		i++;
+	while(s[i])
+	{
+		if(s[i] >= '0' && s[i] <= '9')
+			nmbr = nmbr *10 + (s[i] - '0');
+		else
+			break;
+			i++;
+	}
+	if(s[i] != '\0' || nmbr > 999)
+		return (9999);
+	if(nmbr == 999)
+		return (10000);
+	return (nmbr);
+}
 
 t_env	*ft_create_env_stack(char **env, int tmp)
 {
@@ -119,21 +122,20 @@ t_env	*ft_create_env_stack(char **env, int tmp)
 		str = env[i];
 		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
 		
-		// if (ft_strcmp(key, "SHLVL") == 0)
-		// {
-		// 	printf("%s\n", str);
-		// 	int a = ft_atoi1(str);
-		// 	if(a == 9999)
-		// 		str = ft_itoa(1);
-		// 	else if(a == 10000)
-		// 		str = ft_strdup("");
-		// 	else
-		// 		str = ft_itoa(a + 1);
-		// 	node = ft_lstnew_env(key, str);
-		// 	node->equal = 1;
-		// 	free(str);
-		// }
-		if (ft_strcmp(key, "OLDPWD") == 0)
+		if (ft_strcmp(key, "SHLVL") == 0)
+		{
+			int a = ft_atoi1(str);
+			if(a == 9999)
+				str = ft_itoa(1);
+			else if(a == 10000)
+				str = ft_strdup("");
+			else
+				str = ft_itoa(a + 1);
+			node = ft_lstnew_env(key, str);
+			node->equal = 1;
+			free(str);
+		}
+		else if (ft_strcmp(key, "OLDPWD") == 0)
 		{
 			str = ft_strdup("");
 			node = ft_lstnew_env(key, str);
