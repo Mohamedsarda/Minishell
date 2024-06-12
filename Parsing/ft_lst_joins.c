@@ -9,6 +9,7 @@ t_joins	*ft_lstnew_joins(t_words **words)
 	stack_2->in = 0;
 	stack_2->out = 1;
 	stack_2->error = 0;
+	stack_2->quotes = 0;
 	stack_2->content = NULL;
 	stack_2->next = NULL;
 	return (stack_2);

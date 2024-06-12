@@ -61,7 +61,7 @@ char	*delete_double_qoutes(char *str)
 	return (new_str);
 }
 
-char	*delete_qoutes(const char *str, char c)
+char	*delete_qoutes(char *str, char c)
 {
 	char	*new_str;
 	int		j;

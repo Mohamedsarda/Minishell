@@ -33,8 +33,9 @@ static void	ft_lstdel_joins(t_joins *lst)
 		close(lst->in);
 	if (lst->out > 2)
 		close(lst->out);
-	while (lst && lst->content[i])
-		free(lst->content[i++]);
+	if(lst->content)
+		while (lst && lst->content[i])
+			free(lst->content[i++]);
 	free(lst->content);
 	free(lst);
 }
