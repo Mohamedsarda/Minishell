@@ -71,7 +71,7 @@ void	ft_cd(t_joins **head, t_env **env)
 		return ;
 	}
 	tmp = (*head)->content[1];
-	if (!tmp)
+	if (!tmp || !tmp[0])
 		tmp = home;
 	if (chdir(tmp) != 0)
 	{

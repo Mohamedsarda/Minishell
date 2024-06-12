@@ -25,7 +25,7 @@ void    ft_unset(t_joins **head, t_env **env)
 	while ((*head)->content[i])
 	{
 		tmp = (*env);
-		if (check_key_env((*head)->content[i]) || ft_strcmp((*head)->content[0], "?") == 0)
+		if ((check_key_env((*head)->content[i]) || ft_strcmp((*head)->content[0], "?") == 0) && ft_strlen((*head)->content[i]) != 0)
 		{
 			ft_exit_status(env, "1");
 			ft_putstr("Minishell$ unset: `", 2);
