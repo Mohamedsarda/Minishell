@@ -188,19 +188,21 @@ char	*handle_single(char *result, char *str, int *i)
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
 	int		c;
-	res = malloc((*i - j) + 1 + ft_strlen(result));
+	res = malloc((*i - j) + 1 + ft_strlen(result) + 2);
 	c = 0;
 	while (result != NULL && result[c])
 	{
 		res[c] = result[c];
 		c++;
 	}
+	res[c++] = '\'';
 	while (str[j] && str[j] != '\'')
 	{
 		res[c] = str[j];
 		c++;
 		j++;
 	}
+	res[c++] = '\'';
 	res[c] = '\0';
 	free(result);
 	return (res);
@@ -334,6 +336,8 @@ char    *ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 char	*handle_double(char *result, char *str, int *i, t_env *env)
 {
 	(*i)++;
+
+	result = test_1(result, "\"");
 	while (str[*i] != '\"')
 	{
 		result = ft_text(result, str, i);
@@ -351,6 +355,7 @@ char	*handle_double(char *result, char *str, int *i, t_env *env)
 	}
 	if(result == NULL)
 		result = test_1(result, "");
+	result = test_1(result, "\"");
 	return (result);
 }
 

@@ -20,11 +20,14 @@ char	*ft_env_eq(t_env **env, char *key)
 int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 {
 	char	*tmp;
-	
+
 	if (head->is == 1 )
 	{
 		(*env)->is = 1;
-		tmp = all_expand(head->word, *env);
+		char	*a = ft_strdup(head->word);
+		a = dele_quotes(&a);
+		tmp = all_expand(a, *env);
+		free(a);
 	}
 	if (!str
 		|| (ft_strcmp(tmp, str) == 0

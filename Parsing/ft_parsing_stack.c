@@ -6,12 +6,14 @@ int	ft_strlen_space(t_words *words)
 	int		i;
 
 	i = 0;
+	multiple(&words->word, 0);
 	dst = ft_split(words->word, ' ');
 	if (!dst)
 		return (0);
 	while (dst[i])
 		i++;
 	free_split(dst);
+	multiple(&words->word, 0);
 	return (i);
 }
 
@@ -156,12 +158,17 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 						continue;
 					}
 					
+					multiple(&head->word, 0);
 					str = ft_split(head->word, ' ');
 					if (!str)
 						return (NULL);
 					int j = 0;
 					while (str[j])
+					{
+						multiple(&str[j], 0);
 						dst[i++] = ft_strdup(str[j++]);
+					}
+					multiple(&head->word, 0);
 					free_split(str);
 				}
 				else if (head->type == 6 && head->word[0] == '\0')
@@ -198,7 +205,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 // 	break ;
 // }
 
-void	open_files(t_joins **stack_2, t_words *words)
+void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 {
 	t_joins *tmp = *stack_2;
 	int		i;
@@ -209,10 +216,9 @@ void	open_files(t_joins **stack_2, t_words *words)
 		if (hundle_error(words) == 10)
 		{
 			printf("Minishell : ambiguous redirect\n");
-			//delete the node
+			ft_exit_status(&env_stack, "1");
 			free_split(tmp->content);
 			tmp->content = NULL;
-			// tmp = tmp->next;
 		}
 		else
 		{
@@ -221,10 +227,9 @@ void	open_files(t_joins **stack_2, t_words *words)
 				if (hundle_error(words) == 10)
 				{
 					printf("Minishell : ambiguous redirect\n");
+					ft_exit_status(&env_stack, "1");
 					free_split(tmp->content);
 					tmp->content = NULL;
-					// tmp = tmp->next;
-					//delete the node
 					break;
 				}
 				if(ft_strcmp(tmp->content[i], ">") == 0)
@@ -256,6 +261,7 @@ void	open_files(t_joins **stack_2, t_words *words)
 					ft_putstr("Minishell$: ", 2);
 					ft_putstr(tmp->content[i], 2);
 					ft_putstr(" No such file or directory\n", 2);
+					ft_exit_status(&env_stack, "1");
 					break ;
 				}
 				if(words)
@@ -321,7 +327,7 @@ char	**ft_create_exe_dst(char **ptr)
 
 }
 
-int	ft_check_for_syntax(t_words *head, int *herd)
+int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 {
 	int	i;
 
@@ -334,11 +340,107 @@ int	ft_check_for_syntax(t_words *head, int *herd)
 		if (hundle_error(head) == 0)
 		{
 			printf("Minishell : syntax error near unexpected token\n");
+			ft_exit_status(&env, "258");
 			return (1);
 		}
 		head = head->next;
 	}
 	return (0);
+}
+
+int	strlen_no_quotes(char *str)
+{
+	int i = 0;
+	int res = 0;
+	while (str[i])
+	{
+		if(str[i] == '\"')
+		{
+			i++;
+			while (str[i] && str[i] != '\"')
+			{
+				res++;
+				i++;
+			}
+		}
+		else if(str[i] == '\'')
+		{
+			i++;
+			while (str[i] && str[i] != '\'')
+			{
+				res++;
+				i++;
+			}
+		}
+		else
+			res++;
+		if(str[i])
+			i++;
+	}
+	return (res);
+}
+
+char	*dele_quotes(char **str)
+{
+	int i = 0;
+	int j = 0;
+	char	*res = NULL;
+	res = malloc(strlen_no_quotes((*str)) + 1);
+	if(res == NULL)
+		return (NULL);
+	while((*str)[i])
+	{
+		if((*str)[i] == '\"')
+		{
+			i++;
+			while((*str)[i]  && (*str)[i] != '\"')
+			{
+				res[j] = (*str)[i];
+				i++;
+				j++;
+			}
+
+		}
+		else if((*str)[i] == '\'')
+		{
+			i++;
+			while((*str)[i]  && (*str)[i] != '\'')
+			{
+				res[j] = (*str)[i];
+				i++;
+				j++;
+			}
+
+		}
+		else
+		{
+			res[j] = (*str)[i];
+			j++;
+		}
+		i++;
+	}
+	res[j] = '\0';
+	free((*str));
+	return (res);
+}
+void	delete_qoutes_1(t_joins	**stack_2, char c)
+{
+	t_joins *tmp = *stack_2;
+	(void)c;
+	while(tmp)
+	{
+		int i = 0;
+		while(tmp->content[i])
+		{
+			if(check_double_qout(tmp->content[i]))
+			{
+				tmp->content[i] = dele_quotes(&tmp->content[i]);
+				tmp->quotes = 1;
+			}
+			i++;
+		}		
+		tmp = tmp->next;
+	}
 }
 
 t_joins	*ft_parse_stack(t_words **words, t_env **env)
@@ -352,7 +454,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	int		num_herd;
 
 	head = (*words);
-	syntax = ft_check_for_syntax(*words, &num_herd);
+	syntax = ft_check_for_syntax(*words, &num_herd, *env);
 	stack_2 = ft_lstnew_joins(words);
 	stack_2->content = ft_create_list(stack_2, *words, env);
 	if (hundle_error(head) == 0)
@@ -374,8 +476,11 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 			head = head->next;
 	}
 	if (ft_check_ctr_herd(stack_2, words, 1))
-		return (stack_2);
-	open_files(&stack_2, *words);
+		return (ft_lstclear(words), stack_2);
+	if(syntax == 1)
+		return (ft_lstclear(words), stack_2);
+	delete_qoutes_1(&stack_2, '\"');
+	open_files(&stack_2, *words, *env);
 	tmp = stack_2;
 	while (tmp)
 	{
@@ -395,7 +500,8 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	if (tmp && !tmp->next)
 	{
 		i = 0;
-		if (!tmp->content && !tmp->content[i])
+		//bad if
+		if (tmp->content == NULL && tmp->in == 0 && tmp->out == 1)
 			return (stack_2);
 		if (tmp->in < 0 || tmp->out < 0)
 			return (stack_2);
