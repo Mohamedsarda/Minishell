@@ -53,6 +53,8 @@ void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env)
 	}
 	close(stack_2->out);
 	stack_2->out = 1;
+	if (stack_2->in > 2)
+		close(stack_2->in);
 	stack_2->in = open(file, O_CREAT | O_RDONLY, 0777);
 	ft_unlink_free(file);
 }
@@ -69,7 +71,6 @@ int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env)
 		{
 			dup2(STDIN_FILENO, open(ttyname(1), O_RDONLY, 0777));
 			free(str);
-			close(stack_2->in);
 			stack_2->in = -5;
 			return (-1);
 		}

@@ -140,7 +140,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 			{
 				ft_handle_herd(stack_2, head, env);
 				in = stack_2->in;
-				if(stack_2->in == -5)
+				if (stack_2->in == -5)
 					return (dst[i] = NULL, dst);
 				head = head->next;
 			}
@@ -296,19 +296,34 @@ int	ft_check_content(char **dst , int *i)
 	return (j);
 }
 
+int	ft_count_word_if_no_content(t_joins *tmp)
+{
+	int i = 0;
+	int j = 0;
 
+	while (tmp->content[i])
+	{
+		if (tmp->content && ft_strlen(tmp->content[i]) == 0 && !tmp->quotes)
+			j++;
+		i++;
+	}
+	return (j);
+}
 
-char	**ft_create_exe_dst(char **ptr)
+char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 {
 	char	**dst;
 	int		i;
 	int		j;
 	int		x;
+	int		k;
 
 	j = ft_check_content(ptr, &i);
+	k = ft_count_word_if_no_content(tmp);
 	if (i > 0)
 	{
 		i = i - (j * 2);
+		i -= k;
 		dst = (char **)malloc(sizeof(char *) * (i + 1));
 		if (!dst)
 			return (ptr);
@@ -318,7 +333,10 @@ char	**ft_create_exe_dst(char **ptr)
 		{
 			if (ft_strcmp(ptr[x], ">") == 0 || ft_strcmp(ptr[x], "<") == 0 || ft_strcmp(ptr[x], ">>") == 0)
 				x += 2;
-			dst[j++] = ft_strdup(ptr[x++]);
+			if (tmp->content && ft_strlen(tmp->content[x]) == 0 && !tmp->quotes)
+				x++;
+			else
+				dst[j++] = ft_strdup(ptr[x++]);
 		}
 		dst[j] = NULL;
 		free_split(ptr);
@@ -445,6 +463,8 @@ void	delete_qoutes_1(t_joins	**stack_2, char c)
 	}
 }
 
+
+
 t_joins	*ft_parse_stack(t_words **words, t_env **env)
 {
 	t_joins	*stack_2;
@@ -487,12 +507,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	while (tmp)
 	{
 		if (tmp->content)
-			tmp->content = ft_create_exe_dst(tmp->content);
-		if (tmp->content && ft_strlen(tmp->content[0]) == 0 && !tmp->quotes)
-		{
-			free_split(tmp->content);
-			tmp->content = NULL;
-		}
+			tmp->content = ft_create_exe_dst(tmp->content, tmp);
 		tmp = tmp->next;
 	}
 	ft_lstclear(words);
