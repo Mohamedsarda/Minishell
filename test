@@ -1,117 +1,116 @@
-bash-3.2$ echo -n
-bash-3.2$ echo -n -n 
-bash-3.2$ echo -n -n  hdjf
-hdjfbash-3.2$ echo -n -an hdjf
--an hdjfbash-3.2$ echo -n -naaa hdjf
--naaa hdjfbash-3.2$ echo -n -n hdjf -n
-hdjf -nbash-3.2$ echo -n "-n       a" hdjf -n
--n       a hdjf -nbash-3.2$ echo -n -n       a hdjf -n
-a hdjf -nbash-3.2$ echo -n -----n       a hdjf -n
------n a hdjf -nbash-3.2$ echo -n -nnnnnnnn       a hdjf -n
-a hdjf -nbash-3.2$ echo -n -nnnnnnnna       a hdjf -n
--nnnnnnnna a hdjf -nbash-3.2$ echo ""
+# bash-3.2$ echo -n
+# bash-3.2$ echo -n -n 
+# bash-3.2$ echo -n -n  hdjf
+# hdjfbash-3.2$ echo -n -an hdjf
+# -an hdjfbash-3.2$ echo -n -naaa hdjf
+# -naaa hdjfbash-3.2$ echo -n -n hdjf -n
+# hdjf -nbash-3.2$ echo -n "-n       a" hdjf -n
+# -n       a hdjf -nbash-3.2$ echo -n -n       a hdjf -n
+# a hdjf -nbash-3.2$ echo -n -----n       a hdjf -n
+# -----n a hdjf -nbash-3.2$ echo -n -nnnnnnnn       a hdjf -n
+# a hdjf -nbash-3.2$ echo -n -nnnnnnnna       a hdjf -n
+# -nnnnnnnna a hdjf -nbash-3.2$ echo ""
 
-bash-3.2$ echo "-"
--
-bash-3.2$ echo "-a"
--a
-bash-3.2$ echo "-n"
-bash-3.2$ echo "-na"
--na
-bash-3.2$ echo "-n fj"
+# bash-3.2$ echo "-"
+# -
+# bash-3.2$ echo "-a"
+# -a
+# bash-3.2$ echo "-n"
+# bash-3.2$ echo "-na"
+# -na
+# bash-3.2$ echo "-n fj"
 -n fj
-bash-3.2$ echo "-n" fhkjsd
-fhkjsdbash-3.2$ echo "-n " fhkjsd
--n  fhkjsd
-bash-3.2$ echo "-n" -nfhkjsd
--nfhkjsdbash-3.2$ echo "-nnnnn" -nfhkjsd
--nfhkjsdbash-3.2$ echo "-nnn""nn" -nfhkjsd 
--nfhkjsdbash-3.2$ echo "-nnn" "nn" -nfhkjsd 
-nn -nfhkjsdbash-3.2$ echo "-nnn""nn" -nfhkjsd 
--nfhkjsdba
-bash-3.2$ echo -n -n"n" -n sk
-skbash-3.2$ echo -n -n"n"a -n sk
--nna -n skbash-3.2$ echo -n -n"n" a -n sk
-a -n skbash-3.2$ echo -n -n"n"  -n sk
-skbash-3.2$ echo $HOME
-/Users/msarda
+# bash-3.2$ echo "-n" fhkjsd
+# fhkjsdbash-3.2$ echo "-n " fhkjsd
+# -n  fhkjsd
+# bash-3.2$ echo "-n" -nfhkjsd
+# -nfhkjsdbash-3.2$ echo "-nnnnn" -nfhkjsd
+# -nfhkjsdbash-3.2$ echo "-nnn""nn" -nfhkjsd 
+# -nfhkjsdbash-3.2$ echo "-nnn" "nn" -nfhkjsd 
+# nn -nfhkjsdbash-3.2$ echo "-nnn""nn" -nfhkjsd 
+# -nfhkjsdba
+# bash-3.2$ echo -n -n"n" -n sk
+# skbash-3.2$ echo -n -n"n"a -n sk
+# -nna -n skbash-3.2$ echo -n -n"n" a -n sk
+# a -n skbash-3.2$ echo -n -n"n"  -n sk
+# skbash-3.2$ echo $HOME
+# /Users/msarda
 
-|d
-echo -nMnnnn -n h
-echo "$'cdhs"$"USER
- echo "$'cdhs"
-
+# |d
+# echo -nMnnnn -n h
+#  echo "$'cdhs"
 
 
-//done
 
- -----
+# //done
+
+#  -----
 
 
- Minishell$ echo "'cdhs"
-'cdhs
-Minishell$ echo "$'cdhs" // done
-'cdhs
-Minishell$ echo "$"cdhs"
-Minishell : unexpected EOF while looking for matching `"'
-Minishell$ echo "$"cdhs""
-$cdhs
-Minishell$ echo "$'cdhs"
-'cdhs
-Minishell$ echo "$'cdhs"$"USER"
-'cdhs$USER
-Minishell$ echo cda
-cda
-Minishell$ echo $USER$PATH'$PATH'UYS
-msarda/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/msarda/.brew/bin$PATHUYS
-Minishell$ echo $""HOME
-$HOME
-Minishell$ echo $''HOME
-''HOME
-Minishell$ echo ''$HOME // done
-Minishell$ echo -$nnn
--
-Minishell$ echo "'$'"
-''
-Minishell$ echo "'$HOME'"
-'/Users/msarda'
-Minishell$ echo '$HOME'
-$HOME
-Minishell$ echo '"$HOME"'
-"$HOME"
-Minishell$ echo ''$HOME
-''/Users/msarda
-Minishell$ echo $HOME''
-/Users/msarda''
-Minishell$ echo ""$HOME
-/Users/msarda
-Minishell$ echo $HOME""
-/Users/msarda
-Minishell$ echo $HOM''E
-''E
-Minishell$ echo $HOM-E
--E
-Minishell$ echo $HOM√E
-xf�
-Minishell$ echo $HOME√
-/Users/msard�xf
-Minishell$ echo $√
-xf
-Minishell$ echo $g√
-xf
-Minishell$ echo ----
-----
-Minishell$ echo "-nnnn "
--nnnn 
-Minishell$ echo  "   -nnnn"
-   -nnnn
-Minishell$ echo  "-nnnn"
-Minishell$ echo  "-nnnn" "    "
-    Minishell$ echo  "-nnnn" ""
-Minishell$ echo  ""
+#  Minishell$ echo "'cdhs"
+# 'cdhs
+# Minishell$ echo "$'cdhs" // done
+# 'cdhs
+# Minishell$ echo "$"cdhs"
+# Minishell : unexpected EOF while looking for matching `"'
+# Minishell$ echo "$"cdhs""
+# $cdhs
+# Minishell$ echo "$'cdhs"
+# 'cdhs
+# Minishell$ echo "$'cdhs"$"USER"
+# 'cdhs$USER
+# Minishell$ echo cda
+# cda
+# Minishell$ echo $USER$PATH'$PATH'UYS
+# msarda/Users/msarda/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/msarda/.brew/bin$PATHUYS
+# Minishell$ echo $""HOME
+# $HOME
+# Minishell$ echo $''HOME
+# ''HOME
+# Minishell$ echo ''$HOME // done
+# Minishell$ echo -$nnn
+# -
+# Minishell$ echo "'$'"
+# ''
+# Minishell$ echo "'$HOME'"
+# '/Users/msarda'
+# Minishell$ echo '$HOME'
+# $HOME
+# Minishell$ echo '"$HOME"'
+# "$HOME"
+# Minishell$ echo ''$HOME
+# ''/Users/msarda
+# Minishell$ echo $HOME''
+# /Users/msarda''
+# Minishell$ echo ""$HOME
+# /Users/msarda
+# Minishell$ echo $HOME""
+# /Users/msarda
+# Minishell$ echo $HOM''E
+# ''E
+# Minishell$ echo $HOM-E
+# -E
+# Minishell$ echo $HOM√E
+# xf�
+# Minishell$ echo $HOME√
+# /Users/msard�xf
+# Minishell$ echo $√
+# xf
+# Minishell$ echo $g√
+# xf
+# Minishell$ echo ----
+# ----
+# Minishell$ echo "-nnnn "
+# -nnnn 
+# Minishell$ echo  "   -nnnn"
+#    -nnnn
+# Minishell$ echo  "-nnnn"
+# Minishell$ echo  "-nnnn" "    "
+#     Minishell$ echo  "-nnnn" ""
+# Minishell$ echo  ""
 
-Minishell$ echo "-nn-"
-Minishell$ echo -n $g $g $g $HOME
+# Minishell$ echo "-nn-"
+# Minishell$ echo -n $g $g $g $HOME
 ----
 
 Minishell$ export $a='$a'
@@ -400,3 +399,6 @@ Minishell$ asdas :syntax error near unexpected token
 bash-3.2$  ls  < qwe > $kfldf | > asd
 bash: qwe: No such file or directory
 bash-3.2$ 
+
+
+<< '$HOME'$""$?

@@ -140,7 +140,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 			{
 				ft_handle_herd(stack_2, head, env);
 				in = stack_2->in;
-				if(stack_2->in == -5)
+				if (stack_2->in == -5)
 					return (dst[i] = NULL, dst);
 				head = head->next;
 			}
@@ -262,6 +262,8 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 					ft_putstr(tmp->content[i], 2);
 					ft_putstr(" No such file or directory\n", 2);
 					ft_exit_status(&env_stack, "1");
+					free_split(tmp->content);
+					tmp->content = NULL;
 					break ;
 				}
 				if(words)
@@ -294,19 +296,34 @@ int	ft_check_content(char **dst , int *i)
 	return (j);
 }
 
+int	ft_count_word_if_no_content(t_joins *tmp)
+{
+	int i = 0;
+	int j = 0;
 
+	while (tmp->content[i])
+	{
+		if (tmp->content && ft_strlen(tmp->content[i]) == 0 && !tmp->quotes)
+			j++;
+		i++;
+	}
+	return (j);
+}
 
-char	**ft_create_exe_dst(char **ptr)
+char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 {
 	char	**dst;
 	int		i;
 	int		j;
 	int		x;
+	int		k;
 
 	j = ft_check_content(ptr, &i);
+	k = ft_count_word_if_no_content(tmp);
 	if (i > 0)
 	{
 		i = i - (j * 2);
+		i -= k;
 		dst = (char **)malloc(sizeof(char *) * (i + 1));
 		if (!dst)
 			return (ptr);
@@ -316,7 +333,10 @@ char	**ft_create_exe_dst(char **ptr)
 		{
 			if (ft_strcmp(ptr[x], ">") == 0 || ft_strcmp(ptr[x], "<") == 0 || ft_strcmp(ptr[x], ">>") == 0)
 				x += 2;
-			dst[j++] = ft_strdup(ptr[x++]);
+			if (tmp->content && ft_strlen(tmp->content[x]) == 0 && !tmp->quotes)
+				x++;
+			else
+				dst[j++] = ft_strdup(ptr[x++]);
 		}
 		dst[j] = NULL;
 		free_split(ptr);
@@ -443,13 +463,15 @@ void	delete_qoutes_1(t_joins	**stack_2, char c)
 	}
 }
 
+
+
 t_joins	*ft_parse_stack(t_words **words, t_env **env)
 {
 	t_joins	*stack_2;
 	t_joins	*new;
 	t_joins	*tmp;
 	t_words *head;
-	int		i;
+	// int		i;
 	int		syntax;
 	int		num_herd;
 
@@ -485,7 +507,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	while (tmp)
 	{
 		if (tmp->content)
-			tmp->content = ft_create_exe_dst(tmp->content);
+			tmp->content = ft_create_exe_dst(tmp->content, tmp);
 		tmp = tmp->next;
 	}
 	ft_lstclear(words);
@@ -499,13 +521,8 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	tmp = stack_2;
 	if (tmp && !tmp->next)
 	{
-		i = 0;
-		//bad if
-		if (tmp->content == NULL && tmp->in == 0 && tmp->out == 1)
-			return (stack_2);
-		if (tmp->in < 0 || tmp->out < 0)
-			return (stack_2);
-		ft_run_commad(&stack_2, env, tmp->content[0]);
+		if(tmp->content != NULL)
+			ft_run_commad(&stack_2, env, tmp->content[0]);
 	}
 	else
 		ft_is_pipe(&stack_2, env);
