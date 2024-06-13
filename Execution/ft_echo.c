@@ -89,6 +89,7 @@ void	ft_echo(t_joins **head, t_env **env)
 
 	tmp = (*head);
 	i = 1;
+	ft_exit_status(env, "0");
 	if (!tmp->content[i])
 	{
 		write(tmp->out, "\n", 1);
@@ -106,5 +107,4 @@ void	ft_echo(t_joins **head, t_env **env)
 		ft_print_echo(tmp->content, tmp->out, &i);
 		write(tmp->out, "\n", 1);
 	}
-	ft_exit_status(env, "0");
 }
