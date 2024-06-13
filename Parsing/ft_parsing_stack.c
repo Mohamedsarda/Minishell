@@ -262,6 +262,8 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 					ft_putstr(tmp->content[i], 2);
 					ft_putstr(" No such file or directory\n", 2);
 					ft_exit_status(&env_stack, "1");
+					free_split(tmp->content);
+					tmp->content = NULL;
 					break ;
 				}
 				if(words)
@@ -449,7 +451,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	t_joins	*new;
 	t_joins	*tmp;
 	t_words *head;
-	int		i;
+	// int		i;
 	int		syntax;
 	int		num_herd;
 
@@ -486,6 +488,11 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	{
 		if (tmp->content)
 			tmp->content = ft_create_exe_dst(tmp->content);
+		if (tmp->content && ft_strlen(tmp->content[0]) == 0 && !tmp->quotes)
+		{
+			free_split(tmp->content);
+			tmp->content = NULL;
+		}
 		tmp = tmp->next;
 	}
 	ft_lstclear(words);
@@ -499,13 +506,8 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	tmp = stack_2;
 	if (tmp && !tmp->next)
 	{
-		i = 0;
-		//bad if
-		if (tmp->content == NULL && tmp->in == 0 && tmp->out == 1)
-			return (stack_2);
-		if (tmp->in < 0 || tmp->out < 0)
-			return (stack_2);
-		ft_run_commad(&stack_2, env, tmp->content[0]);
+		if(tmp->content != NULL)
+			ft_run_commad(&stack_2, env, tmp->content[0]);
 	}
 	else
 		ft_is_pipe(&stack_2, env);
