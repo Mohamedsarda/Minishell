@@ -353,6 +353,13 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 
 	i = 0;
 	(*herd) = 0;
+	if (ft_strcmp(head->word, "|") == 0)
+	{
+			printf("Minishell : syntax error near unexpected token\n");
+			ft_exit_status(&env, "258");
+			return (1);
+
+	}
 	while (head)
 	{
 		if (head->type == HERD)
