@@ -353,6 +353,13 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 
 	i = 0;
 	(*herd) = 0;
+	if (ft_strcmp(head->word, "|") == 0)
+	{
+			printf("Minishell : syntax error near unexpected token\n");
+			ft_exit_status(&env, "258");
+			return (1);
+
+	}
 	while (head)
 	{
 		if (head->type == HERD)
@@ -443,6 +450,7 @@ char	*dele_quotes(char **str)
 	free((*str));
 	return (res);
 }
+
 void	delete_qoutes_1(t_joins	**stack_2, char c)
 {
 	t_joins *tmp = *stack_2;
@@ -462,8 +470,6 @@ void	delete_qoutes_1(t_joins	**stack_2, char c)
 		tmp = tmp->next;
 	}
 }
-
-
 
 t_joins	*ft_parse_stack(t_words **words, t_env **env)
 {
@@ -499,7 +505,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	}
 	if (ft_check_ctr_herd(stack_2, words, 1))
 		return (ft_lstclear(words), stack_2);
-	if(syntax == 1)
+	if (syntax == 1)
 		return (ft_lstclear(words), stack_2);
 	delete_qoutes_1(&stack_2, '\"');
 	open_files(&stack_2, *words, *env);

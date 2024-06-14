@@ -25,9 +25,12 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 	{
 		(*env)->is = 1;
 		char	*a = ft_strdup(head->word);
-		a = dele_quotes(&a);
-		tmp = all_expand(a, *env);
-		free(a);
+		tmp = dele_quotes(&a);
+		if (tmp[0] == '$')
+		{
+			free(tmp);
+			tmp = ft_strdup("");
+		}
 	}
 	if (!str
 		|| (ft_strcmp(tmp, str) == 0
