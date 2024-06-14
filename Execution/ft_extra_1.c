@@ -26,3 +26,54 @@ t_env	*ft_get_status_pos(t_env *env, char *key)
 	}
 	return (env);
 }
+
+int	ft_env_size(t_env *head)
+{
+	int	i;
+
+	i = 0;
+	while (head)
+	{
+		i++;
+		head = head->next;
+	}
+	return (i);
+}
+
+int	check_value(char *value)
+{
+	if (!value)
+		return (-1);
+	if (*value == '+' && *(value + 1) == '=')
+		return (2);
+	if (*value == '=')
+		return (1);
+	return (-1);
+}
+
+char	*delete_plus(char *str)
+{
+	char	*value;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = str;
+	if (*tmp == '+')
+		value = malloc(ft_strlen(tmp));
+	else
+		value = malloc(ft_strlen(tmp) + 1);
+	if (!value)
+		return (NULL);
+	if (*tmp == '+')
+		tmp += 1;
+	while (*tmp)
+	{
+		value[i] = *tmp;
+		tmp++;
+		i++;
+	}
+	value[i] = '\0';
+	free(str);
+	return (value);
+}
