@@ -112,7 +112,8 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 	else
 	{
 		waitpid(p, &status, 0);
-		wait(NULL);
+		while (wait(NULL) != -1)
+		;
 		// if (waitpid(p, &status, 0) == 0)
 		// {
 		// 	perror("waitpid() failed");
