@@ -15,11 +15,37 @@ char	*ft_get_val_env(t_joins **head, t_env **env, char *key)
 	return (NULL);
 }
 
+void	ft_create_newoldpwd(t_joins **head, t_env *pwd,
+	t_env *oldpwd, t_env **env)
+{
+	char	*newpwd;
+
+	newpwd = ft_pwd(head, 1);
+	if (!pwd)
+	{
+		pwd = ft_lstnew_env("PWD", newpwd);
+		pwd->print = 0;
+		ft_lstadd_back_env(env, pwd);
+		if (oldpwd)
+		{
+			free(oldpwd->value);
+			oldpwd->value = ft_strdup("");
+			oldpwd->equal = 1;
+		}
+	}
+	if (!oldpwd)
+	{
+		oldpwd = ft_lstnew_env("OLDPWD", "=");
+		oldpwd->print = 0;
+		ft_lstadd_back_env(env, oldpwd);
+	}
+	free(newpwd);
+}
+
 void	ft_change_pwd(t_joins **head, t_env **env)
 {
 	t_env	*oldpwd;
 	t_env	*pwd;
-	char	*newpwd;
 
 	pwd = ft_get_status_pos(*env, "PWD");
 	oldpwd = ft_get_status_pos(*env, "OLDPWD");
@@ -32,28 +58,7 @@ void	ft_change_pwd(t_joins **head, t_env **env)
 		pwd->value = ft_pwd(head, 1);
 	}
 	else
-	{
-		newpwd = ft_pwd(head, 1);
-		if (!pwd)
-		{
-			pwd = ft_lstnew_env("PWD", newpwd);
-			pwd->print = 0;
-			ft_lstadd_back_env(env, pwd);
-			if (oldpwd)
-			{
-				free(oldpwd->value);
-				oldpwd->value = ft_strdup("");
-				oldpwd->equal = 1;
-			}
-		}
-		if (!oldpwd)
-		{
-			oldpwd = ft_lstnew_env("OLDPWD", "=");
-			oldpwd->print = 0;
-			ft_lstadd_back_env(env, oldpwd);
-		}
-		free(newpwd);
-	}
+		ft_create_newoldpwd(head, pwd, oldpwd, env);
 }
 
 void	ft_cd(t_joins **head, t_env **env)
@@ -78,12 +83,6 @@ void	ft_cd(t_joins **head, t_env **env)
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");
 	}
-	ft_change_pwd(head, env);
+	else
+		ft_change_pwd(head, env);
 }
-
-	// if (access(pwd->value, F_OK) == -1)
-	// {
-	// 	ft_exit_status(env, "1");
-	// 	perror("Minishell$ ");
-	// }
-	// ft_lstclear_joins(head);

@@ -73,7 +73,7 @@ void	ft_lstadd_back_env(t_env **head, t_env *node);
 void	ft_sighandler(int i);
 int		ft_get_env_len(char *str, char c);
 char	*ft_strlcpy(char **str, int len);
-
+int	ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strtrim(char *s1, char *set);
 void	ft_putstr(char *str, int fd);
 //

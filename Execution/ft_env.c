@@ -1,12 +1,13 @@
 #include "../minishell.h"
+
 void	env_equal(t_env **env)
 {
 	t_env	*tmp;
-	
+
 	tmp = *env;
-	while(tmp)
+	while (tmp)
 	{
-		if(!(tmp)->value)
+		if (!(tmp)->value)
 			(tmp)->equal = 0;
 		else if ((tmp)->value[0] == '=' && tmp->equal != 1)
 		{
@@ -17,17 +18,25 @@ void	env_equal(t_env **env)
 	}
 }
 
+void	ft_print_env(char *key, char *value, int fd)
+{
+	ft_putstr(key, fd);
+	ft_putstr("=", fd);
+	ft_putstr(value, fd);
+	ft_putstr("\n", fd);
+}
+
 void	ft_env(t_env **env_tmp, t_joins **stack_2)
 {
 	t_joins	*tmp;
 	t_env	*env;
 	int		fd;
-	
+
 	env = (*env_tmp);
 	if (ft_env_size(env) == 1)
 	{
-			ft_putstr("Minishell$ env: No such file or directory\n", 2);
-			return ;
+		ft_putstr("Minishell$ env: No such file or directory\n", 2);
+		return ;
 	}
 	tmp = (*stack_2);
 	if (tmp->out != 0 && tmp->in >= 0)
@@ -37,16 +46,10 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 	while (env)
 	{
 		if (env->value && env->equal && env->print)
-		{
-			ft_putstr(env->key, fd);
-			ft_putstr("=", fd);
-			ft_putstr(env->value, fd);
-			ft_putstr("\n", fd);
-		}
+			ft_print_env(env->key, env->value, fd);
 		env = env->next;
 	}
 	if (fd != 1)
 		close(fd);
 	ft_exit_status(env_tmp, "0");
-	// ft_next_node_joins(stack_2);
 }
