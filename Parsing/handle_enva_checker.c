@@ -2,9 +2,6 @@
 
 char	*check_env(char *str, t_env *env)
 {
-	int		i;
-
-	i = 0;
 	while (env)
 	{
 		if (!ft_strcmp(str, env->key))
