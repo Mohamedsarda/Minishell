@@ -39,11 +39,9 @@ void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
 	int			j;
-	int			i;
 	char		*path;
 
 	j = -1;
-	i = 0;
 	path = get_path_2(env);
 	signal(SIGQUIT, SIG_DFL);
 	execve(command, (*head)->content, environ);
@@ -69,11 +67,7 @@ void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 void	ft_run_2(t_joins **head, t_env **env)
 {
 	char	*command;
-	int		j;
-	int		i;
 
-	j = -1;
-	i = 0;
 	command = ft_strdup((*head)->content[0]);
 	char **environ = ft_create_env_from_stack(*env);
 	check_run_2(environ, command, head, env);
