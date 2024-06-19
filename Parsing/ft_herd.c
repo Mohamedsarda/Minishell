@@ -33,7 +33,7 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 		}
 	}
 	if (!str
-		|| (ft_strcmp(tmp, str) == 0
+		|| ((head->is && ft_strcmp(tmp, str) == 0)
 			|| ft_strcmp(head->word, str) == 0))
 	{
 		if (head->is)

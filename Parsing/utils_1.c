@@ -1,19 +1,5 @@
 #include "../minishell.h"
 
-// static void	*ft_memcpy(void *dest, void *src, size_t n)
-// {
-// 	unsigned char	*d;
-// 	unsigned char	*s;
-
-// 	if (dest == NULL && src == NULL)
-// 		return (NULL);
-// 	d = (unsigned char *)dest;
-// 	s = (unsigned char *)src;
-// 	while (n--)
-// 		*d++ = *s++;
-// 	return (dest);
-// }
-
 static size_t	ft_strlcpy_t(char *dst, char *src, size_t size)
 {
 	size_t	srclen;

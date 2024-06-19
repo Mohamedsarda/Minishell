@@ -80,9 +80,9 @@ int	ft_words(t_words *head)
 			return (i);
 		if (head->type == HERD)
 		{
-			if(head)
+			if (head)
 				head = head->next;
-			if(head)
+			if (head)
 				head = head->next;
 			continue;
 		}
@@ -97,7 +97,7 @@ int	ft_words(t_words *head)
 			i++;
 		else 
 			i++;
-		if(head)
+		if (head)
 			head = head->next;
 	}
 	return (i);
@@ -124,11 +124,11 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 	char	**dst;
 	int		words;
 	int		i;
-	static int in;
+	char	**str;
+	int		j;
 
 	words = ft_words(head);
-	// printf("[%d]\n", words);
-	dst = (char **)malloc(sizeof(char *) * (words + 1));
+	dst = (char **)malloc(sizeof (char *) * (words + 1));
 	if (!dst)
 		return (NULL);
 	i = 0;
@@ -139,18 +139,16 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 			if (head->type == HERD)
 			{
 				ft_handle_herd(stack_2, head, env);
-				in = stack_2->in;
 				if (stack_2->in == -5)
 					return (dst[i] = NULL, dst);
 				head = head->next;
 			}
 			else
 			{
-				if(head->type != 6)
+				if (head->type != 6)
 					dst[i++] = ft_strdup(head->word);
 				else if (head->type == 6 && head->word[0] != '\0')
 				{
-					char **str;
 					if (head->is == 1)
 					{
 						dst[i++] = ft_strdup(head->word);
@@ -162,7 +160,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 					str = ft_split(head->word, ' ');
 					if (!str)
 						return (NULL);
-					int j = 0;
+					j = 0;
 					while (str[j])
 					{
 						multiple(&str[j], 0);
@@ -175,85 +173,62 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 					dst[i++] = ft_strdup(head->word);
 			}
 		}
-		if(head)
+		if (head)
 			head = head->next;
 	}
 	return (dst[i] = NULL, dst);
 }
 
-// int	ft_syntax_error(t_joins *head, t_joins *node, t_words **words)
-// {
-// 	if (!node->content[0] && (node->in == 0 && node->out == 1) && !node->error)
-// 	{
-// 		if (ft_check_ctr_herd(head, words, 1))
-// 			return (0);
-// 		ft_putstr("Minishell$ :syntax error near unexpected token\n", 2);
-// 		ft_lstclear(words);
-// 		return (0);
-// 	}
-// 	return (1);
-// }
-
-
-// if (hundle_error(head) == 10)
-// {
-// 	if (in != -5)
-// 	{
-// 		printf("Minishell : ambiguous redirect\n");
-// 		stack_2->error = 1;
-// 	}
-// 	break ;
-// }
-
 void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 {
-	t_joins *tmp = *stack_2;
+	t_joins	*tmp;
 	int		i;
 
-	while(tmp)
+	tmp = (*stack_2);
+	while (tmp)
 	{
 		i = 0;
 		if (hundle_error(words) == 10)
 		{
-			printf("Minishell : ambiguous redirect\n");
+			printf ("Minishell : ambiguous redirect\n");
 			ft_exit_status(&env_stack, "1");
 			free_split(tmp->content);
 			tmp->content = NULL;
 		}
 		else
 		{
-			while(tmp->content[i])
+			while (tmp->content[i])
 			{
 				if (hundle_error(words) == 10)
 				{
-					printf("Minishell : ambiguous redirect\n");
+					printf ("Minishell : ambiguous redirect\n");
 					ft_exit_status(&env_stack, "1");
 					free_split(tmp->content);
 					tmp->content = NULL;
 					break;
 				}
-				if(ft_strcmp(tmp->content[i], ">") == 0)
+				if (ft_strcmp(tmp->content[i], ">") == 0)
 				{
 					if (tmp->out > 1)
 						close(tmp->out);
 					tmp->out = open(tmp->content[++i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
-					if(words)
+					if (words)
 						words = words->next;
 				}
-				else if(ft_strcmp(tmp->content[i], "<") == 0)
+				else if (ft_strcmp(tmp->content[i], "<") == 0)
 				{
 					if (tmp->in > 0)
 						close(tmp->in);
 					tmp->in = open(tmp->content[++i], O_RDONLY, 0777);
-					if(words)
+					if (words)
 						words = words->next;
 				}
-				else if(ft_strcmp(tmp->content[i], ">>") == 0)
+				else if (ft_strcmp(tmp->content[i], ">>") == 0)
 				{
 					if (tmp->out > 1)
 						close(tmp->out);
 					tmp->out = open(tmp->content[++i], O_CREAT | O_RDWR | O_APPEND, 0777);
-					if(words)
+					if (words)
 						words = words->next;
 				}
 				if (!tmp->error && (tmp->in == -1 || tmp->out == -1))
@@ -266,16 +241,16 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 					tmp->content = NULL;
 					break ;
 				}
-				if(words)
+				if (words)
 					words = words->next;
 				i++;
 			}
 		}
-		while(words && words->type != PIPE)
+		while (words && words->type != PIPE)
 				words = words->next;
-		if(words)
+		if (words)
 			words = words->next;
-		if(tmp)
+		if (tmp)
 			tmp = tmp->next;
 	}
 }
@@ -324,7 +299,7 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 	{
 		i = i - (j * 2);
 		i -= k;
-		dst = (char **)malloc(sizeof(char *) * (i + 1));
+		dst = (char **)malloc(sizeof (char *) * (i + 1));
 		if (!dst)
 			return (ptr);
 		j = 0;
@@ -349,16 +324,12 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 
 int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 {
-	int	i;
-
-	i = 0;
 	(*herd) = 0;
 	if (ft_strcmp(head->word, "|") == 0)
 	{
-			printf("Minishell : syntax error near unexpected token\n");
+			printf ("Minishell : syntax error near unexpected token\n");
 			ft_exit_status(&env, "258");
 			return (1);
-
 	}
 	while (head)
 	{
@@ -366,7 +337,7 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 			(*herd)++;
 		if (hundle_error(head) == 0)
 		{
-			printf("Minishell : syntax error near unexpected token\n");
+			printf ("Minishell : syntax error near unexpected token\n");
 			ft_exit_status(&env, "258");
 			return (1);
 		}
@@ -377,11 +348,14 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 
 int	strlen_no_quotes(char *str)
 {
-	int i = 0;
-	int res = 0;
+	int i;
+	int res;
+
+	i = 0;
+	res = 0;
 	while (str[i])
 	{
-		if(str[i] == '\"')
+		if (str[i] == '\"')
 		{
 			i++;
 			while (str[i] && str[i] != '\"')
@@ -390,7 +364,7 @@ int	strlen_no_quotes(char *str)
 				i++;
 			}
 		}
-		else if(str[i] == '\'')
+		else if (str[i] == '\'')
 		{
 			i++;
 			while (str[i] && str[i] != '\'')
@@ -401,7 +375,7 @@ int	strlen_no_quotes(char *str)
 		}
 		else
 			res++;
-		if(str[i])
+		if (str[i])
 			i++;
 	}
 	return (res);
@@ -409,35 +383,37 @@ int	strlen_no_quotes(char *str)
 
 char	*dele_quotes(char **str)
 {
-	int i = 0;
-	int j = 0;
-	char	*res = NULL;
+	int		i;
+	int		j;
+	char	*res;
+
+	i = 0;
+	j = 0;
+	res = NULL;
 	res = malloc(strlen_no_quotes((*str)) + 1);
-	if(res == NULL)
+	if (res == NULL)
 		return (NULL);
-	while((*str)[i])
+	while ((*str)[i])
 	{
-		if((*str)[i] == '\"')
+		if ((*str)[i] == '\"')
 		{
 			i++;
-			while((*str)[i]  && (*str)[i] != '\"')
+			while ((*str)[i]  && (*str)[i] != '\"')
 			{
 				res[j] = (*str)[i];
 				i++;
 				j++;
 			}
-
 		}
-		else if((*str)[i] == '\'')
+		else if ((*str)[i] == '\'')
 		{
 			i++;
-			while((*str)[i]  && (*str)[i] != '\'')
+			while ((*str)[i]  && (*str)[i] != '\'')
 			{
 				res[j] = (*str)[i];
 				i++;
 				j++;
 			}
-
 		}
 		else
 		{
@@ -453,14 +429,16 @@ char	*dele_quotes(char **str)
 
 void	delete_qoutes_1(t_joins	**stack_2, char c)
 {
-	t_joins *tmp = *stack_2;
+	t_joins *tmp;
+
 	(void)c;
-	while(tmp)
+	tmp = (*stack_2);
+	while (tmp)
 	{
 		int i = 0;
-		while(tmp->content[i])
+		while (tmp->content[i])
 		{
-			if(check_double_qout(tmp->content[i]))
+			if (check_double_qout(tmp->content[i]))
 			{
 				tmp->content[i] = dele_quotes(&tmp->content[i]);
 				tmp->quotes = 1;
@@ -477,7 +455,6 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	t_joins	*new;
 	t_joins	*tmp;
 	t_words *head;
-	// int		i;
 	int		syntax;
 	int		num_herd;
 
@@ -527,7 +504,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	tmp = stack_2;
 	if (tmp && !tmp->next)
 	{
-		if(tmp->content != NULL)
+		if (tmp->content != NULL)
 			ft_run_commad(&stack_2, env, tmp->content[0]);
 	}
 	else
