@@ -25,7 +25,8 @@ void    ft_unset(t_joins **head, t_env **env)
 	while ((*head)->content[i])
 	{
 		tmp = (*env);
-		if ((check_key_env((*head)->content[i]) || ft_strcmp((*head)->content[0], "?") == 0) && (ft_strlen((*head)->content[i]) != 0  || (*head)->quotes == 1))
+		if ((check_key_env((*head)->content[i]) || ft_strcmp((*head)->content[0], "?") == 0)
+		&& (ft_strlen((*head)->content[i]) != 0  || (*head)->quotes == 1))
 		{
 			ft_exit_status(env, "1");
 			ft_putstr("Minishell$ unset: `", 2);
@@ -33,7 +34,7 @@ void    ft_unset(t_joins **head, t_env **env)
 			ft_putstr("': not a valid identifier\n", 2);
 			break ;
 		}
-		if(ft_strcmp((*head)->content[i], tmp->key) == 0)
+		if (ft_strcmp((*head)->content[i], tmp->key) == 0)
 		{
 			cur = tmp;
 			tmp = tmp->next;
@@ -62,5 +63,4 @@ void    ft_unset(t_joins **head, t_env **env)
 		}
 		i++;
 	}
-	// ft_lstclear_joins(head);
 }
