@@ -114,13 +114,6 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 		waitpid(p, &status, 0);
 		while (wait(NULL) != -1)
 		;
-		// if (waitpid(p, &status, 0) == 0)
-		// {
-		// 	perror("waitpid() failed");
-		// 	ft_exit_status(env, "1");
-		// 	exit(EXIT_FAILURE);
-		// }
-
 		int es = WEXITSTATUS(status);
 		char *ppppp = ft_itoa(es);
 		ft_exit_status(env, ppppp);
@@ -138,5 +131,4 @@ void	ft_run(t_joins **head, t_env **env)
 	check_run(environ, command, head, env);
 	free(command);
 	free_split(environ);
-	// ft_next_node_joins(head);
 }
