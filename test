@@ -402,3 +402,16 @@ bash-3.2$
 
 
 << '$HOME'$""$?
+
+run minishell test cat - | grep m
+qe
+m
+m
+ctrl + c
+echo $?
+1
+echo $?
+1
+echo $?
+1
+the exit status should be 130 and it should rest to 0 after the second echo
