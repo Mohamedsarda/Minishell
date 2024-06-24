@@ -113,77 +113,77 @@
 # Minishell$ echo -n $g $g $g $HOME
 ----
 
-Minishell$ export $a='$a'
-Minishell$ echo $a
+# Minishell$ export $a='$a'
+# Minishell$ echo $a
 
-Minishell$ echo $a
-Minishell$ export a='$a'
-Minishell$ echo $a
-$a
-Minishell$ export a="$a"
-Minishell$ echo $a
-=$a
-Minishell$ echo $a
-=$a
-Minishell$ echo $a
-=$a
-Minishell$ export a="coco"
-Minishell$ echo $a
-=coco
-Minishell$ clear
-TERM environment variable not set.
-Minishell$ clear
-TERM environment variable not set.
-Minishell$ export _coco=coco
-Minishell$ export 0coco=coco
+# Minishell$ echo $a
+# Minishell$ export a='$a'
+# Minishell$ echo $a
+# $a
+# Minishell$ export a="$a"
+# Minishell$ echo $a
+# =$a
+# Minishell$ echo $a
+# =$a
+# Minishell$ echo $a
+# =$a
+# Minishell$ export a="coco"
+# Minishell$ echo $a
+# =coco
+# Minishell$ clear
+# TERM environment variable not set.
+# Minishell$ clear
+# TERM environment variable not set.
+# Minishell$ export _coco=coco
+# Minishell$ export 0coco=coco
 
-///
-done
-- export 0coco=coco
-- export $a='$a'
+# ///
+# done
+# - export 0coco=coco
+# - export $a='$a'
 
-- export a="$a"
-Minishell$ echo $a
-=$a
-exit
-run
+# - export a="$a"
+# Minishell$ echo $a
+# =$a
+# exit
+# run
 //
 
 
-//
-Minishell$ unset HOME
-Minishell$ cd
-[1]    49238 segmentation fault  ./minishell
+# //
+# Minishell$ unset HOME
+# Minishell$ cd
+# [1]    49238 segmentation fault  ./minishell
 
 
-ls > $dsds
-bash: $dsds: ambiguous redirect
+# ls > $dsds
+# bash: $dsds: ambiguous redirect
 
 
 
-//
+# //
 
-bash-3.2$ export "" test=a
-bash: export: `': not a valid identifier
-bash-3.2$ echo $test
-a
-bash-3.2$ 
+# bash-3.2$ export "" test=a
+# bash: export: `': not a valid identifier
+# bash-3.2$ echo $test
+# a
+# bash-3.2$ 
 
 
-----------------------------
+# ----------------------------
 
-Minishell$ export "" test=a
-Minishell$ export: `': not a valid identifier
-Minishell$ echo $test
+# Minishell$ export "" test=a
+# Minishell$ export: `': not a valid identifier
+# Minishell$ echo $test
 
-Minishell$ 
+# Minishell$ 
 
-///
-bash-3.2$ > $A
-bash: $A: ambiguous redirect
-bash-3.2$ export a="a b"
-bash-3.2$ > $a
-bash: $a: ambiguous redirect
+# ///
+# bash-3.2$ > $A
+# bash: $A: ambiguous redirect
+# bash-3.2$ export a="a b"
+# bash-3.2$ > $a
+# bash: $a: ambiguous redirect
 
 
 # Minishell$ export A="ls 4"
@@ -202,42 +202,42 @@ bash: $a: ambiguous redirect
 
 
 
-exit -1     ==== -1 + 256
-exit 257     ==== 257 % 256
+# exit -1     ==== -1 + 256
+# exit 257     ==== 257 % 256
 
 
 
-bash-3.2$ > $gdfgdf
-bash: $gdfgdf: ambiguous redirect
+# bash-3.2$ > $gdfgdf
+# bash: $gdfgdf: ambiguous redirect
 
-bash-3.2$ export a="a b"
-bash-3.2$ > $a
-bash: $a: ambiguous redirect
+# bash-3.2$ export a="a b"
+# bash-3.2$ > $a
+# bash: $a: ambiguous redirect
 
 
 
-handle ft_handle_herd in syntex error
+# handle ft_handle_herd in syntex error
 `
 
 
-Minishell$ << a cat
-> $PWD''"$PWD"$$USER
-> a
-$PWD''"$PWD"$$USER
+# Minishell$ << a cat
+# > $PWD''"$PWD"$$USER
+# > a
+# $PWD''"$PWD"$$USER
 
 
-bash-3.2$ export a="ls -la"
-bash-3.2$ $a' -la'
-ls: illegal option --  
-usage: ls [-@ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1%] [file ...]
+# bash-3.2$ export a="ls -la"
+# bash-3.2$ $a' -la'
+# ls: illegal option --  
+# usage: ls [-@ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1%] [file ...]
 
-Minishell$ unset PATH
-Minishell$ ls
-Execution       Makefile        leaks.sh        main.o          minishell.h
-Ft_libft        Parsing         main.c          minishell       test
-// if (ft_strcmp("_", tmp->key) != 0)
-		// 	return ;
-bad
+# Minishell$ unset PATH
+# Minishell$ ls
+# Execution       Makefile        leaks.sh        main.o          minishell.h
+# Ft_libft        Parsing         main.c          minishell       test
+# // if (ft_strcmp("_", tmp->key) != 0)
+# 		// 	return ;
+# bad
 
 
 ps aux | grep "root" | wc -l

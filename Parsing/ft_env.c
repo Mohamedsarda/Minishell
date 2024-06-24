@@ -41,8 +41,9 @@ void	ft_lstadd_back_env(t_env **head, t_env *node)
 	if (!head || !node)
 		return ;
 	last = *head;
-	while (last->next)
-		last = last->next;
+	if (last)
+		while (last->next)
+			last = last->next;
 	last->next = node;
 }
 
