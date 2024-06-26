@@ -73,19 +73,19 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
 	int			j;
-	pid_t		p;
+	pid_t		pid;
 	int			status;
 	char		*path;
 
 	j = -1;
-	p = fork();
+	pid = fork();
 	path = get_path(env);
-	if (p < 0)
+	if (pid < 0)
 	{
 		perror("fork fail");
 		exit(1);
 	}
-	if (p == 0)
+	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if ((*head)->out != 1)
@@ -97,7 +97,9 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 		tmp = ft_split(path, ':');
 		if (tmp == NULL || *tmp == NULL)
 		{
-			perror("Minishell$ ");
+			ft_putstr("Minishell$ ", 2);
+			ft_putstr(command, 2);
+			ft_putstr(": No such file or directory\n", 2);
 			exit(127) ;
 		}
 		while (tmp[++j])
@@ -110,12 +112,23 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 		com_not_found(command);
 	}
 	else
+		waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
 	{
-		waitpid(p, &status, 0);
-		while (wait(NULL) != -1)
-		;
-		int es = WEXITSTATUS(status);
-		char *ppppp = ft_itoa(es);
+		if (status == 3)
+		{
+			ft_putstr("Quit: 3\n", 2);
+			ft_exit_status(env, "131");
+		}
+		else if (status == 99)
+		{
+			ft_putstr("\n", 2);
+			ft_exit_status(env, "130");
+		}
+	}
+	else
+	{
+		char *ppppp = ft_itoa(WEXITSTATUS(status));
 		ft_exit_status(env, ppppp);
 		free(ppppp);
 	}
