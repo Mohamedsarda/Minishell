@@ -415,3 +415,22 @@ echo $?
 echo $?
 1
 the exit status should be 130 and it should rest to 0 after the second echo
+
+
+ctrl + c
+Minishell$ << a >s | <<ss
+> 
+> 
+Minishell$ 
+
+exit -1
+
+Minishell$ << a cat
+> '$a
+> a
+'$a'
+Minishell$ 
+
+
+Minishell$ << a cat
+> "$a

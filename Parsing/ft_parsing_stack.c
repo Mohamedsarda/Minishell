@@ -103,17 +103,14 @@ int	ft_words(t_words *head)
 	return (i);
 }
 
-int	ft_check_ctr_herd(t_joins *head, t_words **words, int is)
+int	ft_check_ctr_herd(t_joins *head)
 {
 	t_joins *tmp = head;
+
 	while (tmp)
 	{
 		if (tmp->in == -5 || tmp->error)
-		{
-			if (is)
-				ft_lstclear(words);
 			return (1);
-		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -140,7 +137,10 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 			{
 				ft_handle_herd(stack_2, head, env);
 				if (stack_2->in == -5)
+				{
+					ft_exit_status(env, "1");
 					return (dst[i] = NULL, dst);
+				}
 				head = head->next;
 			}
 			else
@@ -462,7 +462,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	syntax = ft_check_for_syntax(*words, &num_herd, *env);
 	stack_2 = ft_lstnew_joins(words);
 	stack_2->content = ft_create_list(stack_2, *words, env);
-	if (hundle_error(head) == 0)
+	if (hundle_error(head) == 0 || stack_2->in == -5)
 		return (ft_lstclear(words), stack_2);
 	while (head)
 	{
@@ -472,7 +472,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 			new = ft_lstnew_joins(words);
 			new->content = ft_create_list(new, head, env);
 			ft_lstaddback_joins(&stack_2, new);
-			if (hundle_error(head) == 0)
+			if (hundle_error(head) == 0 || new->in == -5)
 				return (ft_lstclear(words), stack_2);
 			if (new && !new->content)
 				return (stack_2);
@@ -480,8 +480,8 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		else
 			head = head->next;
 	}
-	if (ft_check_ctr_herd(stack_2, words, 1))
-		return (ft_lstclear(words), stack_2);
+	// if (ft_check_ctr_herd(stack_2))
+		// return (ft_lstclear(words), ft_lstclear_joins(&stack_2), NULL);
 	if (syntax == 1)
 		return (ft_lstclear(words), stack_2);
 	delete_qoutes_1(&stack_2, '\"');
