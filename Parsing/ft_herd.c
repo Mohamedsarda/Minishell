@@ -17,6 +17,24 @@ char	*ft_env_eq(t_env **env, char *key)
 	return (key);
 }
 
+char	*ft_remove_qoutes_herd(char *str)
+{
+	char	*dst;
+	int		i;
+	int		j;
+
+	i = 1;
+	j = 0;
+	dst = malloc(ft_strlen(str) - 1);
+	if (!dst)
+		return (NULL);
+	while (str && str[i] && str[i + 1] != '\0')
+		dst[j++] = str[i++];
+	dst[j] = '\0';
+	free(str);
+	return (dst);
+}
+
 int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 {
 	char	*tmp;
@@ -49,19 +67,13 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 	}
 	if (!head->is)
 	{
-		//
-		//
-		//
-		// delete "" ya l7maaar
-		//
-		//
-		//
 		char *po = ft_strjoin("\"", str);
 		po = test(po, "\"");
 		(*env)->is = 0;
 		tmp = all_expand(po, *env);
 		free(str);
 		free(po);
+		tmp = ft_remove_qoutes_herd(tmp);
 		ft_print_free(tmp, stack_2->out);
 	}
 	else
