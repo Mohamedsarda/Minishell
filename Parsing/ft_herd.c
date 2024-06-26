@@ -21,7 +21,7 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 {
 	char	*tmp;
 
-	if (head->is == 1 )
+	if (head->is == 1)
 	{
 		(*env)->is = 1;
 		char	*a = ft_strdup(head->word);
@@ -49,9 +49,19 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 	}
 	if (!head->is)
 	{
+		//
+		//
+		//
+		// delete "" ya l7maaar
+		//
+		//
+		//
+		char *po = ft_strjoin("\"", str);
+		po = test(po, "\"");
 		(*env)->is = 0;
-		tmp = all_expand(str, *env);
+		tmp = all_expand(po, *env);
 		free(str);
+		free(po);
 		ft_print_free(tmp, stack_2->out);
 	}
 	else
