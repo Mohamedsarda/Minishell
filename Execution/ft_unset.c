@@ -66,7 +66,7 @@ void	ft_unset(t_joins **head, t_env **env)
 		}
 		else
 		{
-			if (ft_while_unset(env, tmp , cur, (*head)->content[i]))
+			if (ft_while_unset(env, tmp, cur, (*head)->content[i]))
 				break ;
 			else
 				return ;

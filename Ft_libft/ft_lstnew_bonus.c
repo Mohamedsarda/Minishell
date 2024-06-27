@@ -2,13 +2,14 @@
 
 int	check_if_export(t_words **head, char *content)
 {
-	t_words *a;
-	if(head == NULL)
+	t_words	*a;
+
+	if (head == NULL)
 		return (6);
 	a = *head;
-	while(a)
+	while (a)
 	{
-		if(!ft_strcmp(a->word, "export") && ft_strchr(content, '=') == 1)
+		if (!ft_strcmp(a->word, "export") && ft_strchr(content, '=') == 1)
 			return (0);
 		a = a->next;
 	}
@@ -39,7 +40,7 @@ int	ft_check_type(t_words **head, char *content)
 	{
 		if (content[i] == '$')
 		{
-			if(check_if_export(head, content) == 0)
+			if (check_if_export(head, content) == 0)
 				return (0);
 			return (6);
 		}
@@ -63,7 +64,6 @@ t_words	*ft_lstnew(t_words **head, char *content, t_env *env_stack)
 {
 	t_words	*new_node;
 	char	*str;
-	// char	*test;
 
 	str = NULL;
 	new_node = NULL;
@@ -75,25 +75,12 @@ t_words	*ft_lstnew(t_words **head, char *content, t_env *env_stack)
 		new_node->is = 1;
 	else
 		new_node->is = 0;
-	// if (ft_strcmp(content, "\"\"") == 0 || ft_strcmp(content, "\'\'") == 0)
-	// {
-	// 	test = ft_strdup(content);
-	// 	new_node->word = malloc(ft_strlen(test) + 1);
-	// 	if (!new_node || !new_node->word)
-	// 		return (NULL);
-	// 	ft_memcpy(new_node->word, test, ft_strlen(test));
-	// 	free(test);
-	// 	new_node->next = NULL;
-	// }
-	// else
-	// {
-		str = handle_env(new_node, content, env_stack);
-		new_node->word = malloc(ft_strlen(str) + 1);
-		if (!new_node || !new_node->word)
-			return (NULL);
-		ft_memcpy(new_node->word, str, ft_strlen(str));
-		free(str);
-		new_node->next = NULL;
-	// }
+	str = handle_env(new_node, content, env_stack);
+	new_node->word = malloc(ft_strlen(str) + 1);
+	if (!new_node || !new_node->word)
+		return (NULL);
+	ft_memcpy(new_node->word, str, ft_strlen(str));
+	free(str);
+	new_node->next = NULL;
 	return (new_node);
 }

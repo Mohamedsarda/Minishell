@@ -21,25 +21,27 @@ char	*get_path(t_env **env)
 	}
 	return (path);
 }
-// start
+
 void	ft_check_slash(char *command, t_env **env)
 {
-	int	i;
+	int		i;
 	char	*err;
+
 	(void)env;
 	i = 0;
-	while(command[i])
+	while (command[i])
+	{
+		if (command[i] == '/')
 		{
-			if (command[i] == '/')
-			{
-				err = ft_strjoin("Minishell$ : ", command);
-				perror(err);
-				free(err);
-				exit(127);
-			}
-			i++;
+			err = ft_strjoin("Minishell$ : ", command);
+			perror(err);
+			free(err);
+			exit(127);
 		}
+		i++;
+	}
 }
+
 void	com_not_found(char *command)
 {
 	ft_putstr("Minishell$ ", 2);
@@ -47,11 +49,11 @@ void	com_not_found(char *command)
 	ft_putstr(": command not found\n", 2);
 	exit(127);
 }
+
 char	**ft_create_env_from_stack(t_env *env)
 {
 	char	**dst;
 	int		size;
-	// char	*tmp;
 	int		i;
 
 	size = ft_env_size(env);
@@ -100,7 +102,7 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 			ft_putstr("Minishell$ ", 2);
 			ft_putstr(command, 2);
 			ft_putstr(": No such file or directory\n", 2);
-			exit(127) ;
+			exit(127);
 		}
 		while (tmp[++j])
 		{
@@ -128,7 +130,7 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 	}
 	else
 	{
-		char *ppppp = ft_itoa(WEXITSTATUS(status));
+		char	*ppppp = ft_itoa(WEXITSTATUS(status));
 		ft_exit_status(env, ppppp);
 		free(ppppp);
 	}
@@ -138,9 +140,10 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 void	ft_run(t_joins **head, t_env **env)
 {
 	char	*command;
+	char	**environ;
 
 	command = ft_strdup((*head)->content[0]);
-	char **environ = ft_create_env_from_stack(*env);
+	environ = ft_create_env_from_stack(*env);
 	check_run(environ, command, head, env);
 	free(command);
 	free_split(environ);

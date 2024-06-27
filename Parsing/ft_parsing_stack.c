@@ -72,8 +72,9 @@ char	*ft_strjoin(char *s1, char *s2)
 
 int	ft_words(t_words *head)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	while (head && hundle_error(head) != 0)
 	{
 		if (head->type == PIPE)
@@ -84,7 +85,7 @@ int	ft_words(t_words *head)
 				head = head->next;
 			if (head)
 				head = head->next;
-			continue;
+			continue ;
 		}
 		if (head->type == 6 && head->word[0] != '\0')
 		{
@@ -95,7 +96,7 @@ int	ft_words(t_words *head)
 		}
 		else if (head->type == 6 && head->word[0] == '\0' && head->is)
 			i++;
-		else 
+		else
 			i++;
 		if (head)
 			head = head->next;
@@ -105,8 +106,9 @@ int	ft_words(t_words *head)
 
 int	ft_check_ctr_herd(t_joins *head)
 {
-	t_joins *tmp = head;
+	t_joins	*tmp;
 
+	tmp = head;
 	while (tmp)
 	{
 		if (tmp->in == -5 || tmp->error)
@@ -153,9 +155,8 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 					{
 						dst[i++] = ft_strdup(head->word);
 						head = head->next;
-						continue;
+						continue ;
 					}
-					
 					multiple(&head->word, 0);
 					str = ft_split(head->word, ' ');
 					if (!str)
@@ -205,13 +206,14 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 					ft_exit_status(&env_stack, "1");
 					free_split(tmp->content);
 					tmp->content = NULL;
-					break;
+					break ;
 				}
 				if (ft_strcmp(tmp->content[i], ">") == 0)
 				{
 					if (tmp->out > 1)
 						close(tmp->out);
-					tmp->out = open(tmp->content[++i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+					tmp->out = open(tmp->content[++i], O_CREAT
+							| O_TRUNC | O_WRONLY, 0777);
 					if (words)
 						words = words->next;
 				}
@@ -227,7 +229,8 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 				{
 					if (tmp->out > 1)
 						close(tmp->out);
-					tmp->out = open(tmp->content[++i], O_CREAT | O_RDWR | O_APPEND, 0777);
+					tmp->out = open(tmp->content[++i], O_CREAT
+							| O_RDWR | O_APPEND, 0777);
 					if (words)
 						words = words->next;
 				}
@@ -247,7 +250,7 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 			}
 		}
 		while (words && words->type != PIPE)
-				words = words->next;
+			words = words->next;
 		if (words)
 			words = words->next;
 		if (tmp)
@@ -255,8 +258,7 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 	}
 }
 
-
-int	ft_check_content(char **dst , int *i)
+int	ft_check_content(char **dst, int *i)
 {
 	int	j;
 
@@ -264,7 +266,8 @@ int	ft_check_content(char **dst , int *i)
 	j = 0;
 	while (dst[*i])
 	{
-		if (ft_strcmp(dst[*i], ">") == 0 || ft_strcmp(dst[*i], "<") == 0 || ft_strcmp(dst[*i], ">>") == 0)
+		if (ft_strcmp(dst[*i], ">") == 0 || ft_strcmp(dst[*i], "<") == 0
+			|| ft_strcmp(dst[*i], ">>") == 0)
 			j++;
 		(*i)++;
 	}
@@ -273,9 +276,11 @@ int	ft_check_content(char **dst , int *i)
 
 int	ft_count_word_if_no_content(t_joins *tmp)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (tmp->content[i])
 	{
 		if (tmp->content && ft_strlen(tmp->content[i]) == 0 && !tmp->quotes)
@@ -306,7 +311,8 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 		x = 0;
 		while (j < i)
 		{
-			if (ft_strcmp(ptr[x], ">") == 0 || ft_strcmp(ptr[x], "<") == 0 || ft_strcmp(ptr[x], ">>") == 0)
+			if (ft_strcmp(ptr[x], ">") == 0 || ft_strcmp(ptr[x], "<") == 0
+				|| ft_strcmp(ptr[x], ">>") == 0)
 				x += 2;
 			if (tmp->content && ft_strlen(tmp->content[x]) == 0 && !tmp->quotes)
 				x++;
@@ -317,9 +323,8 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 		free_split(ptr);
 		return (dst);
 	}
-	else	
+	else
 		return (ptr);
-
 }
 
 int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
@@ -327,9 +332,9 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 	(*herd) = 0;
 	if (ft_strcmp(head->word, "|") == 0)
 	{
-			printf ("Minishell : syntax error near unexpected token\n");
-			ft_exit_status(&env, "258");
-			return (1);
+		printf ("Minishell : syntax error near unexpected token\n");
+		ft_exit_status(&env, "258");
+		return (1);
 	}
 	while (head)
 	{
@@ -348,8 +353,8 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 
 int	strlen_no_quotes(char *str)
 {
-	int i;
-	int res;
+	int	i;
+	int	res;
 
 	i = 0;
 	res = 0;
@@ -398,7 +403,7 @@ char	*dele_quotes(char **str)
 		if ((*str)[i] == '\"')
 		{
 			i++;
-			while ((*str)[i]  && (*str)[i] != '\"')
+			while ((*str)[i] && (*str)[i] != '\"')
 			{
 				res[j] = (*str)[i];
 				i++;
@@ -408,7 +413,7 @@ char	*dele_quotes(char **str)
 		else if ((*str)[i] == '\'')
 		{
 			i++;
-			while ((*str)[i]  && (*str)[i] != '\'')
+			while ((*str)[i] && (*str)[i] != '\'')
 			{
 				res[j] = (*str)[i];
 				i++;
@@ -429,13 +434,14 @@ char	*dele_quotes(char **str)
 
 void	delete_qoutes_1(t_joins	**stack_2, char c)
 {
-	t_joins *tmp;
+	t_joins	*tmp;
+	int		i;
 
 	(void)c;
 	tmp = (*stack_2);
 	while (tmp)
 	{
-		int i = 0;
+		i = 0;
 		while (tmp->content[i])
 		{
 			if (check_double_qout(tmp->content[i]))
@@ -444,7 +450,7 @@ void	delete_qoutes_1(t_joins	**stack_2, char c)
 				tmp->quotes = 1;
 			}
 			i++;
-		}		
+		}
 		tmp = tmp->next;
 	}
 }
@@ -454,7 +460,7 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	t_joins	*stack_2;
 	t_joins	*new;
 	t_joins	*tmp;
-	t_words *head;
+	t_words	*head;
 	int		syntax;
 	int		num_herd;
 

@@ -92,7 +92,6 @@ char	*ft_itoa(int n)
 	return (res);
 }
 
-
 int	check_in_set(char c, char *set)
 {
 	while (*set)
