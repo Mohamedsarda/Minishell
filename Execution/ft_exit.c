@@ -57,16 +57,52 @@ int	check_nmbr(char *str)
 	return (0);
 }
 
+void	ft_more_args(char	*str, t_env **env)
+{
+	if (check_nmbr(str))
+	{
+		ft_putstr("Minishell$: exit: numeric argument required\n", 2);
+		ft_exit_status(env, "255");
+		exit(255);
+	}
+	else
+	{
+		ft_putstr("Minishell$: exit: too many arguments\n", 2);
+		ft_exit_status(env, "1");
+		return ;
+	}
+}
+
+void	ft_one_args(char	*str, t_env **env, unsigned int nbr, t_joins **head)
+{
+	char	*a;
+
+	a = NULL;
+	if (check_nmbr(str) == 1)
+	{
+		ft_putstr("Minishell$: exit: numeric argument required\n", 2);
+		ft_exit_status(env, "255");
+		exit(255);
+	}
+	else
+	{
+		nbr = ft_atoi(str);
+		ft_lstclear_joins(head);
+		ft_lstclear_env(env);
+		a = ft_itoa(nbr);
+		ft_exit_status(env, a);
+		free(a);
+	}
+}
+
 void	ft_exit(t_joins **head, t_env **env, int fd)
 {
 	t_env			*tmp;
 	unsigned int	nbr;
-	char			*a;
 	int				i;
 
 	i = 1;
 	nbr = 0;
-	a = NULL;
 	tmp = ft_get_status_pos(*env, "?");
 	while ((*head)->content[i])
 		i++;
@@ -75,37 +111,9 @@ void	ft_exit(t_joins **head, t_env **env, int fd)
 	if (i == 1)
 		exit(ft_atoi4(tmp->value));
 	if (i != 2)
-	{
-		if (check_nmbr((*head)->content[1]))
-		{
-			ft_putstr("Minishell$: exit: numeric argument required\n", 2);
-			ft_exit_status(env, "255");
-			exit(255);
-		}
-		else
-		{
-			ft_putstr("Minishell$: exit: too many arguments\n", 2);
-			ft_exit_status(env, "1");
-			return ;
-		}
-	}
+		ft_more_args((*head)->content[1], env);
 	else
-	{
-		if (check_nmbr((*head)->content[1]) == 255)
-		{
-			ft_putstr("Minishell$: exit: numeric argument required\n", 2);
-			ft_exit_status(env, "255");
-		}
-		else
-		{
-			nbr = ft_atoi((*head)->content[1]);
-			ft_lstclear_joins(head);
-			ft_lstclear_env(env);
-			a = ft_itoa(nbr);
-			ft_exit_status(env, a);
-			free(a);
-		}
-	}
+		ft_one_args((*head)->content[1], env, nbr, head);
 	exit(nbr);
 }
 

@@ -62,9 +62,7 @@ char	*ft_parsing(char *str)
 	{
 		if (*str == '|' || *str == '>' || *str == '<')
 			check_left_symbols(&str, &str_sp, a);
-		*str_sp = *str;
-		a++;
-		str_sp++;
+		((1) && (*str_sp = *str, a++, str_sp++));
 		if (*str == '|' || *str == '>' || *str == '<')
 		{
 			check_right_symbols(&str, &str_sp);
@@ -75,6 +73,5 @@ char	*ft_parsing(char *str)
 	free(s);
 	return (t);
 }
-
 
 //cat < minishell.h | ls

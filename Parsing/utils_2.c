@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 void	ft_herd_sig(int i)
 {
 	(void)i;
@@ -32,13 +31,14 @@ void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env)
 {
 	char	*file;
 	int		i;
+	char	*nb;
 
 	file = ft_strdup("../.herd_file");
 	i = 0;
 	while (access(file, F_OK) == 0)
 	{
 		free(file);
-		char *nb = ft_itoa(i++);
+		nb = ft_itoa(i++);
 		file = ft_strjoin("../.herd_file", nb);
 		free(nb);
 	}
@@ -84,4 +84,3 @@ int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env)
 	}
 	return (0);
 }
-
