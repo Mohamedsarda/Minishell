@@ -1,5 +1,4 @@
 #include "../minishell.h"
-#include <limits.h>
 
 int	ft_sign(char **str)
 {
@@ -37,40 +36,6 @@ unsigned char	ft_atoi(char *str)
 	if (*str != '\0')
 		return (255);
 	return (nbr * sign);
-}
-
-int	check_nmbr(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] == ' ')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-		i++;
-	while (str[i] && str[i] == ' ')
-		i++;
-	if (str[i] != '\0')
-		return (1);
-	return (0);
-}
-
-void	ft_more_args(char	*str, t_env **env)
-{
-	if (check_nmbr(str))
-	{
-		ft_putstr("Minishell$: exit: numeric argument required\n", 2);
-		ft_exit_status(env, "255");
-		exit(255);
-	}
-	else
-	{
-		ft_putstr("Minishell$: exit: too many arguments\n", 2);
-		ft_exit_status(env, "1");
-		return ;
-	}
 }
 
 void	ft_one_args(char	*str, t_env **env, unsigned int nbr, t_joins **head)
