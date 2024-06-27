@@ -42,14 +42,6 @@ void	ft_check_slash(char *command, t_env **env)
 	}
 }
 
-void	com_not_found(char *command)
-{
-	ft_putstr("Minishell$ ", 2);
-	ft_putstr(command, 2);
-	ft_putstr(": command not found\n", 2);
-	exit(127);
-}
-
 char	**ft_create_env_from_stack(t_env *env)
 {
 	char	**dst;
@@ -116,24 +108,9 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 	else
 		waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
-	{
-		if (status == 3)
-		{
-			ft_putstr("Quit: 3\n", 2);
-			ft_exit_status(env, "131");
-		}
-		else if (status == 99)
-		{
-			ft_putstr("\n", 2);
-			ft_exit_status(env, "130");
-		}
-	}
+		ft_check_sig_fork(status, env);
 	else
-	{
-		char	*ppppp = ft_itoa(WEXITSTATUS(status));
-		ft_exit_status(env, ppppp);
-		free(ppppp);
-	}
+		ft_change_status_fork(status, env);
 	free(path);
 }
 
