@@ -1,5 +1,5 @@
 #include "../minishell.h"
-#include <sys/stat.h>
+
 int	ft_joinssize(t_joins *head)
 {
 	int	i;
@@ -67,9 +67,10 @@ void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 void	ft_run_2(t_joins **head, t_env **env)
 {
 	char	*command;
+	char	**environ;
 
 	command = ft_strdup((*head)->content[0]);
-	char **environ = ft_create_env_from_stack(*env);
+	environ = ft_create_env_from_stack(*env);
 	check_run_2(environ, command, head, env);
 	free_split(environ);
 	free(command);
@@ -133,7 +134,7 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 			perror("Minishell$ ");
 			close(pipes[1]);
 			close(pipes[0]);
-			break;
+			break ;
 		}
 		if (pid == 0)
 		{
@@ -164,8 +165,8 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	waitpid(pid, &status, 0);
 	while (wait(NULL) != -1)
 		;
-	int es = WEXITSTATUS(status);
-	char *ppppp = ft_itoa(es);
+	int		es = WEXITSTATUS(status);
+	char	*ppppp = ft_itoa(es);
 	ft_exit_status(env, ppppp);
 	free(ppppp);
 }

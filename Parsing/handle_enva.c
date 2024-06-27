@@ -1,77 +1,5 @@
 #include "../minishell.h"
 
-// static char	*check_after_env(char **tmp)
-// {
-// 	int		i;
-// 	char	c;
-// 	char	*str;
-
-// 	i = 0;
-// 	while (tmp[0][i])
-// 	{
-// 		c = check_key(tmp[0][i]);
-// 		if (c)
-// 		{
-// 			str = ft_strlcpy(tmp, ft_get_env_len(*tmp, c));
-// 			return (str);
-// 		}
-// 		i++;
-// 	}
-// 	return (*tmp);
-// }
-// static void	ft_norm____(char **str, char **tmp, t_env *env)
-// {
-// 	char	*a;
-// 	char	*b;
-// 	char	*c;
-// 	char	*key;
-
-// 	a = ft_strdup(*tmp);
-// 	b = a;
-// 	key = check_after_env(&a);
-// 	if (ft_strcmp(key, a) == 0)
-// 		*str = atest(key, env, *str);
-// 	else
-// 	{
-// 		c = check_env(key, env);
-// 		*str = test(*str, c);
-// 		if (!c)
-// 			free(c);
-// 	}
-// 	if (ft_strcmp(key, a) != 0)
-// 	{
-// 		*str = test(*str, a);
-// 		free(key);
-// 	}
-// 	free(b);
-// }
-// static char	*ft_norm(char *content, t_env *env, char **tmp)
-// {
-// 	int		j;
-// 	char	*str;
-
-// 	j = -1;
-// 	str = ft_strlcpy(&content, ft_get_env_len(content, '$'));
-// 	if (content[0] == '\0')
-// 		return (str);
-// 	str = rm_single_qoutes(str);
-// 	tmp = ft_split(content, '$');
-// 	if (tmp == NULL || *tmp == NULL)
-// 		return (NULL);
-// 	while (tmp[++j])
-// 	{
-// 		if ((tmp[j][0] == '\"' || tmp[j][0] == '\'')
-// 			&& check_double_qout(str) != 0)
-// 			str = test(str, "$");
-// 		ft_norm____(&str, &tmp[j], env);
-// 		if (check_double_qout(str) == 0)
-// 			str = rm_single_qoutes(str);
-// 	}
-// 	free_split(tmp);
-// 	return (str);
-// }
-
-
 char	*test_1(char *s1, char *s2)
 {
 	int		i;
@@ -85,11 +13,13 @@ char	*test_1(char *s1, char *s2)
 	if (!dst)
 		return (NULL);
 	if (s1)
+	{
 		while (s1[i])
 		{
 			dst[i] = s1[i];
 			i++;
 		}
+	}
 	j = 0;
 	if (s2)
 		while (s2[j])
@@ -130,11 +60,12 @@ char	*get_only_key(char *str, int *i)
 {
 	int		j;
 	int		c;
-	char	*res = NULL;
+	char	*res;
 
+	res = NULL;
 	j = *i;
 	c = 0;
-	if(str[*i] == '?')
+	if (str[*i] == '?')
 		return ((*i)++, res = test_1(res, "?"));
 	while (str[*i] && ((str[*i] >= 'a' && str[*i] <= 'z')
 			|| (str[*i] >= 'A' && str[*i] <= 'Z')
@@ -152,7 +83,6 @@ char	*get_only_key(char *str, int *i)
 	res[c] = '\0';
 	return (res);
 }
-
 
 char	*ft_expand(char *result, char *str, int *i, t_env *env)
 {
@@ -183,11 +113,11 @@ char	*handle_single(char *result, char *str, int *i)
 {
 	int		j;
 	char	*res;
+	int		c;
 
 	j = ++(*i);
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
-	int		c;
 	res = malloc((*i - j) + 1 + ft_strlen(result) + 2);
 	c = 0;
 	while (result != NULL && result[c])
@@ -288,7 +218,7 @@ char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
 				}
 			}
 		}
-		else if(str[*i] == '\'')
+		else if (str[*i] == '\'')
 			result = test(result, "\'");
 		if (str[*i])
 			(*i)++;
@@ -296,47 +226,61 @@ char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
 	return (result);
 }
 
-char    *ft_expand_in_double(char *result, char *str, int *i, t_env *env)
+char	*real_expand_in_double(char *str, int *i, t_env *env, char *result)
 {
+	char	*key;
+	char	*sta;
+	char	*res;
+	int		c;
+	int		j;
+
+	c = 0;
+	j = 0;
+	key = get_only_key(str, i);
+	sta = check_env(key, env);
+	res = malloc(ft_strlen(sta) + 1 + ft_strlen(result));
+	while (result != NULL && result[c])
+	{
+		res[c] = result[c];
+		c++;
+	}
+	while (sta[j])
+	{
+		res[c] = sta[j];
+		j++;
+		c++;
+	}
+	res[c] = '\0';
+	free(key);
+	return (res);
+}
+
+char	*ft_expand_in_double(char *result, char *str, int *i, t_env *env)
+{
+	char	*res;
+
+	res = NULL;
 	(*i)++;
-	int j = 0;
 	if (str[*i] >= '0' && str[*i] <= '9')
 		return ((*i)++, result);
 	else if (str[*i] == '\"' || str[*i] == '\'')
 		return (test_1(result, "$"));
-	else if(str[*i] == '$')
+	else if (str[*i] == '$')
 		return ((*i)++, test_1(result, "$$"));
-	else if(str[*i] == ' ')
+	else if (str[*i] == ' ')
 		return (test_1(result, "$"));
 	else
 	{
-		int c = 0;
-		char	*key = get_only_key(str, i);
-		char *sta = check_env(key, env);
-		char    *res = malloc(ft_strlen(sta) + 1 + ft_strlen(result));
-		while (result != NULL && result[c])
-		{
-			res[c] = result[c];
-			c++;
-		}
-		while(sta[j])
-		{
-			res[c] = sta[j];
-			j++;
-			c++;
-		}
-		res[c] = '\0';
+		res = real_expand_in_double(str, i, env, result);
 		free(result);
-		free(key);
 		return (res);
 	}
-	return result;
+	return (result);
 }
 
 char	*handle_double(char *result, char *str, int *i, t_env *env)
 {
 	(*i)++;
-
 	result = test_1(result, "\"");
 	while (str[*i] != '\"')
 	{
@@ -347,15 +291,40 @@ char	*handle_double(char *result, char *str, int *i, t_env *env)
 			result = ft_expand_doub_sing(result, str, i, env);
 		else
 			result = ft_text_doub(result, str, i);
-		if(str[*i] == '$'  && env->is)
+		if (str[*i] == '$' && env->is)
 		{
 			result = test_1(result, "$");
 			(*i)++;
 		}
 	}
-	if(result == NULL)
+	if (result == NULL)
 		result = test_1(result, "");
 	result = test_1(result, "\"");
+	return (result);
+}
+
+char	*ft_other(char *result, char *str, int *i, t_env *env)
+{
+	if (str[(*i)] && str[(*i)] == '\'')
+	{
+		result = handle_single(result, str, i);
+		if (str[(*i)])
+			(*i)++;
+	}
+	else if (str[(*i)] && str[(*i)] == '\"')
+	{
+		result = handle_double(result, str, i, env);
+		if (str[(*i)] && (str[(*i)] == '\'' || str[(*i)] == '\"'
+				|| str[(*i)] == '$'))
+			(*i)++;
+		else
+		{
+			result = ft_text(result, str, &(*i));
+			(*i)++;
+		}
+	}
+	else
+		result = ft_text(result, str, &(*i));
 	return (result);
 }
 
@@ -372,35 +341,9 @@ char	*all_expand(char *str, t_env *env)
 	{
 		if (str[i] && str[i] == '$' && !env->is)
 			result = ft_expand(result, str, &i, env);
-		if (str[i] && str[i] == '\'')
-		{
-			result = handle_single(result, str, &i);
-			if (str[i])
-				i++;
-		}
-		else if (str[i] && str[i] == '\"')
-		{
-			result = handle_double(result, str, &i, env);
-			if (str[i] && (str[i] == '\'' || str[i] == '\"' || str[i] == '$'))
-				i++;
-			else
-			{
-				result = ft_text(result, str, &i);
-				i++;
-			}
-		}
-		else
-			result = ft_text(result, str, &i);
+		result = ft_other(result, str, &i, env);
 	}
 	return (result);
-}
-
-static char	*handle_type_6(char *content, t_env *env)
-{
-	char	*str;
-	env->is = 0;
-	str = all_expand(content, env);
-	return (str);
 }
 
 char	*handle_env(t_words *node, char *content, t_env *env)
@@ -408,6 +351,7 @@ char	*handle_env(t_words *node, char *content, t_env *env)
 	char	*cont;
 
 	(void)node;
-	cont = handle_type_6(content, env);
+	env->is = 0;
+	cont = all_expand(content, env);
 	return (cont);
 }

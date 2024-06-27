@@ -8,8 +8,9 @@
 # include "readline/history.h"
 # include <signal.h>
 # include <fcntl.h>
-#include <string.h>
-#include <sys/time.h>
+# include <string.h>
+# include <sys/time.h>
+# include <sys/stat.h>
 
 # define WORD 0
 # define REDIN 1 // <
@@ -73,7 +74,7 @@ void	ft_lstadd_back_env(t_env **head, t_env *node);
 void	ft_sighandler(int i);
 int		ft_get_env_len(char *str, char c);
 char	*ft_strlcpy(char **str, int len);
-int	ft_strncmp(char *s1, char *s2, size_t n);
+int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strtrim(char *s1, char *set);
 void	ft_putstr(char *str, int fd);
 //
@@ -109,11 +110,11 @@ void	ft_cd(t_joins **head, t_env **env);
 //
 void	ft_run_commad(t_joins **head, t_env **env, char *type);
 //
-void    ft_export(t_joins **head, t_env **env);
+void	ft_export(t_joins **head, t_env **env);
 //
-void    ft_unset(t_joins **head, t_env **env);
+void	ft_unset(t_joins **head, t_env **env);
 //
-void ft_exit(t_joins **head, t_env **env, int fd);
+void	ft_exit(t_joins **head, t_env **env, int fd);
 //handle_enva_checker.c
 char	*check_env(char *str, t_env *env);
 char	check_key(char c);
@@ -129,8 +130,6 @@ char	*delete_qoutes(char *str, char c);
 char	*delete_all_double_qoutes(char *str);
 //end handle_enva_qoutes_part1.c
 
-
-
 //handle_enva_qoutes_part2.c
 void	conv_all(char **str);
 void	conv_all_pos(char **str);
@@ -145,41 +144,42 @@ char	*add_one(char *s1, char s2);
 int		ft_strlen_c(const char *str, char c);
 void	multiple2(char **str);
 
-void    ft_run(t_joins **head, t_env **env);
+void	ft_run(t_joins **head, t_env **env);
 void	env_equal(t_env **env);
 //
-void    ft_exit_status(t_env **env, char *status);
+void	ft_exit_status(t_env **env, char *status);
 void	print_sorted_env(t_env **head, t_joins **stack_2);
-int	ft_check_type(t_words **head, char *content);
+int		ft_check_type(t_words **head, char *content);
 //
-void    ft_is_pipe(t_joins **head, t_env **env);
+void	ft_is_pipe(t_joins **head, t_env **env);
 //
-int	hundle_error(t_words *words);
+int		hundle_error(t_words *words);
 void	ft_check_slash(char *command, t_env **env);
 void	com_not_found(char *command);
-int	ft_env_size(t_env *head);
-int check_key_env(char *key);
-char    *all_expand(char *str, t_env *env);
+int		ft_env_size(t_env *head);
+int		check_key_env(char *key);
+char	*all_expand(char *str, t_env *env);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
-int	check_in_set(char c, char *set);
-int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env);
+int		check_in_set(char c, char *set);
+int		ft_herd_while(t_joins *stack_2, t_words *head, t_env **env);
 void	ft_print_free(char *str, int fd);
 void	based_on_trim(char **str);
-int	ft_strchr(char *str, char c);
+int		ft_strchr(char *str, char c);
 char	*ft_itoa(int n);
-int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str);
+int		ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env,
+			char *str);
 t_env	*ft_get_status_pos(t_env *env, char *key);
 char	*test_1(char *s1, char *s2);
-int	ft_atoi4(const char *str);
+int		ft_atoi4(const char *str);
 char	**ft_create_env_from_stack(t_env *env);
 char	*dele_quotes(char **str);
-int	check_value(char *value);
+int		check_value(char *value);
 char	*delete_plus(char *str);
 char	*delete_eq(char *str);
-int	check_key_in_path(char *key, t_env **env);
-int	ft_strlen_key(char *str);
+int		check_key_in_path(char *key, t_env **env);
+int		ft_strlen_key(char *str);
 void	ft_swap_env(t_env **a, t_env **b);
 char	*befor_equal(char	*str);
-int	ft_strlen_value(char *str);
+int		ft_strlen_value(char *str);
 char	*after_equal(char	*str);
 #endif

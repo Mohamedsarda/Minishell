@@ -434,3 +434,32 @@ Minishell$
 
 Minishell$ << a cat
 > "$a
+
+
+
+
+Minishell$ cat
+fdasf
+fdasf
+^C[32686]
+
+
+Minishell$ << a ctr+C
+> 
+Minishell$ $?
+Minishell$ 1: command not found
+Minishell$ << a ctr+D
+> 
+Minishell$ $?
+Minishell$ 127: command not found
+Minishell$ 
+
+bash-3.2$ << a
+> 
+bash-3.2$ $?
+bash: 1: command not found
+bash-3.2$ << a
+> bash-3.2$ $?
+bash: 0: command not found
+bash-3.2$ 
+
