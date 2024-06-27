@@ -90,7 +90,7 @@ int	ft_atoi4(const char *str)
 
 	nbr = 0;
 	sign = 1;
-	while ((*str == ' ' || *str == '\t' || *str == '\n' 
+	while ((*str == ' ' || *str == '\t' || *str == '\n'
 			|| *str == '\v' || *str == '\f' || *str == '\r') && (str++));
 	if (*str == '-' || *str == '+')
 	{
@@ -110,7 +110,6 @@ int	ft_atoi4(const char *str)
 	return (nbr * sign);
 }
 
-
 int	main(int ac, char **ar, char **env)
 {
 	t_words	*words;
@@ -118,6 +117,7 @@ int	main(int ac, char **ar, char **env)
 	t_env	*env_stack;
 	char	*string;
 	char	*str_sp;
+	t_env	*tmp1;
 
 	(void)ar;
 	if (ac != 1)
@@ -137,8 +137,8 @@ int	main(int ac, char **ar, char **env)
 			ft_exit_status(&env_stack, "1");
 		if (!string)
 		{
-			t_env *tmp = ft_get_status_pos(env_stack, "?");
-			exit(ft_atoi4(tmp->value));
+			tmp1 = ft_get_status_pos(env_stack, "?");
+			exit(ft_atoi4(tmp1->value));
 		}
 		else if (!string[0])
 		{

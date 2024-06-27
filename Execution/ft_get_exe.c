@@ -2,7 +2,7 @@
 
 void	ft_run_commad(t_joins **head, t_env **env, char *type)
 {
-	if(type == NULL)
+	if (type == NULL)
 		return ;
 	if (ft_strcmp(type, "echo") == 0)
 		ft_echo(head, env);
