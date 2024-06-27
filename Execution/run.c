@@ -66,12 +66,10 @@ char	**ft_create_env_from_stack(t_env *env)
 void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 {
 	char		**tmp;
-	int			j;
 	pid_t		pid;
 	int			status;
 	char		*path;
 
-	j = -1;
 	pid = fork();
 	path = get_path(env);
 	if (pid < 0)
@@ -81,29 +79,9 @@ void	check_run(char **environ, char *command, t_joins **head, t_env **env)
 	}
 	if (pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		if ((*head)->out != 1)
-			dup2((*head)->out, 1);
-		if ((*head)->in != 0)
-			dup2((*head)->in, 0);
-		execve(command, (*head)->content, environ);
-		ft_check_slash(command, env);
+		ft_check_run_norm_1(environ, command, head, env);
 		tmp = ft_split(path, ':');
-		if (tmp == NULL || *tmp == NULL)
-		{
-			ft_putstr("Minishell$ ", 2);
-			ft_putstr(command, 2);
-			ft_putstr(": No such file or directory\n", 2);
-			exit(127);
-		}
-		while (tmp[++j])
-		{
-			tmp[j] = test(tmp[j], "/");
-			tmp[j] = test(tmp[j], (*head)->content[0]);
-			if (access(tmp[j], X_OK) == 0)
-				execve(tmp[j], (*head)->content, environ);
-		}
-		com_not_found(command);
+		ft_check_run_norm_2(environ, command, head, tmp);
 	}
 	else
 		waitpid(pid, &status, 0);
