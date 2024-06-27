@@ -1,18 +1,5 @@
 #include "../minishell.h"
 
-int	ft_joinssize(t_joins *head)
-{
-	int	i;
-
-	i = 0;
-	while (head)
-	{
-		i++;
-		head = head->next;
-	}
-	return (i);
-}
-
 void	ft_run_2(t_joins **head, t_env **env)
 {
 	char	*command;
