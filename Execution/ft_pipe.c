@@ -87,7 +87,6 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	int		pid;
 	int		old;
 	int		status;
-	char	*final_status;
 
 	old = -1;
 	while ((*head) && !(*head)->error)
@@ -102,7 +101,8 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	waitpid(pid, &status, 0);
 	while (wait(NULL) != -1)
 		;
-	final_status = ft_itoa(WEXITSTATUS(status));
-	ft_exit_status(env, final_status);
-	free(final_status);
+	if (WIFSIGNALED(status))
+		ft_check_sig_fork(status, env);
+	else
+		ft_change_status_fork(status, env);
 }
