@@ -182,4 +182,7 @@ void	ft_swap_env(t_env **a, t_env **b);
 char	*befor_equal(char	*str);
 int		ft_strlen_value(char *str);
 char	*after_equal(char	*str);
+//
+char	*get_path_2(t_env **env);
+void	check_run_2(char **environ, char *command, t_joins **head, t_env **env);
 #endif
