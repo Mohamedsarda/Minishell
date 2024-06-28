@@ -7,6 +7,8 @@ char	*ft_to_lower(char *str)
 
 	i = 0;
 	res = malloc(ft_strlen(str) + 1);
+	if (!res)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] >= 'A' && str[i] <= 'Z')

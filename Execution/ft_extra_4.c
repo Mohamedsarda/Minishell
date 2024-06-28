@@ -58,7 +58,7 @@ void	ft_check_sig_fork(int status, t_env **env)
 		ft_putstr("Quit: 3\n", 2);
 		ft_exit_status(env, "131");
 	}
-	else if (status == 99)
+	else
 	{
 		ft_putstr("\n", 2);
 		ft_exit_status(env, "130");
