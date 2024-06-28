@@ -55,7 +55,7 @@ int	check_nmbr(char *str)
 
 void	ft_more_args(char	*str, t_env **env)
 {
-	if (check_nmbr(str))
+	if (check_nmbr(str) || ft_atoi_checker(str) == 255)
 	{
 		ft_putstr("Minishell$: exit: numeric argument required\n", 2);
 		ft_exit_status(env, "255");
