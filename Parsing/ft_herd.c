@@ -46,6 +46,8 @@ char	*ft_text44(char *result, char *str, int *i)
 	while (str[*i] && str[*i] != '$')
 		(*i)++;
 	res = malloc(ft_strlen(result) + (*i - j) + 1);
+	if (!res)
+		return (NULL);
 	while (result != NULL && result[c])
 	{
 		res[c] = result[c];

@@ -6,6 +6,8 @@ t_joins	*ft_lstnew_joins(t_words **words)
 
 	(void)words;
 	stack_2 = (t_joins *)malloc(sizeof(t_joins));
+	if (!stack_2)
+		return (NULL);
 	stack_2->in = 0;
 	stack_2->out = 1;
 	stack_2->error = 0;

@@ -42,6 +42,8 @@ static char	*zero(void)
 	char	*arr;
 
 	arr = malloc(2 * sizeof(char));
+	if (!arr)
+		return (NULL);
 	if (arr == NULL)
 		return (NULL);
 	arr[0] = '0';
