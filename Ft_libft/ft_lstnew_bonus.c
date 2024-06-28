@@ -68,6 +68,8 @@ t_words	*ft_lstnew(t_words **head, char *content, t_env *env_stack)
 	str = NULL;
 	new_node = NULL;
 	new_node = (t_words *)malloc(sizeof(t_words));
+	if (!new_node)
+		return (NULL);
 	new_node->type = ft_check_type(head, content);
 	if ((content[0] == '\'' || content[0] == '\"')
 		&& (content[ft_strlen(content) - 1] == '\''

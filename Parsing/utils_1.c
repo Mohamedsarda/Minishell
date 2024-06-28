@@ -76,6 +76,8 @@ char	*ft_rm_quotes(char *string, char c)
 	i = 0;
 	j = 0;
 	str = malloc(ft_strlen(string) - 1);
+	if (!str)
+		return (NULL);
 	while (string[i])
 	{
 		if (string[i] == c)
