@@ -14,22 +14,28 @@ void	ft_run_2(t_joins **head, t_env **env)
 
 void	ft_run_commad_2(t_joins **head, t_env **env, char *type)
 {
-	if (ft_strcmp(type, "echo") == 0)
+	char	*str;
+
+	if (type == NULL)
+		return ;
+	str = ft_to_lower(type);
+	if (ft_strcmp(str, "echo") == 0)
 		ft_echo(head, env);
-	else if (ft_strcmp(type, "pwd") == 0)
+	else if (ft_strcmp(str, "pwd") == 0)
 		ft_pwd(head, 0);
-	else if (ft_strcmp(type, "env") == 0)
+	else if (ft_strcmp(str, "env") == 0)
 		ft_env(env, head);
-	else if (ft_strcmp(type, "cd") == 0)
+	else if (ft_strcmp(str, "cd") == 0)
 		ft_cd(head, env);
-	else if (ft_strcmp(type, "export") == 0)
+	else if (ft_strcmp(str, "export") == 0)
 		ft_export(head, env);
-	else if (ft_strcmp(type, "unset") == 0)
+	else if (ft_strcmp(str, "unset") == 0)
 		ft_unset(head, env);
-	else if (ft_strcmp(type, "exit") == 0)
+	else if (ft_strcmp(str, "exit") == 0)
 		ft_exit(head, env, 1);
 	else
 		ft_run_2(head, env);
+	free(str);
 }
 
 void	ft_dup(t_joins **head, int *fd, int *old)

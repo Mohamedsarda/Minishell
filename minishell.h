@@ -197,4 +197,5 @@ void	ft_check_run_norm_2(char **environ,
 int		check_nmbr(char *str);
 void	ft_more_args(char	*str, t_env **env);
 int		ft_atoi_checker(char *str);
+char	*ft_to_lower(char *str);
 #endif
