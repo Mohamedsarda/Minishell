@@ -463,3 +463,4 @@ bash-3.2$ << a
 bash: 0: command not found
 bash-3.2$ 
 
+(*head)->content[i]

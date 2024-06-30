@@ -70,11 +70,6 @@ char	*back_to_string(char	*string)
 	return (string);
 }
 
-void	ft_leaks(void)
-{
-	system("leaks minishell");
-}
-
 static int	ft_sign(const char str)
 {
 	if (str == '-')

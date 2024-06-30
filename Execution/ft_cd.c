@@ -35,7 +35,7 @@ void	ft_create_newoldpwd(t_joins **head, t_env *pwd,
 	}
 	if (!oldpwd)
 	{
-		oldpwd = ft_lstnew_env("OLDPWD", "=");
+		oldpwd = ft_lstnew_env("OLDPWD", newpwd);
 		oldpwd->print = 0;
 		ft_lstadd_back_env(env, oldpwd);
 	}

@@ -9,6 +9,8 @@ char	*rm_single_qoutes(char *str)
 	j = 0;
 	i = 0;
 	new_str = malloc(ft_strlen(str) + 1);
+	if (!new_str)
+		return (NULL);
 	while (str && str[i])
 	{
 		if (str[i] == '\'' && str[i + 1] == '\'')
