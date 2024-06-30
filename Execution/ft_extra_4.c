@@ -50,3 +50,34 @@ void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 	com_not_found(command);
 	free(path);
 }
+
+void	ft_check_sig_fork(int status, t_env **env)
+{
+	if (status == 3)
+	{
+		ft_putstr("Quit: 3\n", 2);
+		ft_exit_status(env, "131");
+	}
+	else
+	{
+		ft_putstr("\n", 2);
+		ft_exit_status(env, "130");
+	}
+}
+
+void	ft_change_status_fork(int status, t_env **env)
+{
+	char	*final_status;
+
+	final_status = ft_itoa(WEXITSTATUS(status));
+	ft_exit_status(env, final_status);
+	free(final_status);
+}
+
+void	com_not_found(char *command)
+{
+	ft_putstr("Minishell$ ", 2);
+	ft_putstr(command, 2);
+	ft_putstr(": command not found\n", 2);
+	exit(127);
+}

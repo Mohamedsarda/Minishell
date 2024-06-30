@@ -40,6 +40,8 @@ char	*ft_text(char *result, char *str, int *i)
 	while (str[*i] && str[*i] != '$' && str[*i] != '\"' && str[*i] != '\'')
 		(*i)++;
 	res = malloc(ft_strlen(result) + (*i - j) + 1);
+	if (!res)
+		return (NULL);
 	while (result != NULL && result[c])
 	{
 		res[c] = result[c];
@@ -72,6 +74,8 @@ char	*get_only_key(char *str, int *i)
 			|| (str[*i] >= '0' && str[*i] <= '9') || str[*i] == '_'))
 		(*i)++;
 	res = malloc((*i - j) + 1);
+	if (!res)
+		return (NULL);
 	while (str[j] && ((str[j] >= 'a' && str[j] <= 'z')
 			|| (str[j] >= 'A' && str[j] <= 'Z')
 			|| (str[j] >= '0' && str[j] <= '9') || str[j] == '_'))
@@ -119,6 +123,8 @@ char	*handle_single(char *result, char *str, int *i)
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
 	res = malloc((*i - j) + 1 + ft_strlen(result) + 2);
+	if (!res)
+		return (NULL);
 	c = 0;
 	while (result != NULL && result[c])
 	{
@@ -148,6 +154,8 @@ char	*ft_text_doub(char *result, char *str, int *i)
 	while (str[*i] && str[*i] != '$' && str[*i] != '\"')
 		(*i)++;
 	res = malloc(ft_strlen(result) + (*i - j) + 1);
+	if (!res)
+		return (NULL);
 	c = 0;
 	while (result != NULL && result[c])
 	{
@@ -239,6 +247,8 @@ char	*real_expand_in_double(char *str, int *i, t_env *env, char *result)
 	key = get_only_key(str, i);
 	sta = check_env(key, env);
 	res = malloc(ft_strlen(sta) + 1 + ft_strlen(result));
+	if (!res)
+		return (NULL);
 	while (result != NULL && result[c])
 	{
 		res[c] = result[c];

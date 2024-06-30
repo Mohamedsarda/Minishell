@@ -29,9 +29,9 @@ t_words	*ft_lstnew_herd(char *val_1)
 	multiple(&val_1, 0);
 	head = NULL;
 	head = (t_words *)malloc(sizeof(t_words));
-	head->type = ft_check_type(NULL, val_1);
 	if (!head)
 		return (NULL);
+	head->type = ft_check_type(NULL, val_1);
 	if (check_double_qout(val_1))
 		head->is = 1;
 	else

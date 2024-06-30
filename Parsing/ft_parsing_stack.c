@@ -213,7 +213,7 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 					if (tmp->out > 1)
 						close(tmp->out);
 					tmp->out = open(tmp->content[++i], O_CREAT
-							| O_TRUNC | O_WRONLY, 0777);
+							| O_TRUNC | O_WRONLY, 0644);
 					if (words)
 						words = words->next;
 				}
@@ -221,7 +221,7 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 				{
 					if (tmp->in > 0)
 						close(tmp->in);
-					tmp->in = open(tmp->content[++i], O_RDONLY, 0777);
+					tmp->in = open(tmp->content[++i], O_RDONLY, 0644);
 					if (words)
 						words = words->next;
 				}
@@ -230,7 +230,7 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 					if (tmp->out > 1)
 						close(tmp->out);
 					tmp->out = open(tmp->content[++i], O_CREAT
-							| O_RDWR | O_APPEND, 0777);
+							| O_RDWR | O_APPEND, 0644);
 					if (words)
 						words = words->next;
 				}

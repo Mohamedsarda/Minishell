@@ -11,6 +11,7 @@
 # include <string.h>
 # include <sys/time.h>
 # include <sys/stat.h>
+# include <limits.h>
 
 # define WORD 0
 # define REDIN 1 // <
@@ -185,4 +186,16 @@ char	*after_equal(char	*str);
 //
 char	*get_path_2(t_env **env);
 void	check_run_2(char **environ, char *command, t_joins **head, t_env **env);
+char	*ft_expand(char *result, char *str, int *i, t_env *env);
+char	*get_only_key(char *str, int *i);
+void	ft_check_sig_fork(int status, t_env **env);
+void	ft_change_status_fork(int status, t_env **env);
+void	ft_check_run_norm_1(char **environ,
+			char *command, t_joins **head, t_env **env);
+void	ft_check_run_norm_2(char **environ,
+			char *command, t_joins **head, char **tmp);
+int		check_nmbr(char *str);
+void	ft_more_args(char	*str, t_env **env);
+int		ft_atoi_checker(char *str);
+char	*ft_to_lower(char *str);
 #endif
