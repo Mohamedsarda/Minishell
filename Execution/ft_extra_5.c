@@ -38,8 +38,10 @@ void	ft_check_run_norm_2(char **environ, char *command,
 int	check_nmbr(char *str)
 {
 	int	i;
+	int	s;
 
 	i = 0;
+	s = 0;
 	while (str[i] && str[i] == ' ')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -48,7 +50,7 @@ int	check_nmbr(char *str)
 		i++;
 	while (str[i] && str[i] == ' ')
 		i++;
-	if (str[i] != '\0')
+	if (str[i] != '\0' || i == 0)
 		return (1);
 	return (0);
 }
