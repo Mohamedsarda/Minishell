@@ -327,9 +327,8 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 		return (ptr);
 }
 
-int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
+int	ft_check_for_syntax(t_words *head, t_env *env)
 {
-	(*herd) = 0;
 	if (ft_strcmp(head->word, "|") == 0)
 	{
 		printf ("Minishell : syntax error near unexpected token\n");
@@ -338,8 +337,6 @@ int	ft_check_for_syntax(t_words *head, int *herd, t_env *env)
 	}
 	while (head)
 	{
-		if (head->type == HERD)
-			(*herd)++;
 		if (hundle_error(head) == 0)
 		{
 			printf ("Minishell : syntax error near unexpected token\n");
@@ -394,6 +391,8 @@ char	*dele_quotes(char **str)
 
 	i = 0;
 	j = 0;
+	if (!str)
+		return (NULL);
 	res = NULL;
 	res = malloc(strlen_no_quotes((*str)) + 1);
 	if (res == NULL)
@@ -438,6 +437,8 @@ void	delete_qoutes_1(t_joins	**stack_2, char c)
 	int		i;
 
 	(void)c;
+	if (!stack_2)
+		return ;
 	tmp = (*stack_2);
 	while (tmp)
 	{
@@ -462,10 +463,11 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 	t_joins	*tmp;
 	t_words	*head;
 	int		syntax;
-	int		num_herd;
 
+	if (!words || !env)
+		return (NULL);
 	head = (*words);
-	syntax = ft_check_for_syntax(*words, &num_herd, *env);
+	syntax = ft_check_for_syntax(*words, *env);
 	stack_2 = ft_lstnew_joins(words);
 	stack_2->content = ft_create_list(stack_2, *words, env);
 	if (hundle_error(head) == 0 || stack_2->in == -5)
@@ -486,8 +488,6 @@ t_joins	*ft_parse_stack(t_words **words, t_env **env)
 		else
 			head = head->next;
 	}
-	// if (ft_check_ctr_herd(stack_2))
-		// return (ft_lstclear(words), ft_lstclear_joins(&stack_2), NULL);
 	if (syntax == 1)
 		return (ft_lstclear(words), stack_2);
 	delete_qoutes_1(&stack_2, '\"');
