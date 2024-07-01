@@ -69,7 +69,8 @@ void	ft_unset(t_joins **head, t_env **env)
 			&& (ft_strlen((*head)->content[i]) != 0 || (*head)->quotes == 1))
 		{
 			ft_printf_error_unset(env, (*head)->content[i]);
-			break ;
+			i++;
+			continue ;
 		}
 		if (ft_strcmp((*head)->content[i], tmp->key) == 0)
 			ft_unset_f(env, cur, tmp);
