@@ -99,6 +99,11 @@ void	ft_print_free(char *str, int fd)
 	int	j;
 
 	j = -1;
+	if (!str)
+	{
+		write(fd, "\n", 1);
+		return ;
+	}
 	while (str[++j])
 		write(fd, &str[j], 1);
 	free(str);
