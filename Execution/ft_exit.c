@@ -109,16 +109,3 @@ void	ft_exit(t_joins **head, t_env **env, int fd)
 		ft_one_args((*head)->content[1], env, nbr, head);
 	exit(nbr);
 }
-
-void	ft_exit_status(t_env **env, char *status)
-{
-	t_env	*tmp;
-
-	tmp = (*env);
-	tmp = ft_get_status_pos(tmp, "?");
-	if (!tmp)
-		return ;
-	free(tmp->value);
-	tmp->value = NULL;
-	tmp->value = ft_strdup(status);
-}
