@@ -1,4 +1,4 @@
-#include "../minishell.h"
+		#include "../minishell.h"
 
 void	ft_print_export(t_env **arr, int count, int fd)
 {
