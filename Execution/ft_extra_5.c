@@ -35,6 +35,18 @@ void	ft_check_run_norm_2(char **environ, char *command,
 	com_not_found(command);
 }
 
+int	ft_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
+	if (!str[i])
+		return (1);
+	return (0);
+}
+
 int	check_nmbr(char *str)
 {
 	int	i;
@@ -57,7 +69,7 @@ int	check_nmbr(char *str)
 
 void	ft_more_args(char	*str, t_env **env)
 {
-	if (check_nmbr(str) || ft_atoi_checker(str) == 255)
+	if (check_nmbr(str) || ft_atoi_checker(str) == 255 || ft_space(str))
 	{
 		ft_putstr("Minishell$: exit: numeric argument required\n", 2);
 		ft_exit_status(env, "255");
