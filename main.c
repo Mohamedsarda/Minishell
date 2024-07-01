@@ -42,9 +42,8 @@ void	multiple(char **str, int is)
 				i++;
 			}
 		}
-		if (!str[0][i])
-			return ;
-		i++;
+		if (str[0][i] != '\0')
+			i++;
 	}
 }
 
