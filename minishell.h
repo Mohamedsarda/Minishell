@@ -198,4 +198,7 @@ int		check_nmbr(char *str);
 void	ft_more_args(char	*str, t_env **env);
 int		ft_atoi_checker(char *str);
 char	*ft_to_lower(char *str);
+void	send_to_stack_env(t_joins **head, char *value, char *key, t_env **env);
+void	ft_print_error_export(t_env **env, int is, char *command);
+void	ft_export_extra(t_joins **head, t_env **env, int *i);
 #endif
