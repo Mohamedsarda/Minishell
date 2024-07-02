@@ -104,35 +104,34 @@ int	ft_atoi4(const char *str)
 	return (nbr * sign);
 }
 
-int	main(int ac, char **ar, char **env)
+void	ft_minishell(t_env **env_stack, t_words **words, char *string)
 {
-	t_words	*words;
-	t_joins	*tmp;
-	t_env	*env_stack;
-	char	*string;
 	char	*str_sp;
-	t_env	*tmp1;
+	t_joins	*tmp;
 
-	(void)ar;
-	if (ac != 1)
-		return (1);
-	tmp = NULL;
-	words = NULL;
-	signal(SIGINT, ft_sighandler);
-	signal(SIGQUIT, SIG_IGN);
-	rl_catch_signals = 0;
-	(void)env_stack;
-	env_stack = ft_create_env_stack(env, 0);
+	str_sp = ft_parsing(string);
+	str_sp = back_to_string(str_sp);
+	add_struct(str_sp, words, *env_stack);
+	free(str_sp);
+	tmp = ft_parse_stack(words, env_stack);
+	ft_lstclear_joins(&tmp);
+}
+
+void	ft_read_line(t_env **env_stack, t_words **words)
+{
+	char	*string;
+	t_env	*tmp;
+
 	while (1)
 	{
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
 		if (g_exit)
-			ft_exit_status(&env_stack, "1");
+			ft_exit_status(env_stack, "1");
 		if (!string)
 		{
-			tmp1 = ft_get_status_pos(env_stack, "?");
-			exit(ft_atoi4(tmp1->value));
+			tmp = ft_get_status_pos(*env_stack, "?");
+			exit(ft_atoi4(tmp->value));
 		}
 		else if (!string[0])
 		{
@@ -148,13 +147,25 @@ int	main(int ac, char **ar, char **env)
 			free(string);
 			continue ;
 		}
-		str_sp = ft_parsing(string);
-		str_sp = back_to_string(str_sp);
-		add_struct(str_sp, &words, env_stack);
-		free(str_sp);
-		tmp = ft_parse_stack(&words, &env_stack);
-		ft_lstclear_joins(&tmp);
+		ft_minishell(env_stack, words, string);
 	}
+}
+
+int	main(int ac, char **ar, char **env)
+{
+	t_words	*words;
+	t_env	*env_stack;
+
+	(void)ar;
+	if (ac != 1)
+		return (1);
+	words = NULL;
+	signal(SIGINT, ft_sighandler);
+	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
+	(void)env_stack;
+	env_stack = ft_create_env_stack(env, 0);
+	ft_read_line(&env_stack, &words);
 	ft_lstclear_env(&env_stack);
 	rl_clear_history();
 	return (0);
