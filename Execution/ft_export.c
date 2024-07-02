@@ -109,9 +109,9 @@ void	ft_export(t_joins **head, t_env **env)
 {
 	int		i;
 
-	i = 1;
+	i = 0;
 	ft_exit_status(env, "0");
-	if (!(*head)->content[i])
+	if (!(*head)->content[1])
 		print_sorted_env(env, head);
 	else
 		ft_export_extra(head, env, &i);
