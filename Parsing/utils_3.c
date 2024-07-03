@@ -22,7 +22,7 @@ int	ft_strchr(char *str, char c)
 	return (0);
 }
 
-static int	ft_intlen(int n)
+int	ft_intlen(int n)
 {
 	int	nbdg;
 	int	tmp;
@@ -37,7 +37,7 @@ static int	ft_intlen(int n)
 	return (nbdg);
 }
 
-static char	*zero(void)
+char	*zero(void)
 {
 	char	*arr;
 
@@ -51,7 +51,7 @@ static char	*zero(void)
 	return (arr);
 }
 
-static void	fillarr(char *res, int n, int nbrdg, int isnegative)
+void	fillarr(char *res, int n, int nbrdg, int isnegative)
 {
 	int	index;
 	int	digit;
@@ -70,37 +70,4 @@ static void	fillarr(char *res, int n, int nbrdg, int isnegative)
 	if (isnegative != 0)
 		res[0] = '-';
 	res[nbrdg] = '\0';
-}
-
-char	*ft_itoa(int n)
-{
-	int		nbrdg;
-	int		isnegative;
-	char	*res;
-
-	if (n == 0)
-		return (zero());
-	nbrdg = ft_intlen(n);
-	isnegative = 0;
-	if (n < 0)
-	{
-		isnegative = 1;
-		nbrdg++;
-	}
-	res = malloc((nbrdg + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	fillarr(res, n, nbrdg, isnegative);
-	return (res);
-}
-
-int	check_in_set(char c, char *set)
-{
-	while (*set)
-	{
-		if (c == *set)
-			return (1);
-		set++;
-	}
-	return (0);
 }
