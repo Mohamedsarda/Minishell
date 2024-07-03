@@ -215,4 +215,5 @@ char	*ft_text(char *result, char *str, int *i);
 char	*ft_other(char *result, char *str, int *i, t_env *env);
 char	*handle_single(char *result, char *str, int *i);
 char	*handle_double(char *result, char *str, int *i, t_env *env);
+int		ft_words(t_words *head);
 #endif
