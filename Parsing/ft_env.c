@@ -1,34 +1,5 @@
 #include "../minishell.h"
 
-t_env	*ft_lstnew_env(char *val_1, char *val_2)
-{
-	t_env	*head;
-	char	*t;
-
-	t = val_2;
-	head = (t_env *)malloc(sizeof(t_env));
-	if (!head)
-		return (NULL);
-	if (!t)
-		head->equal = 0;
-	else if (*t == '=')
-	{
-		t++;
-		head->equal = 1;
-	}
-	else
-		head->equal = 0;
-	head->is = 0;
-	head->key = ft_strdup(val_1);
-	if (ft_strcmp(val_1, "_") == 0)
-		head->value = ft_strdup("/usr/bin/env");
-	else
-		head->value = ft_strdup(t);
-	head->print = 1;
-	head->next = NULL;
-	return (head);
-}
-
 void	ft_lstadd_back_env(t_env **head, t_env *node)
 {
 	t_env	*last;
@@ -45,20 +16,6 @@ void	ft_lstadd_back_env(t_env **head, t_env *node)
 		while (last->next)
 			last = last->next;
 	last->next = node;
-}
-
-int	ft_get_env_len(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (i);
 }
 
 char	**ft_empty_env(char **env, int *tmp)
@@ -110,50 +67,57 @@ int	ft_atoi1(char *s)
 	return (nmbr);
 }
 
+int	ft_get_env_data(t_env **node, char *str, int tmp)
+{
+	char	*key;
+	int		a;
+
+	a = 0;
+	key = ft_strlcpy(&str, ft_get_env_len(str, '='));
+	if (ft_strcmp(key, "SHLVL") == 0)
+	{
+		a = ft_atoi1(str);
+		if (a == 9999)
+			str = ft_itoa(1);
+		else if (a == 10000)
+			str = ft_strdup("");
+		else
+			str = ft_itoa(a + 1);
+		(*node) = ft_lstnew_env(key, str);
+		(*node)->equal = 1;
+		free(str);
+	}
+	else if (ft_strcmp(key, "OLDPWD") == 0)
+	{
+		str = ft_strdup("");
+		(*node) = ft_lstnew_env(key, str);
+		free(str);
+		(*node)->print = 1;
+	}
+	else
+		(*node) = ft_lstnew_env(key, str);
+	if (tmp && ft_strcmp("PATH", key) == 0)
+		(*node)->print = 0;
+	free(key);
+	if (!(*node))
+		return (0);
+	return (1);
+}
+
 t_env	*ft_create_env_stack(char **env, int tmp)
 {
 	t_env	*head;
 	t_env	*node;
-	char	*str;
-	char	*key;
 	int		i;
-	int		a;
 
-	a = 0;
 	i = -1;
+	node = NULL;
 	if (!*env)
 		env = ft_empty_env(env, &tmp);
 	while (env[++i])
 	{
-		str = env[i];
-		key = ft_strlcpy(&str, ft_get_env_len(str, '='));
-		if (ft_strcmp(key, "SHLVL") == 0)
-		{
-			a = ft_atoi1(str);
-			if (a == 9999)
-				str = ft_itoa(1);
-			else if (a == 10000)
-				str = ft_strdup("");
-			else
-				str = ft_itoa(a + 1);
-			node = ft_lstnew_env(key, str);
-			node->equal = 1;
-			free(str);
-		}
-		else if (ft_strcmp(key, "OLDPWD") == 0)
-		{
-			str = ft_strdup("");
-			node = ft_lstnew_env(key, str);
-			free(str);
-			node->print = 1;
-		}
-		else
-			node = ft_lstnew_env(key, str);
-		if (tmp && ft_strcmp("PATH", key) == 0)
-			node->print = 0;
-		if (!node)
-			return (free(key), NULL);
-		free(key);
+		if (ft_get_env_data(&node, env[i], tmp) == 0)
+			return (NULL);
 		ft_lstadd_back_env(&head, node);
 	}
 	node = ft_lstnew_env("?", "=0");
