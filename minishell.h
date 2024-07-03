@@ -201,4 +201,18 @@ char	*ft_to_lower(char *str);
 void	send_to_stack_env(t_joins **head, char *value, char *key, t_env **env);
 void	ft_print_error_export(t_env **env, int is, char *command);
 void	ft_export_extra(t_joins **head, t_env **env, int *i);
+//
+int		ft_check_content(char **dst, int *i);
+int		ft_count_word_if_no_content(t_joins *tmp);
+char	**ft_create_exe_dst(char **ptr, t_joins *tmp);
+int		ft_strlen_space(t_words *words);
+char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env);
+char	*real_expand_in_double(char *str, int *i, t_env *env, char *result);
+int		ft_intlen(int n);
+char	*zero(void);
+void	fillarr(char *res, int n, int nbrdg, int isnegative);
+char	*ft_text(char *result, char *str, int *i);
+char	*ft_other(char *result, char *str, int *i, t_env *env);
+char	*handle_single(char *result, char *str, int *i);
+char	*handle_double(char *result, char *str, int *i, t_env *env);
 #endif

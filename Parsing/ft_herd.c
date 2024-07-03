@@ -1,22 +1,5 @@
 #include "../minishell.h"
 
-char	*ft_env_eq(t_env **env, char *key)
-{
-	t_env	*head;
-
-	head = (*env);
-	if (*key && key[0] == '$')
-	{
-		while (head)
-		{
-			if (ft_strcmp(head->key, key + 1) == 0)
-				return (head->value);
-			head = head->next;
-		}
-	}
-	return (key);
-}
-
 char	*ft_remove_qoutes_herd(char *str)
 {
 	char	*dst;

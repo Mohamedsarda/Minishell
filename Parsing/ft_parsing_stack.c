@@ -17,59 +17,6 @@ int	ft_strlen_space(t_words *words)
 	return (i);
 }
 
-int	ft_stack_words(t_words *words)
-{
-	int	i;
-
-	i = 0;
-	while (words)
-	{
-		if (words->type == 0)
-			i++;
-		if (words->type == 6 && words->word[0] != '\0')
-		{
-			if (words->is == 1)
-				i++;
-			else
-				i += ft_strlen_space(words);
-		}
-		else if (words->type == 6 && words->word[0] == '\0' && words->is)
-			i++;
-		else if (words->type == 2 || words->type == 1
-			|| words->type == 4 || words->type == 5)
-			words = words->next;
-		if (words != NULL && words->type == 3)
-			break ;
-		if (words != NULL)
-			words = words->next;
-	}
-	return (i);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*dst;
-
-	if (!s1 || !s2)
-		return (NULL);
-	i = 0;
-	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!dst)
-		return (NULL);
-	while (s1[i])
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-		dst[i++] = s2[j++];
-	dst[i] = '\0';
-	return (dst);
-}
-
 int	ft_words(t_words *head)
 {
 	int	i;
@@ -102,20 +49,6 @@ int	ft_words(t_words *head)
 			head = head->next;
 	}
 	return (i);
-}
-
-int	ft_check_ctr_herd(t_joins *head)
-{
-	t_joins	*tmp;
-
-	tmp = head;
-	while (tmp)
-	{
-		if (tmp->in == -5 || tmp->error)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
 }
 
 char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
@@ -256,75 +189,6 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 		if (tmp)
 			tmp = tmp->next;
 	}
-}
-
-int	ft_check_content(char **dst, int *i)
-{
-	int	j;
-
-	*i = 0;
-	j = 0;
-	while (dst[*i])
-	{
-		if (ft_strcmp(dst[*i], ">") == 0 || ft_strcmp(dst[*i], "<") == 0
-			|| ft_strcmp(dst[*i], ">>") == 0)
-			j++;
-		(*i)++;
-	}
-	return (j);
-}
-
-int	ft_count_word_if_no_content(t_joins *tmp)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (tmp->content[i])
-	{
-		if (tmp->content && ft_strlen(tmp->content[i]) == 0 && !tmp->quotes)
-			j++;
-		i++;
-	}
-	return (j);
-}
-
-char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
-{
-	char	**dst;
-	int		i;
-	int		j;
-	int		x;
-	int		k;
-
-	j = ft_check_content(ptr, &i);
-	k = ft_count_word_if_no_content(tmp);
-	if (i > 0)
-	{
-		i = i - (j * 2);
-		i -= k;
-		dst = (char **)malloc(sizeof (char *) * (i + 1));
-		if (!dst)
-			return (ptr);
-		j = 0;
-		x = 0;
-		while (j < i)
-		{
-			if (ft_strcmp(ptr[x], ">") == 0 || ft_strcmp(ptr[x], "<") == 0
-				|| ft_strcmp(ptr[x], ">>") == 0)
-				x += 2;
-			if (tmp->content && ft_strlen(tmp->content[x]) == 0 && !tmp->quotes)
-				x++;
-			else
-				dst[j++] = ft_strdup(ptr[x++]);
-		}
-		dst[j] = NULL;
-		free_split(ptr);
-		return (dst);
-	}
-	else
-		return (ptr);
 }
 
 int	ft_check_for_syntax(t_words *head, t_env *env)
