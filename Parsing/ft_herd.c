@@ -98,14 +98,8 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 
 	if (head->is == 1)
 	{
-		(*env)->is = 1;
 		tmp_2 = ft_strdup(head->word);
 		tmp = dele_quotes(&tmp_2);
-		if (tmp[0] == '$')
-		{
-			free(tmp);
-			tmp = ft_strdup("");
-		}
 	}
 	if (!str
 		|| ((head->is && ft_strcmp(tmp, str) == 0)

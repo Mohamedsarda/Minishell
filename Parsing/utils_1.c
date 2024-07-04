@@ -1,25 +1,6 @@
 #include "../minishell.h"
 
-static size_t	ft_strlcpy_t(char *dst, char *src, size_t size)
-{
-	size_t	srclen;
-	size_t	copy;
-
-	srclen = ft_strlen(src);
-	if (size > 0)
-		copy = size - 1;
-	else
-		copy = 0;
-	if (copy > srclen)
-		copy = srclen;
-	if (size > 0)
-	{
-		ft_memcpy(dst, src, copy);
-		dst[copy] = '\0';
-	}
-	return (srclen);
-}
-
+c
 char	*ft_strtrim(char *s1, char *set)
 {
 	size_t	start;

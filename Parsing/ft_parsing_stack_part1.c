@@ -14,12 +14,14 @@ int	strlen_no_quotes(char *str)
 			i++;
 			while (str[i] && str[i++] != '\"')
 				res++;
+			i--;
 		}
 		else if (str[i] == '\'')
 		{
 			i++;
 			while (str[i] && str[i++] != '\'')
 				res++;
+			i--;
 		}
 		else
 			res++;
