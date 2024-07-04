@@ -58,18 +58,16 @@ void	work_export(char *key, char *value, t_env **env, int is)
 			free(value);
 			ft_lstadd_back_env(env, node);
 		}
+		return ;
 	}
+	value = delete_plus(value);
+	if (check_key_in_path(key, env) == 1)
+		add_value(key, value, env, 1);
 	else
 	{
-		value = delete_plus(value);
-		if (check_key_in_path(key, env) == 1)
-			add_value(key, value, env, 1);
-		else
-		{
-			node = ft_lstnew_env(key, value);
-			free(value);
-			ft_lstadd_back_env(env, node);
-		}
+		node = ft_lstnew_env(key, value);
+		free(value);
+		ft_lstadd_back_env(env, node);
 	}
 }
 

@@ -1,39 +1,5 @@
 #include "../minishell.h"
 
-int	ft_words(t_words *head)
-{
-	int	i;
-
-	i = 0;
-	while (head && hundle_error(head) != 0)
-	{
-		if (head->type == PIPE)
-			return (i);
-		if (head->type == HERD)
-		{
-			if (head)
-				head = head->next;
-			if (head)
-				head = head->next;
-			continue ;
-		}
-		if (head->type == 6 && head->word[0] != '\0')
-		{
-			if (head->is == 1)
-				i++;
-			else
-				i += ft_strlen_space(head);
-		}
-		else if (head->type == 6 && head->word[0] == '\0' && head->is)
-			i++;
-		else
-			i++;
-		if (head)
-			head = head->next;
-	}
-	return (i);
-}
-
 void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 {
 	t_joins	*tmp;
@@ -131,76 +97,6 @@ int	ft_check_for_syntax(t_words *head, t_env *env)
 		head = head->next;
 	}
 	return (0);
-}
-
-int	strlen_no_quotes(char *str)
-{
-	int	i;
-	int	res;
-
-	i = 0;
-	res = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-		{
-			i++;
-			while (str[i] && str[i] != '\"')
-			{
-				res++;
-				i++;
-			}
-		}
-		else if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-			{
-				res++;
-				i++;
-			}
-		}
-		else
-			res++;
-		if (str[i])
-			i++;
-	}
-	return (res);
-}
-
-char	*dele_quotes(char **str)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	i = 0;
-	j = 0;
-	if (!str)
-		return (NULL);
-	res = malloc(strlen_no_quotes((*str)) + 1);
-	if (res == NULL)
-		return (NULL);
-	while ((*str)[i])
-	{
-		if ((*str)[i] == '\"')
-		{
-			i++;
-			while ((*str)[i] && (*str)[i] != '\"')
-				res[j++] = (*str)[i++];
-		}
-		else if ((*str)[i] == '\'')
-		{
-			++i;
-			while ((*str)[i] && (*str)[i] != '\'')
-				res[j++] = (*str)[i++];
-		}
-		else
-			res[j++] = (*str)[i];
-		i++;
-	}
-	res[j] = '\0';
-	return (free((*str)), res);
 }
 
 void	delete_qoutes_1(t_joins	**stack_2, char c)

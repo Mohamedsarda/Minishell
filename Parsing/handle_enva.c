@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 char	*handle_single_parssing(char *result, char *str, int *i)
 {
 	int		j;
@@ -69,7 +68,6 @@ char	*ft_text_doub(char *result, char *str, int *i)
 // 	}
 // 	return (0);
 // }
-
 char	*ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 {
 	char	*res;

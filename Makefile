@@ -4,7 +4,7 @@ RM		= rm -rf
 SRCS	= ./Ft_libft/ft_strlen.c  ./Ft_libft/ft_lstadd_back_bonus.c \
 			./Ft_libft/ft_lstnew_bonus.c ./Ft_libft/ft_split.c\
 			./Ft_libft/ft_lstclear.c \
-			./Parsing/parsing.c ./Parsing/ft_parsing_stack.c ./Parsing/hundle_er.c \
+			./Parsing/parsing.c ./Parsing/ft_parsing_stack.c ./Parsing/ft_parsing_stack_part1.c ./Parsing/ft_parsing_stack_part2.c ./Parsing/hundle_er.c \
 			./Parsing/ft_env.c ./Parsing/ft_herd.c ./Parsing/ft_lst_joins.c \
 			./Parsing/strlen_command.c ./Parsing/add_to_words.c ./Parsing/handle_enva.c\
 			./Parsing/handle_enva_checker.c ./Parsing/handle_enva_qoutes_part2.c ./Parsing/parsi.c\

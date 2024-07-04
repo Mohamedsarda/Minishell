@@ -36,6 +36,20 @@ int	check_space(char *str, char c)
 	return (0);
 }
 
+int	check_next_error(t_words *a)
+{
+	if (!a->next)
+		return (0);
+	if (a->next->is == 0 && a->next->type == 6
+		&& check_space(a->next->word, ' ') == 1)
+		return (10);
+	else if (a->next->type == REDOU || a->next->type == REDIN
+		|| a->next->type == PIPE || a->next->type == HERD
+		|| a->next->type == APPEND || a->next->word == NULL)
+		return (0);
+	return (-1);
+}
+
 int	hundle_error(t_words *words)
 {
 	t_words	*a;
@@ -52,15 +66,8 @@ int	hundle_error(t_words *words)
 	if (a->type == REDOU || a->type == REDIN
 		|| a->type == HERD || a->type == APPEND || a->word == NULL)
 	{
-		if (!a->next)
-			return (0);
-		if (a->next->is == 0 && a->next->type == 6
-			&& check_space(a->next->word, ' ') == 1)
-			return (10);
-		else if (a->next->type == REDOU || a->next->type == REDIN
-			|| a->next->type == PIPE || a->next->type == HERD
-			|| a->next->type == APPEND || a->next->word == NULL)
-			return (0);
+		if (check_next_error(a) != -1)
+			return (check_next_error(a));
 	}
 	if (a->type == PIPE)
 	{

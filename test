@@ -245,7 +245,7 @@ ps aux | grep "root" | wc -l
 
 ------------------------------
 
-<< a << b << c cat | ls
+<< a << b << c cat | lsww
 > a
 > 
 > ctr+c
