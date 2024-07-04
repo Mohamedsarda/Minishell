@@ -54,11 +54,7 @@ char	*get_only_key(char *str, int *i)
 	while (str[j] && ((str[j] >= 'a' && str[j] <= 'z')
 			|| (str[j] >= 'A' && str[j] <= 'Z')
 			|| (str[j] >= '0' && str[j] <= '9') || str[j] == '_'))
-	{
-		res[c] = str[j];
-		c++;
-		j++;
-	}
+		res[c++] = str[j++];
 	res[c] = '\0';
 	return (res);
 }
