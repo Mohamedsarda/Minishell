@@ -178,7 +178,6 @@ char	*dele_quotes(char **str)
 	j = 0;
 	if (!str)
 		return (NULL);
-	res = NULL;
 	res = malloc(strlen_no_quotes((*str)) + 1);
 	if (res == NULL)
 		return (NULL);
@@ -188,32 +187,20 @@ char	*dele_quotes(char **str)
 		{
 			i++;
 			while ((*str)[i] && (*str)[i] != '\"')
-			{
-				res[j] = (*str)[i];
-				i++;
-				j++;
-			}
+				res[j++] = (*str)[i++];
 		}
 		else if ((*str)[i] == '\'')
 		{
-			i++;
+			++i;
 			while ((*str)[i] && (*str)[i] != '\'')
-			{
-				res[j] = (*str)[i];
-				i++;
-				j++;
-			}
+				res[j++] = (*str)[i++];
 		}
 		else
-		{
-			res[j] = (*str)[i];
-			j++;
-		}
+			res[j++] = (*str)[i];
 		i++;
 	}
 	res[j] = '\0';
-	free((*str));
-	return (res);
+	return (free((*str)), res);
 }
 
 void	delete_qoutes_1(t_joins	**stack_2, char c)
