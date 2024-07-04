@@ -216,4 +216,12 @@ char	*ft_other(char *result, char *str, int *i, t_env *env);
 char	*handle_single_parssing(char *result, char *str, int *i);
 char	*handle_double(char *result, char *str, int *i, t_env *env);
 int		ft_words(t_words *head);
+//
+void	work_export(char *key, char *value, t_env **env, int is);
+void	ft_fork_fail(int *pipes);
+void	ft_handle_proc_parent(t_joins **head, int *pipes, int *old);
+void	ft_handle_proc_child(t_joins **head, int *pipes,
+			int *old, t_env **env);
+void	ft_run_commad_2(t_joins **head, t_env **env, char *type);
+void	ft_dup(t_joins **head, int *fd, int *old);
 #endif

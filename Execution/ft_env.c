@@ -18,6 +18,33 @@ void	env_equal(t_env **env)
 	}
 }
 
+void	send_to_stack_env(t_joins **head, char *value, char *key, t_env **env)
+{
+	t_env	*node;
+
+	node = NULL;
+	if (check_value(value) == 1)
+		work_export(key, value, env, 0);
+	else if (check_value(value) == 2)
+		work_export(key, value, env, 2);
+	else
+	{
+		if (check_key_in_path(key, env) == 1)
+			return (free(value));
+		if (ft_strcmp(key, "PWD") == 0 && value && !value[0])
+		{
+			free(value);
+			value = ft_pwd(head, 1);
+			node = ft_lstnew_env(key, value);
+			node->equal = 1;
+		}
+		else
+			node = ft_lstnew_env(key, value);
+		free(value);
+		ft_lstadd_back_env(env, node);
+	}
+}
+
 void	ft_print_env(char *key, char *value, int fd)
 {
 	ft_putstr(key, fd);
