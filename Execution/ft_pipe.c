@@ -59,34 +59,6 @@ void	ft_dup(t_joins **head, int *fd, int *old)
 	}
 }
 
-int	ft_handle_proc(t_joins **head, t_env **env, int pid, int *pipes, int *old)
-{
-	if (pid == -1)
-	{
-		perror("Minishell$ ");
-		return (close(pipes[1]), close(pipes[0]), 0);
-	}
-	if (pid == 0)
-	{
-		ft_dup(head, pipes, old);
-		if ((*head)->content && !(*head)->content[0])
-			exit(0);
-		if ((*head)->content)
-			ft_run_commad_2(head, env, (*head)->content[0]);
-		close(pipes[1]);
-		exit(0);
-	}
-	else if (pid > 0)
-	{
-		close(pipes[1]);
-		if ((*old) != -1)
-			close((*old));
-		(*old) = pipes[0];
-		ft_next_node_joins(head);
-	}
-	return (1);
-}
-
 void	ft_is_pipe(t_joins **head, t_env **env)
 {
 	int		pipes[2];
@@ -97,10 +69,13 @@ void	ft_is_pipe(t_joins **head, t_env **env)
 	old = -1;
 	while ((*head) && !(*head)->error)
 	{
-		pipe(pipes);
-		pid = fork();
-		if (!ft_handle_proc(head, env, pid, pipes, &old))
-			break ;
+		((pipe(pipes), pid = fork()));
+		if (pid == -1)
+			ft_fork_fail(pipes);
+		if (pid == 0)
+			ft_handle_proc_child(head, pipes, &old, env);
+		else if (pid > 0)
+			ft_handle_proc_parent(head, pipes, &old);
 	}
 	if (old > 0)
 		close(old);
