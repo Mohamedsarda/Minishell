@@ -58,8 +58,7 @@ void	add_struct(char *str, t_words **words, t_env *env_stack)
 		{
 			node = ft_lstnew(words, tmp[j], env_stack);
 			ft_lstadd_back(words, node);
-			j++;
-			if (tmp[j])
+			if (tmp[++j])
 			{
 				node = ft_lstnew_herd(tmp[j]);
 				ft_lstadd_back(words, node);

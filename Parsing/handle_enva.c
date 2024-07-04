@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 
-char	*handle_single(char *result, char *str, int *i)
+char	*handle_single_parssing(char *result, char *str, int *i)
 {
 	int		j;
 	char	*res;
@@ -21,11 +21,7 @@ char	*handle_single(char *result, char *str, int *i)
 	}
 	res[c++] = '\'';
 	while (str[j] && str[j] != '\'')
-	{
-		res[c] = str[j];
-		c++;
-		j++;
-	}
+		res[c++] = str[j++];
 	res[c++] = '\'';
 	res[c] = '\0';
 	free(result);
@@ -51,32 +47,28 @@ char	*ft_text_doub(char *result, char *str, int *i)
 		c++;
 	}
 	while (str[j] && str[j] != '$' && str[j] != '\"')
-	{
-		res[c] = str[j];
-		c++;
-		j++;
-	}
+		res[c++] = str[j++];
 	res[c] = '\0';
 	free(result);
 	return (res);
 }
 
-int	check_sing(char *str, int *i)
-{
-	int	j;
-
-	j = *i;
-	j++;
-	while (str[j])
-	{
-		if (str[j] == '\"')
-			return (0);
-		if (str[j] == '\'')
-			return (1);
-		j++;
-	}
-	return (0);
-}
+// int	check_sing(char *str, int *i)
+// {
+// 	int	j;
+//
+// 	j = *i;
+// 	j++;
+// 	while (str[j])
+// 	{
+// 		if (str[j] == '\"')
+// 			return (0);
+// 		if (str[j] == '\'')
+// 			return (1);
+// 		j++;
+// 	}
+// 	return (0);
+// }
 
 char	*ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 {
@@ -90,7 +82,7 @@ char	*ft_expand_in_double(char *result, char *str, int *i, t_env *env)
 		return (test_1(result, "$"));
 	else if (str[*i] == '$')
 		return ((*i)++, test_1(result, "$$"));
-	else if (str[*i] == ' ')
+	else if (str[*i] == ' ' || str[*i] == '\t')
 		return (test_1(result, "$"));
 	else
 	{
@@ -107,18 +99,11 @@ char	*handle_double(char *result, char *str, int *i, t_env *env)
 	result = test_1(result, "\"");
 	while (str[*i] != '\"')
 	{
-		result = ft_text(result, str, i);
-		if (str[*i] == '$' && !env->is)
+		result = ft_text_only(result, str, i);
+		if (str[*i] == '$')
 			result = ft_expand_in_double(result, str, i, env);
-		else if (str[*i] == '\'' && check_sing(str, i) == 1)
-			result = ft_expand_doub_sing(result, str, i, env);
 		else
 			result = ft_text_doub(result, str, i);
-		if (str[*i] == '$' && env->is)
-		{
-			result = test_1(result, "$");
-			(*i)++;
-		}
 	}
 	if (result == NULL)
 		result = test_1(result, "");

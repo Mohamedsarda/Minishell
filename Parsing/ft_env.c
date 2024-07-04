@@ -67,26 +67,30 @@ int	ft_atoi1(char *s)
 	return (nmbr);
 }
 
-int	ft_get_env_data(t_env **node, char *str, int tmp)
+void	ft_shelvl(char *str, char *key, t_env **node)
 {
-	char	*key;
 	int		a;
 
 	a = 0;
+	a = ft_atoi1(str);
+	if (a == 9999)
+		str = ft_itoa(1);
+	else if (a == 10000)
+		str = ft_strdup("");
+	else
+		str = ft_itoa(a + 1);
+	(*node) = ft_lstnew_env(key, str);
+	(*node)->equal = 1;
+	free(str);
+}
+
+int	ft_get_env_data(t_env **node, char *str, int tmp)
+{
+	char	*key;
+
 	key = ft_strlcpy(&str, ft_get_env_len(str, '='));
 	if (ft_strcmp(key, "SHLVL") == 0)
-	{
-		a = ft_atoi1(str);
-		if (a == 9999)
-			str = ft_itoa(1);
-		else if (a == 10000)
-			str = ft_strdup("");
-		else
-			str = ft_itoa(a + 1);
-		(*node) = ft_lstnew_env(key, str);
-		(*node)->equal = 1;
-		free(str);
-	}
+		ft_shelvl(str, key, node);
 	else if (ft_strcmp(key, "OLDPWD") == 0)
 	{
 		str = ft_strdup("");

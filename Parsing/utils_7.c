@@ -25,49 +25,49 @@ char	*ft_expand(char *result, char *str, int *i, t_env *env)
 	return (result);
 }
 
-char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
-{
-	char	*key;
-	char	*sta;
-
-	(*i)++;
-	result = test_1(result, "\'");
-	while (str[*i] != '\'' && str[*i] != '\"')
-	{
-		result = ft_text(result, str, i);
-		if (str[*i] == '$')
-		{
-			if (str[*i + 1] == '\"')
-				return ((*i)++, test_1(result, "$"));
-			if (str[*i + 1] == '\'')
-				return ((*i) += 2, test_1(result, "$\'"));
-			else if (str[*i + 1] == '$')
-			{
-				result = test_1(result, "$$");
-				(*i) += 2;
-			}
-			else
-			{
-				(*i)++;
-				if (str[*i] >= '0' && str[*i] <= '9')
-					return ((*i)++, test_1(result, "\'"));
-				else
-				{
-					key = get_only_key(str, i);
-					sta = check_env(key, env);
-					free(key);
-					result = test_1(result, sta);
-					return (result);
-				}
-			}
-		}
-		else if (str[*i] == '\'')
-			result = test(result, "\'");
-		if (str[*i])
-			(*i)++;
-	}
-	return (result);
-}
+// char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env)
+// {
+// 	char	*key;
+// 	char	*sta;
+// 
+// 	(*i)++;
+// 	result = test_1(result, "\'");
+// 	while (str[*i] != '\'' && str[*i] != '\"')
+// 	{
+// 		result = ft_text_only(result, str, i);
+// 		if (str[*i] == '$')
+// 		{
+// 			if (str[*i + 1] == '\"')
+// 				return ((*i)++, test_1(result, "$"));
+// 			if (str[*i + 1] == '\'')
+// 				return ((*i) += 2, test_1(result, "$\'"));
+// 			else if (str[*i + 1] == '$')
+// 			{
+// 				result = test_1(result, "$$");
+// 				(*i) += 2;
+// 			}
+// 			else
+// 			{
+// 				(*i)++;
+// 				if (str[*i] >= '0' && str[*i] <= '9')
+// 					return ((*i)++, test_1(result, "\'"));
+// 				else
+// 				{
+// 					key = get_only_key(str, i);
+// 					sta = check_env(key, env);
+// 					free(key);
+// 					result = test_1(result, sta);
+// 					return (result);
+// 				}
+// 			}
+// 		}
+// 		else if (str[*i] == '\'')
+// 			result = test(result, "\'");
+// 		if (str[*i])
+// 			(*i)++;
+// 	}
+// 	return (result);
+// }
 
 char	*real_expand_in_double(char *str, int *i, t_env *env, char *result)
 {
@@ -90,17 +90,13 @@ char	*real_expand_in_double(char *str, int *i, t_env *env, char *result)
 		c++;
 	}
 	while (sta[j])
-	{
-		res[c] = sta[j];
-		j++;
-		c++;
-	}
+		res[c++] = sta[j++];
 	res[c] = '\0';
 	free(key);
 	return (res);
 }
 
-char	*ft_text(char *result, char *str, int *i)
+char	*ft_text_only(char *result, char *str, int *i)
 {
 	int		j;
 	int		c;

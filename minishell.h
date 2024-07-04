@@ -211,9 +211,9 @@ char	*real_expand_in_double(char *str, int *i, t_env *env, char *result);
 int		ft_intlen(int n);
 char	*zero(void);
 void	fillarr(char *res, int n, int nbrdg, int isnegative);
-char	*ft_text(char *result, char *str, int *i);
+char	*ft_text_only(char *result, char *str, int *i);
 char	*ft_other(char *result, char *str, int *i, t_env *env);
-char	*handle_single(char *result, char *str, int *i);
+char	*handle_single_parssing(char *result, char *str, int *i);
 char	*handle_double(char *result, char *str, int *i, t_env *env);
 int		ft_words(t_words *head);
 #endif
