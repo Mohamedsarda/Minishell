@@ -1,12 +1,45 @@
 #include "../minishell.h"
 
+void	ft_creat_list_no_herd(t_words *head, char **dst, int *i)
+{
+	char	**str;
+	int		j;
+
+	j = 0;
+	if (head->is == 1)
+	{
+		dst[(*i)++] = ft_strdup(head->word);
+		head = head->next;
+		return ;
+	}
+	multiple(&head->word, 0);
+	str = ft_split(head->word, ' ');
+	if (!str)
+		return ;
+	while (str[j])
+	{
+		multiple(&str[j], 0);
+		dst[(*i)++] = ft_strdup(str[j++]);
+	}
+	multiple(&head->word, 0);
+	free_split(str);
+}
+
+void	ft_creat_list_nop(t_words *head, char **dst, int *i)
+{
+	if (head->type != 6)
+		dst[(*i)++] = ft_strdup(head->word);
+	else if (head->type == 6 && head->word[0] != '\0')
+		ft_creat_list_no_herd(head, dst, i);
+	else if (head->type == 6 && head->word[0] == '\0')
+		dst[(*i)++] = ft_strdup(head->word);
+}
+
 char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 {
 	char	**dst;
 	int		words;
 	int		i;
-	char	**str;
-	int		j;
 
 	words = ft_words(head);
 	dst = (char **)malloc(sizeof (char *) * (words + 1));
@@ -28,33 +61,7 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 				head = head->next;
 			}
 			else
-			{
-				if (head->type != 6)
-					dst[i++] = ft_strdup(head->word);
-				else if (head->type == 6 && head->word[0] != '\0')
-				{
-					if (head->is == 1)
-					{
-						dst[i++] = ft_strdup(head->word);
-						head = head->next;
-						continue ;
-					}
-					multiple(&head->word, 0);
-					str = ft_split(head->word, ' ');
-					if (!str)
-						return (NULL);
-					j = 0;
-					while (str[j])
-					{
-						multiple(&str[j], 0);
-						dst[i++] = ft_strdup(str[j++]);
-					}
-					multiple(&head->word, 0);
-					free_split(str);
-				}
-				else if (head->type == 6 && head->word[0] == '\0')
-					dst[i++] = ft_strdup(head->word);
-			}
+				ft_creat_list_nop(head, dst, &i);
 		}
 		if (head)
 			head = head->next;

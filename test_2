@@ -102,7 +102,7 @@ exec_test 'export ='
 exec_test 'export 1TEST= ;' $ENV_SHOW
 exec_test 'export TEST ;' $EXPORT_SHOW
 exec_test 'export ""="" ; ' $ENV_SHOW
-exec_test 'export TES=T="" ;' $ENV_SHOW
+exec_test 'export TES=T="œ" ;' $ENV_SHOW
 exec_test 'export TE+S=T="" ;' $ENV_SHOW
 exec_test 'export TEST=LOL ; echo $TEST ;' $ENV_SHOW
 exec_test 'export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST'

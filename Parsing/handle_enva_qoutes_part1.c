@@ -33,35 +33,35 @@ int	check_double_qout(char *str)
 	return (0);
 }
 
-char	*delete_double_qoutes(char *str)
-{
-	char	*new_str;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	new_str = malloc(ft_strlen(str) + 1);
-	if (!new_str)
-		return (NULL);
-	while (str && str[i])
-	{
-		if (str[i] == '$')
-		{
-			while (str[i] && str[i] != '\"')
-				new_str[j++] = str[i++];
-			if (str[i] && str[i + 1] != '\0')
-				new_str[j++] = str[i];
-		}
-		if (str[i] && str[i] != '\"')
-			new_str[j++] = str[i];
-		if (str[i] == '\0')
-			break ;
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
+// char	*delete_double_qoutes(char *str)
+// {
+// 	char	*new_str;
+// 	int		j;
+// 	int		i;
+// 
+// 	j = 0;
+// 	i = 0;
+// 	new_str = malloc(ft_strlen(str) + 1);
+// 	if (!new_str)
+// 		return (NULL);
+// 	while (str && str[i])
+// 	{
+// 		if (str[i] == '$')
+// 		{
+// 			while (str[i] && str[i] != '\"')
+// 				new_str[j++] = str[i++];
+// 			if (str[i] && str[i + 1] != '\0')
+// 				new_str[j++] = str[i];
+// 		}
+// 		if (str[i] && str[i] != '\"')
+// 			new_str[j++] = str[i];
+// 		if (str[i] == '\0')
+// 			break ;
+// 		i++;
+// 	}
+// 	new_str[j] = '\0';
+// 	return (new_str);
+// }
 
 char	*delete_qoutes(char *str, char c)
 {
@@ -84,32 +84,32 @@ char	*delete_qoutes(char *str, char c)
 	return (new_str);
 }
 
-char	*delete_all_double_qoutes(char *str)
-{
-	char	*new_str;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = 0;
-	new_str = malloc(ft_strlen(str) + 1);
-	if (!new_str)
-		return (NULL);
-	while (str && str[i])
-	{
-		if (str[i] == '$')
-		{
-			while (str[i] && str[i] != '\"')
-				new_str[j++] = str[i++];
-			if (str[i] && str[i + 1] != '\0' && str[i] != '\"')
-				new_str[j++] = str[i];
-		}
-		if (str[i] && str[i] != '\"')
-			new_str[j++] = str[i];
-		if (str[i] == '\0')
-			break ;
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
+// char	*delete_all_double_qoutes(char *str)
+// {
+// 	char	*new_str;
+// 	int		j;
+// 	int		i;
+// 
+// 	j = 0;
+// 	i = 0;
+// 	new_str = malloc(ft_strlen(str) + 1);
+// 	if (!new_str)
+// 		return (NULL);
+// 	while (str && str[i])
+// 	{
+// 		if (str[i] == '$')
+// 		{
+// 			while (str[i] && str[i] != '\"')
+// 				new_str[j++] = str[i++];
+// 			if (str[i] && str[i + 1] != '\0' && str[i] != '\"')
+// 				new_str[j++] = str[i];
+// 		}
+// 		if (str[i] && str[i] != '\"')
+// 			new_str[j++] = str[i];
+// 		if (str[i] == '\0')
+// 			break ;
+// 		i++;
+// 	}
+// 	new_str[j] = '\0';
+// 	return (new_str);
+// }
