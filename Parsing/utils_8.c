@@ -55,3 +55,32 @@ char	*ft_other(char *result, char *str, int *i, t_env *env)
 		result = ft_text_only(result, str, &(*i));
 	return (result);
 }
+
+void	ft_lstadd_back_env(t_env **head, t_env *node)
+{
+	t_env	*last;
+
+	if (*head == NULL)
+	{
+		*head = node;
+		return ;
+	}
+	if (!head || !node)
+		return ;
+	last = *head;
+	if (last)
+		while (last->next)
+			last = last->next;
+	last->next = node;
+}
+
+int	ft_atoi1_check(char *str, int *i)
+{
+	if (str[(*i)] == '=')
+		(*i)++;
+	if (str[(*i)] == '-')
+		return (-1);
+	if (str[(*i)] == '+')
+		(*i)++;
+	return (1);
+}

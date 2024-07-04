@@ -224,4 +224,5 @@ void	ft_handle_proc_child(t_joins **head, int *pipes,
 			int *old, t_env **env);
 void	ft_run_commad_2(t_joins **head, t_env **env, char *type);
 void	ft_dup(t_joins **head, int *fd, int *old);
+int		ft_atoi1_check(char *str, int *i);
 #endif
