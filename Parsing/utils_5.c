@@ -81,14 +81,11 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 	int		i;
 	int		j;
 	int		x;
-	int		k;
 
 	j = ft_check_content(ptr, &i);
-	k = ft_count_word_if_no_content(tmp);
 	if (i > 0)
 	{
-		i = i - (j * 2);
-		i -= k;
+		i = (i - (j * 2)) - ft_count_word_if_no_content(tmp);
 		dst = (char **)malloc(sizeof (char *) * (i + 1));
 		if (!dst)
 			return (ptr);
@@ -104,9 +101,7 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 			else
 				dst[j++] = ft_strdup(ptr[x++]);
 		}
-		dst[j] = NULL;
-		free_split(ptr);
-		return (dst);
+		return (dst[j] = NULL, free_split(ptr), dst);
 	}
 	else
 		return (ptr);

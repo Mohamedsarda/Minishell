@@ -35,29 +35,22 @@ void	ft_creat_list_nop(t_words *head, char **dst, int *i)
 		dst[(*i)++] = ft_strdup(head->word);
 }
 
-char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
+char	**ft_create_l_all(t_words *head, t_joins *s2, t_env **env, char **dst)
 {
-	char	**dst;
-	int		words;
 	int		i;
+	int		words;
 
-	words = ft_words(head);
-	dst = (char **)malloc(sizeof (char *) * (words + 1));
-	if (!dst)
-		return (NULL);
 	i = 0;
+	words = ft_words(head);
 	while (head && head->type != PIPE && hundle_error(head) != 0)
 	{
 		if (i <= words)
 		{
 			if (head->type == HERD)
 			{
-				ft_handle_herd(stack_2, head, env);
-				if (stack_2->in == -5)
-				{
-					ft_exit_status(env, "1");
-					return (dst[i] = NULL, dst);
-				}
+				ft_handle_herd(s2, head, env);
+				if (s2->in == -5)
+					return (ft_exit_status(env, "1"), dst[i] = NULL, dst);
 				head = head->next;
 			}
 			else
@@ -67,6 +60,19 @@ char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 			head = head->next;
 	}
 	return (dst[i] = NULL, dst);
+}
+
+char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
+{
+	char	**dst;
+	int		words;
+
+	words = ft_words(head);
+	dst = (char **)malloc(sizeof (char *) * (words + 1));
+	if (!dst)
+		return (NULL);
+	dst = ft_create_l_all(head, stack_2, env, dst);
+	return (dst);
 }
 
 int	ft_strlen_space(t_words *words)
