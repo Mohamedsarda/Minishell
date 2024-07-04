@@ -1,23 +1,5 @@
 #include "../minishell.h"
 
-void	ft_lstadd_back_env(t_env **head, t_env *node)
-{
-	t_env	*last;
-
-	if (*head == NULL)
-	{
-		*head = node;
-		return ;
-	}
-	if (!head || !node)
-		return ;
-	last = *head;
-	if (last)
-		while (last->next)
-			last = last->next;
-	last->next = node;
-}
-
 char	**ft_empty_env(char **env, int *tmp)
 {
 	int		j;
@@ -46,12 +28,8 @@ int	ft_atoi1(char *s)
 	nmbr = 0;
 	while (s[i] && s[i] != '=')
 		i++;
-	if (s[i] == '=')
-		i++;
-	if (s[i] == '-')
+	if (ft_atoi1_check(s, &i) == -1)
 		return (-1);
-	if (s[i] == '+')
-		i++;
 	while (s[i])
 	{
 		if (s[i] >= '0' && s[i] <= '9')
