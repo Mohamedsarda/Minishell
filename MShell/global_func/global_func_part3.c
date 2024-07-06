@@ -1,5 +1,16 @@
 #include "../minishell.h"
 
+static int	check_in_set(char c, char *set)
+{
+	while (*set)
+	{
+		if (c == *set)
+			return (1);
+		set++;
+	}
+	return (0);
+}
+
 static size_t	ft_strlcpy_t(char *dst, char *src, size_t size)
 {
 	size_t	srclen;
@@ -19,6 +30,7 @@ static size_t	ft_strlcpy_t(char *dst, char *src, size_t size)
 	}
 	return (srclen);
 }
+
 char	*ft_strtrim(char *s1, char *set)
 {
 	size_t	start;
@@ -43,68 +55,23 @@ char	*ft_strtrim(char *s1, char *set)
 	return (t_str);
 }
 
-int	quotes(char *str)
+t_env	*ft_get_status_pos(t_env *env, char *key)
 {
-	int	a;
-	int	b;
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (env);
+		env = env->next;
+	}
+	return (env);
+}
+
+void	free_split(char **tmp)
+{
 	int	i;
 
-	a = 0;
-	b = 0;
 	i = 0;
-	while (*str && str[i])
-	{
-		if (str[i] == '\"')
-			a++;
-		if (str[i] == '\'')
-			b++;
-		i++;
-	}
-	if (a % 2 != 0 || b % 2 != 0)
-		return (0);
-	else
-		return (1);
-}
-
-char	*ft_rm_quotes(char *string, char c)
-{
-	char	*str;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	str = malloc(ft_strlen(string) - 1);
-	if (!str)
-		return (NULL);
-	while (string[i])
-	{
-		if (string[i] == c)
-		{
-			while (string[++i] != c)
-				str[j++] = string[i];
-		}
-		else
-			str[j++] = string[i];
-		i++;
-	}
-	str[j] = '\0';
-	free(string);
-	return (str);
-}
-
-void	ft_print_free(char *str, int fd)
-{
-	int	j;
-
-	j = -1;
-	if (!str)
-	{
-		write(fd, "\n", 1);
-		return ;
-	}
-	while (str[++j])
-		write(fd, &str[j], 1);
-	free(str);
-	write(fd, "\n", 1);
+	while (tmp[i])
+		free(tmp[i++]);
+	free(tmp);
 }
