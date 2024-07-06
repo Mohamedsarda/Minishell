@@ -45,22 +45,39 @@ void	ft_check_run_norm_2(char **environ, char *command,
 	com_not_found(command);
 }
 
+int	ft_env_size_hide(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		if (!(env->print == 1 && env->equal == 1))
+			i++;
+		env = env->next;
+	}
+	return (i);
+}
+
 char	**ft_create_env_from_stack(t_env *env)
 {
 	char	**dst;
 	int		size;
 	int		i;
 
-	size = ft_env_size(env);
+	size = ft_env_size(env) - ft_env_size_hide(env);
 	i = 0;
 	dst = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!dst)
 		return (NULL);
 	while (i < size)
 	{
-		dst[i] = ft_strjoin(env->key, "=");
-		dst[i] = test(dst[i], env->value);
-		i++;
+		if ((env->print == 1 && env->equal == 1))
+		{
+			dst[i] = ft_strjoin(env->key, "=");
+			dst[i] = test(dst[i], env->value);
+			i++;
+		}
 		env = env->next;
 	}
 	return (dst[i] = NULL, dst);

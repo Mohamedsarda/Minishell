@@ -86,7 +86,7 @@ void	ft_creat_list_no_herd(t_words *head, char **dst, int *i)
 
 void	ft_open_red(int is, t_joins *tmp, int *i, t_words *words)
 {
-	if (is == 0)
+	if (is == 1)
 	{
 		if (tmp->out > 1)
 			close(tmp->out);
