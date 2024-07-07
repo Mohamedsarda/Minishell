@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct_new.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:41:57 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:42:00 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_env	*ft_lstnew_env(char *val_1, char *val_2)
@@ -29,7 +41,7 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 	return (head);
 }
 
-t_joins	*ft_lstnew_joins()
+t_joins	*ft_lstnew_joins(void)
 {
 	t_joins	*stack_2;
 
