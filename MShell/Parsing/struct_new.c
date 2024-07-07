@@ -29,11 +29,10 @@ t_env	*ft_lstnew_env(char *val_1, char *val_2)
 	return (head);
 }
 
-t_joins	*ft_lstnew_joins(t_words **words)
+t_joins	*ft_lstnew_joins()
 {
 	t_joins	*stack_2;
 
-	(void)words;
 	stack_2 = (t_joins *)malloc(sizeof(t_joins));
 	if (!stack_2)
 		return (NULL);

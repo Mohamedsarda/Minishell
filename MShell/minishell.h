@@ -55,7 +55,9 @@ void	ft_lstdelone(t_words *lst);
 
 void	ft_lstclear_joins(t_joins **lst);
 void	ft_lstclear(t_words **lst);
-t_joins	*ft_lstnew_joins(t_words **words);
+t_joins	*ft_lstnew_joins(void);
+int		ft_check_error(t_joins **stack_2, t_joins *new,
+			t_words **words, t_env **env);
 
 void	ft_next_node_joins(t_joins **head);
 int		ft_env_size(t_env *head);
@@ -116,6 +118,7 @@ void	ft_print_free(char *str, int fd);
 void	ft_sighandler(int i);
 void	ft_creat_list_no_herd(t_words *head, char **dst, int *i);
 void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack);
+char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env);
 
 //run
 void	ft_run_commad(t_joins **head, t_env **env, char *type);

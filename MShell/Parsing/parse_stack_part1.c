@@ -46,7 +46,7 @@ static void	delete_qoutes_1(t_joins	**stack_2, char c)
 	}
 }
 
-static char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
+char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
 {
 	char	**dst;
 	int		words;
@@ -65,28 +65,20 @@ t_joins	*ft_store_stack(t_joins *stack_2, t_words **words, t_env **env)
 	t_joins	*new;
 
 	head = (*words);
-	stack_2 = ft_lstnew_joins(words);
+	stack_2 = ft_lstnew_joins();
 	stack_2->content = ft_create_list(stack_2, *words, env);
-	if (hundle_error(head) == 0 || stack_2->in == -5)
-	{
-		if (stack_2->in == -5)
-			ft_exit_status(env, "1");
-		return (ft_lstclear(words), ft_lstclear_joins(&stack_2), NULL);
-	}
+	if (!ft_check_error(&stack_2, stack_2, words, env))
+		return (NULL);
 	while (head)
 	{
 		if (head->type == PIPE)
 		{
 			head = head->next;
-			new = ft_lstnew_joins(words);
+			new = ft_lstnew_joins();
 			new->content = ft_create_list(new, head, env);
 			ft_lstaddback_joins(&stack_2, new);
-			if (hundle_error(head) == 0 || stack_2->in == -5)
-			{
-				if (new->in == -5)
-					ft_exit_status(env, "1");
-				return (ft_lstclear(words), ft_lstclear_joins(&stack_2), NULL);
-			}
+			if (!ft_check_error(&stack_2, new, words, env))
+				return (NULL);
 			if (new && !new->content)
 				return (stack_2);
 		}
