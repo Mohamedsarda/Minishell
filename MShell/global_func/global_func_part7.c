@@ -1,5 +1,13 @@
 #include "../minishell.h"
 
+static void	strlen_in_doub(int *i, int *res, char *str)
+{
+	(*i)++;
+	while (str[(*i)] && str[(*i)++] != '\"')
+		(*res)++;
+	(*i)--;
+}
+
 static int	strlen_no_quotes(char *str)
 {
 	int	i;
@@ -9,12 +17,7 @@ static int	strlen_no_quotes(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\"')
-		{
-			i++;
-			while (str[i] && str[i++] != '\"')
-				res++;
-			i--;
-		}
+			strlen_in_doub(&i, &res, str);
 		else if (str[i] && str[i] == '\'')
 		{
 			i++;

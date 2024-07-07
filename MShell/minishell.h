@@ -165,4 +165,7 @@ int		quotes(char *str);
 int		run_all_com(t_joins	**stack_2, t_env **env);
 int		run_pipes(t_joins	**stack_2, t_env **env);
 int		ft_space(char *str);
+int		ft_env_size_hide(t_env *env);
+int		ft_ctr_c_check(t_joins *head);
+int		ft_is_space(char *str);
 #endif

@@ -45,20 +45,6 @@ void	ft_check_run_norm_2(char **environ, char *command,
 	com_not_found(command);
 }
 
-int	ft_env_size_hide(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		if (!(env->print == 1 && env->equal == 1))
-			i++;
-		env = env->next;
-	}
-	return (i);
-}
-
 char	**ft_create_env_from_stack(t_env *env)
 {
 	char	**dst;

@@ -42,3 +42,16 @@ int	run_all_com(t_joins	**stack_2, t_env **env)
 			return (1);
 	return (0);
 }
+
+int	ft_ctr_c_check(t_joins *head)
+{
+	if (!head)
+		return (-1);
+	while (head)
+	{
+		if (head->in == -5)
+			return (1);
+		head = head->next;
+	}
+	return (0);
+}

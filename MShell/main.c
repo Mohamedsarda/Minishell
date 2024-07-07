@@ -2,7 +2,7 @@
 
 int	g_exit;
 
-void	ft_sighandler(int i) //done
+void	ft_sighandler(int i)
 {
 	(void)i;
 	rl_catch_signals = 0;
@@ -38,19 +38,6 @@ int	quotes(char *str)
 		return (1);
 }
 
-int	is_space(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	if (!str[i])
-		return (1);
-	else
-		return (0);
-}
-
 static void	ft_minishell(t_env **env_stack, t_words **words, char *string)
 {
 	char	*str_sp;
@@ -64,7 +51,7 @@ static void	ft_minishell(t_env **env_stack, t_words **words, char *string)
 	ft_lstclear_joins(&tmp);
 }
 
-static void	ft_read_line(t_env **env_stack, t_words **words) //done
+static void	ft_read_line(t_env **env_stack, t_words **words)
 {
 	char	*string;
 
@@ -73,9 +60,12 @@ static void	ft_read_line(t_env **env_stack, t_words **words) //done
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
 		if (g_exit)
+		{
+			g_exit = 0;
 			ft_exit_status(env_stack, "1");
+		}
 		ft_string_nul(string, env_stack);
-		if (!string[0] || is_space(string))
+		if (!string[0] || ft_is_space(string))
 		{
 			free(string);
 			continue ;
