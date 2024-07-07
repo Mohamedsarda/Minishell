@@ -8,11 +8,12 @@ static char	**ft_empty_env(char **env, int *tmp)
 	getcwd(buffer, sizeof(buffer));
 	j = 0;
 	(*tmp) = 1;
-	env = (char **)malloc(5 * sizeof(char *));
+	env = (char **)malloc(6 * sizeof(char *));
 	if (!env)
 		return (NULL);
 	env[j++] = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 	env[j++] = ft_strjoin("PWD=", buffer);
+	env[j++] = ft_strjoin("OLDPWD=", buffer);
 	env[j++] = ft_strdup("SHLVL=1");
 	env[j++] = ft_strdup("_=");
 	env[j] = NULL;

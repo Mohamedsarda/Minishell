@@ -36,9 +36,8 @@ void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 	tmp = ft_split(path, ':');
 	if (tmp == NULL || *tmp == NULL)
 	{
-		ft_exit_status(env, "1");
 		perror("Minishell$ ");
-		exit(1);
+		exit(127);
 	}
 	while (tmp[++j])
 	{

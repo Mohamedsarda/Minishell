@@ -28,7 +28,7 @@ void	ft_env(t_env **env_tmp, t_joins **stack_2)
 		fd = tmp->in;
 	while (env)
 	{
-		if (env->value && env->equal && env->print)
+		if ((env->value && env->equal && env->print))
 			ft_print_env(env->key, env->value, fd);
 		env = env->next;
 	}

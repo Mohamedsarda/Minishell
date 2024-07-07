@@ -152,7 +152,7 @@ int		check_key_in_path(char *key, t_env **env);
 char	*ft_to_lower(char *str);
 void	add_struct(char *str, t_words **words, t_env *env_stack);
 char	*handle_single_parssing(char *result, char *str, int *i);
-int		delete_check_error(t_words **words, t_joins	*tmp, t_joins *stack_2);
+int		delete_check_error(t_words **words, t_joins *stack_2);
 void	ft_open_red(int is, t_joins *tmp, int *i, t_words *words);
 void	ft_handle_proc_child(t_joins **head, int *pipes,
 			int *old, t_env **env);

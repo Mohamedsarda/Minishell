@@ -71,6 +71,8 @@ void	free_split(char **tmp)
 	int	i;
 
 	i = 0;
+	if (!tmp || !*tmp)
+		return ;
 	while (tmp[i])
 		free(tmp[i++]);
 	free(tmp);

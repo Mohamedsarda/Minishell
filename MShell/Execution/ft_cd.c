@@ -65,6 +65,7 @@ void	ft_cd(t_joins **head, t_env **env)
 {
 	char	*tmp;
 	char	*home;
+	char	*check;
 
 	tmp = NULL;
 	home = ft_get_val_env(head, env, "HOME");
@@ -78,11 +79,14 @@ void	ft_cd(t_joins **head, t_env **env)
 	tmp = (*head)->content[1];
 	if (!tmp || !tmp[0])
 		tmp = home;
-	if (chdir(tmp) != 0)
+	check = test(ft_pwd(head, 1), "/");
+	check = test(check, tmp);
+	if (chdir(tmp) != 0 || (access(check, F_OK) != 0))
 	{
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");
 	}
 	else
 		ft_change_pwd(head, env);
+	free(check);
 }
