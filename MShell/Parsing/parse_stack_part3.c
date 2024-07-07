@@ -76,7 +76,6 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 {
 	char	*tmp;
 	char	*tmp_2;
-	int		is;
 
 	if (head->is == 1)
 		((1) && (tmp_2 = ft_strdup(head->word), tmp = dele_quotes(&tmp_2)));
@@ -87,11 +86,8 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 			free(tmp);
 		return (free(str), 1);
 	}
-	if (!str)
-		return (free(str), write(stack_2->out, "\n", 1), 2);
 	if (!head->is)
 	{
-		is = 0;
 		tmp = expand_herd(str, env);
 		ft_print_free(tmp, stack_2->out);
 	}
@@ -117,8 +113,6 @@ int	ft_herd_while(t_joins *stack_2, t_words *head, t_env **env)
 		}
 		out = ft_herd_while_2(stack_2, head, env, str);
 		if (out == 1)
-			break ;
-		else if (out == 2)
 			break ;
 	}
 	return (0);

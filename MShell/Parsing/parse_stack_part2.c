@@ -21,12 +21,12 @@ static void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env)
 	int		i;
 	char	*nb;
 
-	((1) && (i = 0, file = ft_strdup("../.herd_file")));
+	((1) && (i = 0, file = ft_strdup("/tmp/.herd_file")));
 	while (access(file, F_OK) == 0)
 	{
 		free(file);
 		nb = ft_itoa(i++);
-		file = ft_strjoin("../.herd_file", nb);
+		file = ft_strjoin("/tmp/.herd_file", nb);
 		free(nb);
 	}
 	head = head->next;

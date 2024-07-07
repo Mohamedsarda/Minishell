@@ -1,5 +1,5 @@
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
 RM		= rm -rf
 SRCS	= Execution/all_commands.c        Execution/run.c                 Parsing/struct_size.c	\
 		Execution/echo.c                Parsing/creat_env_stack.c       Parsing/words_expan_dob.c	\

@@ -35,7 +35,7 @@ static void	ft_print_export(t_env **arr, int count, int fd)
 	i = -1;
 	while (++i < count)
 	{
-		if (arr[i]->print)
+		if (arr[i]->print && (ft_strcmp("_", arr[i]->key) != 0))
 		{
 			ft_putstr("declare -x ", fd);
 			ft_putstr(arr[i]->key, fd);

@@ -68,8 +68,11 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 		return (ptr);
 }
 
-int	delete_check_error(t_words **words, t_joins	*tmp, t_joins *stack_2)
+int	delete_check_error(t_words **words, t_joins *stack_2)
 {
+	t_joins	*tmp;
+
+	tmp = stack_2;
 	while (tmp)
 	{
 		if (tmp->content)
