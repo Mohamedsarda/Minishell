@@ -44,7 +44,6 @@ static void	delete_qoutes_1(t_joins	**stack_2, char c)
 		}
 		tmp = tmp->next;
 	}
-	
 }
 
 static char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env)
@@ -95,19 +94,6 @@ t_joins	*ft_store_stack(t_joins *stack_2, t_words **words, t_env **env)
 			head = head->next;
 	}
 	return (stack_2);
-}
-
-int	ft_ctr_c_check(t_joins *head)
-{
-	if (!head)
-		return (-1);
-	while (head)
-	{
-		if (head->in == -5)
-			return (1);
-		head = head->next;
-	}
-	return (0);
 }
 
 t_joins	*ft_parse_stack(t_words **words, t_env **env)

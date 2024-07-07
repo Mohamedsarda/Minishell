@@ -47,3 +47,17 @@ void	ft_run_commad(t_joins **head, t_env **env, char *type)
 	free(str);
 	ft_next_node_joins(head);
 }
+
+int	ft_env_size_hide(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		if (!(env->print == 1 && env->equal == 1))
+			i++;
+		env = env->next;
+	}
+	return (i);
+}
