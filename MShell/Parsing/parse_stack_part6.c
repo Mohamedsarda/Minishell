@@ -55,3 +55,15 @@ int	ft_ctr_c_check(t_joins *head)
 	}
 	return (0);
 }
+
+int	ft_check_error(t_joins **stack_2, t_joins *new,
+		t_words **words, t_env **env)
+{
+	if (hundle_error((*words)) == 0 || new->in == -5)
+	{
+		if (new->in == -5)
+			ft_exit_status(env, "1");
+		return (ft_lstclear(words), ft_lstclear_joins(stack_2), 0);
+	}
+	return (1);
+}
