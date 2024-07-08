@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:39:30 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:39:32 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:18:06 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	ft_cd(t_joins **head, t_env **env)
 {
 	char	*tmp;
 	char	*home;
-	char	*check;
 
 	tmp = NULL;
 	home = ft_get_val_env(head, env, "HOME");
@@ -91,13 +90,11 @@ void	ft_cd(t_joins **head, t_env **env)
 	tmp = (*head)->content[1];
 	if (!tmp || !tmp[0])
 		tmp = home;
-	((1) && (check = test(ft_pwd(head, 1), "/"), check = test(check, tmp)));
-	if (chdir(tmp) != 0 || (access(check, F_OK) != 0))
+	if (chdir(tmp) != 0)
 	{
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");
 	}
 	else
 		ft_change_pwd(head, env);
-	free(check);
 }

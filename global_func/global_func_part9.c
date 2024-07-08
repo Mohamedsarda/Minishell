@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global_func_part9.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:40:42 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:40:43 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:24:21 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,36 @@ void	ft_change_status_fork(int status, t_env **env)
 	free(final_status);
 }
 
-void	ft_check_slash(char *command, t_env **env)
+int	ft_check_slash(char *command, t_env **env)
 {
 	int		i;
-	char	*err;
 
 	(void)env;
 	i = 0;
 	while (command[i])
 	{
 		if (command[i] == '/')
-		{
-			err = ft_strjoin("Minishell$ : ", command);
-			perror(err);
-			free(err);
-			exit(127);
-		}
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 void	ft_check_run_norm_1(char **environ, char *command,
 	t_joins **head, t_env **env)
 {
+	char	*err;
+
 	signal(SIGQUIT, SIG_DFL);
 	if ((*head)->out != 1)
 		dup2((*head)->out, 1);
 	if ((*head)->in != 0)
 		dup2((*head)->in, 0);
+	if (ft_check_slash(command, env) == 0)
+		return ;
 	execve(command, (*head)->content, environ);
-	ft_check_slash(command, env);
+	err = ft_strjoin("Minishell$ : ", command);
+	perror(err);
+	free(err);
+	exit(127);
 }

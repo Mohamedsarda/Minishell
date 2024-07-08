@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:42:19 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:52:12 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:16:55 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	ft_change_status_fork(int status, t_env **env);
 void	ft_check_run_norm_1(char **environ, char *command,
 			t_joins **head, t_env **env);
 char	**ft_create_env_from_stack(t_env *env);
-void	ft_check_slash(char *command, t_env **env);
+int		ft_check_slash(char *command, t_env **env);
 int		ft_atoi1(char *s);
 void	ft_is_pipe(t_joins **head, t_env **env);
 char	*handle_env(t_words *node, char *content, t_env *env);
@@ -164,7 +164,7 @@ char	*ft_to_lower(char *str);
 void	add_struct(char *str, t_words **words, t_env *env_stack);
 char	*handle_single_parssing(char *result, char *str, int *i);
 int		delete_check_error(t_words **words, t_joins *stack_2);
-void	ft_open_red(int is, t_joins *tmp, int *i, t_words *words);
+void	ft_open_red(int is, t_joins *tmp, int *i, t_words **words);
 void	ft_handle_proc_child(t_joins **head, int *pipes,
 			int *old, t_env **env);
 void	ft_run_2(t_joins **head, t_env **env);
