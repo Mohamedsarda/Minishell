@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:40:13 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:40:13 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int	ft_search_key(t_env **env, char *key)
+static int	ft_search_key(t_env **env, char *key)
 {
 	t_env	*tmp;
 
@@ -14,7 +26,7 @@ int	ft_search_key(t_env **env, char *key)
 	return (0);
 }
 
-int	ft_unset_while(t_env *tmp, t_env **env, t_env *cur, char *str)
+static int	ft_unset_while(t_env *tmp, t_env **env, t_env *cur, char *str)
 {
 	while (tmp && ft_search_key(env, str))
 	{
@@ -34,7 +46,7 @@ int	ft_unset_while(t_env *tmp, t_env **env, t_env *cur, char *str)
 	return (1);
 }
 
-void	ft_printf_error_unset(t_env **env, char *str)
+static void	ft_printf_error_unset(t_env **env, char *str)
 {
 	ft_exit_status(env, "1");
 	ft_putstr("Minishell$ unset: `", 2);
@@ -42,7 +54,7 @@ void	ft_printf_error_unset(t_env **env, char *str)
 	ft_putstr("': not a valid identifier\n", 2);
 }
 
-void	ft_unset_f(t_env **env, t_env *cur, t_env *tmp)
+static void	ft_unset_f(t_env **env, t_env *cur, t_env *tmp)
 {
 	cur = tmp;
 	tmp = tmp->next;

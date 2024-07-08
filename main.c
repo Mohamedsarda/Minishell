@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:42:11 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:42:12 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	g_exit;
@@ -15,96 +27,30 @@ void	ft_sighandler(int i)
 	g_exit = 1;
 }
 
-void	multiple(char **str, int is)
+int	quotes(char *str)
 {
+	int	a;
+	int	b;
 	int	i;
 
-	if (!str || !*str)
-		return ;
+	a = 0;
+	b = 0;
 	i = 0;
-	while (str && *str && str[0][i])
+	while (*str && str[i])
 	{
-		if (is == 0 && str[0][i] == '\"')
-		{
-			i++;
-			while (str[0][i] && str[0][i] != '\"')
-			{
-				str[0][i] *= -1;
-				i++;
-			}
-		}
-		else if (str[0][i] == '\'')
-		{
-			i++;
-			while (str[0][i] && str[0][i] != '\'')
-			{
-				str[0][i] *= -1;
-				i++;
-			}
-		}
-		if (str[0][i] != '\0')
-			i++;
-	}
-}
-
-char	*back_to_string(char	*string)
-{
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (string[i] == '\'')
-		{
-			multiple(&string, 0);
-			return (string);
-		}
-		else if (string[i] == '\"')
-		{
-			multiple(&string, 0);
-			return (string);
-		}
+		if (str[i] == '\"')
+			a++;
+		if (str[i] == '\'')
+			b++;
 		i++;
 	}
-	return (string);
+	if (a % 2 != 0 || b % 2 != 0)
+		return (0);
+	else
+		return (1);
 }
 
-static int	ft_sign(const char str)
-{
-	if (str == '-')
-		return (-1);
-	return (1);
-}
-
-int	ft_atoi4(const char *str)
-{
-	long int	nbr;
-	long int	nb;
-	int			sign;
-
-	nbr = 0;
-	sign = 1;
-	while ((*str == ' ' || *str == '\t' || *str == '\n'
-			|| *str == '\v' || *str == '\f' || *str == '\r') && (str++));
-	if (*str == '-' || *str == '+')
-	{
-		sign = ft_sign(*str);
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		nb = nbr * 10 + (*str - '0');
-		if (nbr > nb && sign == 1)
-			return (-1);
-		else if (nbr > nb && sign == -1)
-			return (0);
-		str++;
-		nbr = nb;
-	}
-	return (nbr * sign);
-}
-
-void	ft_minishell(t_env **env_stack, t_words **words, char *string)
+static void	ft_minishell(t_env **env_stack, t_words **words, char *string)
 {
 	char	*str_sp;
 	t_joins	*tmp;
@@ -117,23 +63,21 @@ void	ft_minishell(t_env **env_stack, t_words **words, char *string)
 	ft_lstclear_joins(&tmp);
 }
 
-void	ft_read_line(t_env **env_stack, t_words **words)
+static void	ft_read_line(t_env **env_stack, t_words **words)
 {
 	char	*string;
-	t_env	*tmp;
 
 	while (1)
 	{
 		string = readline("Minishell$ ");
 		string = ft_strtrim(string, " ");
 		if (g_exit)
-			ft_exit_status(env_stack, "1");
-		if (!string)
 		{
-			tmp = ft_get_status_pos(*env_stack, "?");
-			exit(ft_atoi4(tmp->value));
+			g_exit = 0;
+			ft_exit_status(env_stack, "1");
 		}
-		else if (!string[0])
+		ft_string_nul(string, env_stack);
+		if (!string[0] || ft_is_space(string))
 		{
 			free(string);
 			continue ;
@@ -141,12 +85,8 @@ void	ft_read_line(t_env **env_stack, t_words **words)
 		if (string[0] != '\0')
 			add_history(string);
 		multiple(&string, 0);
-		if (quotes(string) == 0)
-		{
-			ft_putstr("Minishell : unexpected EOF while looking for matching `\"'\n", 2);
-			free(string);
+		if (check_qoutes(string) == 1)
 			continue ;
-		}
 		ft_minishell(env_stack, words, string);
 	}
 }

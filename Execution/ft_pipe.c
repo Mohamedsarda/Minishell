@@ -1,62 +1,82 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:40:06 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:52:23 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-void	ft_run_2(t_joins **head, t_env **env)
+static char	*get_path_2(t_env **env)
 {
-	char	*command;
-	char	**environ;
+	char	*path;
+	t_env	*env_tmp;
 
-	command = ft_strdup((*head)->content[0]);
-	environ = ft_create_env_from_stack(*env);
-	check_run_2(environ, command, head, env);
-	free_split(environ);
-	free(command);
+	path = NULL;
+	env_tmp = (*env);
+	while (env_tmp)
+	{
+		if (ft_strcmp(env_tmp->key, "PATH") == 0)
+		{
+			if (!env_tmp->value[0] || !env_tmp->value)
+				path = ft_strdup(NULL);
+			else
+				path = ft_strdup(env_tmp->value);
+			break ;
+		}
+		env_tmp = env_tmp->next;
+	}
+	return (path);
 }
 
-void	ft_run_commad_2(t_joins **head, t_env **env, char *type)
+void	check_run_2(char **environ, char *command, t_joins **head, t_env **env)
 {
-	char	*str;
+	char		**tmp;
+	int			j;
+	char		*path;
 
-	if (type == NULL)
-		return ;
-	str = ft_to_lower(type);
-	if (ft_strcmp(str, "echo") == 0)
-		ft_echo(head, env);
-	else if (ft_strcmp(str, "pwd") == 0)
-		ft_pwd(head, 0);
-	else if (ft_strcmp(str, "env") == 0)
-		ft_env(env, head);
-	else if (ft_strcmp(str, "cd") == 0)
-		ft_cd(head, env);
-	else if (ft_strcmp(str, "export") == 0)
-		ft_export(head, env);
-	else if (ft_strcmp(str, "unset") == 0)
-		ft_unset(head, env);
-	else if (ft_strcmp(str, "exit") == 0)
-		ft_exit(head, env, 1);
-	else
-		ft_run_2(head, env);
-	free(str);
+	j = -1;
+	path = get_path_2(env);
+	signal(SIGQUIT, SIG_DFL);
+	execve(command, (*head)->content, environ);
+	ft_check_slash(command, env);
+	tmp = ft_split(path, ':');
+	if (tmp == NULL || *tmp == NULL)
+	{
+		perror("Minishell$ ");
+		exit(127);
+	}
+	while (tmp[++j])
+	{
+		tmp[j] = test(tmp[j], "/");
+		tmp[j] = test(tmp[j], (*head)->content[0]);
+		if (access(tmp[j], X_OK) == 0)
+			execve(tmp[j], (*head)->content, environ);
+	}
+	com_not_found(command);
+	free(path);
 }
 
-void	ft_dup(t_joins **head, int *fd, int *old)
+static void	ft_fork_fail(int *pipes)
 {
-	close(fd[0]);
-	if ((*head)->in < 0 || (*head)->out < 0)
-		exit (1);
-	if ((*head)->out > 2)
-		dup2((*head)->out, 1);
-	else if ((*head)->next)
-	{
-		dup2(fd[1], 1);
-		close(fd[1]);
-	}
-	if ((*head)->in > 2)
-		dup2((*head)->in, 0);
-	else if (*old != -1)
-	{
-		dup2(*old, 0);
-		close(*old);
-	}
+	perror("Minishell$ ");
+	close(pipes[1]);
+	close(pipes[0]);
+	exit (1);
+}
+
+static void	ft_handle_proc_parent(t_joins **head, int *pipes, int *old)
+{
+	close(pipes[1]);
+	if ((*old) != -1)
+		close((*old));
+	(*old) = pipes[0];
+	ft_next_node_joins(head);
 }
 
 void	ft_is_pipe(t_joins **head, t_env **env)
