@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:42:19 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:52:12 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -6,11 +18,7 @@
 # include <stdio.h>
 # include "readline/readline.h"
 # include "readline/history.h"
-# include <signal.h>
 # include <fcntl.h>
-# include <string.h>
-# include <sys/time.h>
-# include <sys/stat.h>
 # include <limits.h>
 
 # define WORD 0
@@ -49,180 +57,126 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-int		ft_strlen_str_sp(char *str);
-char	*ft_parsing(char *str);
-void	add_struct(char *str, t_words **words, t_env *env_stack);
-int		hundle_error(t_words *words);
-t_words	*ft_lstnew(t_words **head, char *content, t_env *env_stack);
-void	ft_lstadd_back(t_words **head, t_words *node);
-size_t	ft_strlen(char *s);
-
-//split
-char	**ft_split(char const *s, char c);
-void	ft_bzero(void *dst, size_t n);
-void	ft_lstadd_back(t_words **head, t_words *node);
-int		ft_strcmp(char *s1, char *s2);
-//
-void	ft_lstclear(t_words **lst);
+void	ft_lstdel_env(t_env *lst);
+void	ft_lstdel_joins(t_joins *lst);
 void	ft_lstdelone(t_words *lst);
-t_joins	*ft_parse_stack(t_words **words, t_env **env);
-char	*ft_strjoin(char *s1, char *s2);
-//env
+
+void	ft_lstclear_joins(t_joins **lst);
+void	ft_lstclear(t_words **lst);
+t_joins	*ft_lstnew_joins(void);
+int		ft_check_error(t_joins **stack_2, t_joins *new,
+			t_words **words, t_env **env);
+
+void	ft_next_node_joins(t_joins **head);
+int		ft_env_size(t_env *head);
+void	ft_lstaddback_joins(t_joins **head, t_joins *node);
+void	ft_lstadd_back(t_words **head, t_words *node);
+//create_env_stack
 t_env	*ft_create_env_stack(char **env, int tmp);
-char	*ft_strdup(char *s1);
 t_env	*ft_lstnew_env(char *val_1, char *val_2);
 void	ft_lstadd_back_env(t_env **head, t_env *node);
-void	ft_sighandler(int i);
-int		ft_get_env_len(char *str, char c);
-char	*ft_strlcpy(char **str, int len);
-int		ft_strncmp(char *s1, char *s2, size_t n);
-char	*ft_strtrim(char *s1, char *set);
-void	ft_putstr(char *str, int fd);
-//
 void	ft_lstclear_env(t_env **lst);
 //
-void	ft_lstclear_joins(t_joins **lst);
-void	ft_herd_sig(int i);
-void	ft_check_word_type(t_joins *stack_2, t_words *head,
-			int *i, char **dst);
-void	ft_handle_herd(t_joins *stack_2, t_words *head, t_env **env);
-void	ft_next_node(t_words **head);
-int		ft_stack_words(t_words *words);
-//
-t_joins	*ft_lstnew_joins(t_words **words);
-void	ft_lstaddback_joins(t_joins **head, t_joins *node);
-void	free_split(char **tmp);
-char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env);
 
-// strlen_command
+//parsing_part1
+char	*ft_parsing(char *str);
 int		ft_strlen_str_sp(char *str);
-char	*handle_env(t_words *node, char *content, t_env *env);
+//
+char	*back_to_string(char	*string);
+//
+//split
+char	**ft_split(char const *s, char c);
+//
+
+//global_func
+size_t	ft_strlen(char *s);
+char	*ft_strdup(char *s1);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_strlcpy(char **str, int len);
+char	*ft_itoa(int n);
+char	*ft_strtrim(char *s1, char *set);
+t_env	*ft_get_status_pos(t_env *env, char *key);
+int		ft_atoi4(const char *str);
 void	multiple(char **str, int is);
-int		quotes(char *str);
-char	*ft_rm_quotes(char *string, char c);
-//
-void	ft_echo(t_joins **head, t_env **env);
-char	*ft_pwd(t_joins	**stack_2, int is);
-void	ft_next_node_joins(t_joins **head);
-//
-void	ft_env(t_env **env, t_joins **stack_2);
-//
-void	ft_cd(t_joins **head, t_env **env);
-//
-void	ft_run_commad(t_joins **head, t_env **env, char *type);
-//
-void	ft_export(t_joins **head, t_env **env);
-//
-void	ft_unset(t_joins **head, t_env **env);
-//
-void	ft_exit(t_joins **head, t_env **env, int fd);
-//handle_enva_checker.c
-char	*check_env(char *str, t_env *env);
-char	check_key(char c);
-char	*cpy(char	*str, int len);
-char	*atest(char *key, t_env *env, char *str);
-//end handle_enva_checker.c
-
-//handle_enva_qoutes_part1.c
-char	*rm_single_qoutes(char *str);
-int		check_double_qout(char *str);
-char	*delete_double_qoutes(char *str);
-char	*delete_qoutes(char *str, char c);
-char	*delete_all_double_qoutes(char *str);
-//end handle_enva_qoutes_part1.c
-
-//handle_enva_qoutes_part2.c
-void	conv_all(char **str);
-void	conv_all_pos(char **str);
-void	convert_neg_to_po(char **str);
-int		check_qoutes(char *str);
-int		check_nig(char	*str);
-//end handle_enva_qoutes_part2.c
-
-//parsi.c
-char	*test(char *s1, char *s2);
-char	*add_one(char *s1, char s2);
-int		ft_strlen_c(const char *str, char c);
-void	multiple2(char **str);
-
-void	ft_run(t_joins **head, t_env **env);
-void	env_equal(t_env **env);
-//
-void	ft_exit_status(t_env **env, char *status);
-void	print_sorted_env(t_env **head, t_joins **stack_2);
-int		ft_check_type(t_words **head, char *content);
-//
-void	ft_is_pipe(t_joins **head, t_env **env);
-//
-int		hundle_error(t_words *words);
-void	ft_check_slash(char *command, t_env **env);
-void	com_not_found(char *command);
-int		ft_env_size(t_env *head);
-int		check_key_env(char *key);
-char	*all_expand(char *str, t_env *env);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
-int		check_in_set(char c, char *set);
+char	*ft_text_only(char *result, char *str, int *i);
+void	ft_putstr(char *str, int fd);
+void	ft_exit_status(t_env **env, char *status);
+int		ft_strncmp(char *s1, char *s2, size_t n);
+//
+int		ft_check_type(t_words **head, char *content);
+int		check_double_qout(char *str);
+char	*test_1(char *s1, char *s2);
+char	*get_only_key(char *str, int *i);
+char	*check_env(char *str, t_env *env);
+char	*ft_expand_in_double(char *result, char *str, int *i, t_env *env);
+
+char	*dele_quotes(char **str);
+int		hundle_error(t_words *words);
+
+// parse_stack
+t_joins	*ft_parse_stack(t_words **words, t_env **env);
+char	**ft_create_l_all(t_words *head, t_joins *s2, t_env **env, char **dst);
+void	free_split(char **tmp);
+
+int		ft_words(t_words *head);
 int		ft_herd_while(t_joins *stack_2, t_words *head, t_env **env);
 void	ft_print_free(char *str, int fd);
-void	based_on_trim(char **str);
-int		ft_strchr(char *str, char c);
-char	*ft_itoa(int n);
-int		ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env,
-			char *str);
-t_env	*ft_get_status_pos(t_env *env, char *key);
-char	*test_1(char *s1, char *s2);
-int		ft_atoi4(const char *str);
-char	**ft_create_env_from_stack(t_env *env);
-char	*dele_quotes(char **str);
-int		check_value(char *value);
-char	*delete_plus(char *str);
-char	*delete_eq(char *str);
-int		check_key_in_path(char *key, t_env **env);
-int		ft_strlen_key(char *str);
-void	ft_swap_env(t_env **a, t_env **b);
-char	*befor_equal(char	*str);
-int		ft_strlen_value(char *str);
-char	*after_equal(char	*str);
+void	ft_sighandler(int i);
+void	ft_creat_list_no_herd(t_words *head, char **dst, int *i);
+void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack);
+char	**ft_create_list(t_joins *stack_2, t_words *head, t_env **env);
+
+//run
+void	ft_run_commad(t_joins **head, t_env **env, char *type);
+void	ft_cd(t_joins **head, t_env **env);
+void	ft_echo(t_joins **head, t_env **env);
+char	*ft_pwd(t_joins	**stack_2, int is);
+void	ft_unset(t_joins **head, t_env **env);
+void	ft_env(t_env **env_tmp, t_joins **stack_2);
+void	ft_exit(t_joins **head, t_env **env, int fd);
+void	ft_export(t_joins **head, t_env **env);
+void	ft_run(t_joins **head, t_env **env);
 //
-char	*get_path_2(t_env **env);
-void	check_run_2(char **environ, char *command, t_joins **head, t_env **env);
-char	*ft_expand(char *result, char *str, int *i, t_env *env);
-char	*get_only_key(char *str, int *i);
-void	ft_check_sig_fork(int status, t_env **env);
-void	ft_change_status_fork(int status, t_env **env);
-void	ft_check_run_norm_1(char **environ,
-			char *command, t_joins **head, t_env **env);
-void	ft_check_run_norm_2(char **environ,
-			char *command, t_joins **head, char **tmp);
+int		ft_sign(char **str);
 int		check_nmbr(char *str);
 void	ft_more_args(char	*str, t_env **env);
 int		ft_atoi_checker(char *str);
-char	*ft_to_lower(char *str);
-void	send_to_stack_env(t_joins **head, char *value, char *key, t_env **env);
-void	ft_print_error_export(t_env **env, int is, char *command);
+int		check_key_env(char *key);
+char	*test(char *s1, char *s2);
 void	ft_export_extra(t_joins **head, t_env **env, int *i);
-//
-int		ft_check_content(char **dst, int *i);
-int		ft_count_word_if_no_content(t_joins *tmp);
-char	**ft_create_exe_dst(char **ptr, t_joins *tmp);
-int		ft_strlen_space(t_words *words);
-char	*ft_expand_doub_sing(char *result, char *str, int *i, t_env *env);
-char	*real_expand_in_double(char *str, int *i, t_env *env, char *result);
-int		ft_intlen(int n);
-char	*zero(void);
-void	fillarr(char *res, int n, int nbrdg, int isnegative);
-char	*ft_text_only(char *result, char *str, int *i);
-char	*ft_other(char *result, char *str, int *i, t_env *env);
-char	*handle_single_parssing(char *result, char *str, int *i);
-char	*handle_double(char *result, char *str, int *i, t_env *env);
-int		ft_words(t_words *head);
-//
+char	*after_equal(char	*str);
+void	send_to_stack_env(t_joins **head, char *value, char *key, t_env **env);
 void	work_export(char *key, char *value, t_env **env, int is);
-void	ft_fork_fail(int *pipes);
-void	ft_handle_proc_parent(t_joins **head, int *pipes, int *old);
+void	com_not_found(char *command);
+void	ft_check_sig_fork(int status, t_env **env);
+void	ft_change_status_fork(int status, t_env **env);
+void	ft_check_run_norm_1(char **environ, char *command,
+			t_joins **head, t_env **env);
+char	**ft_create_env_from_stack(t_env *env);
+void	ft_check_slash(char *command, t_env **env);
+int		ft_atoi1(char *s);
+void	ft_is_pipe(t_joins **head, t_env **env);
+char	*handle_env(t_words *node, char *content, t_env *env);
+int		check_key_in_path(char *key, t_env **env);
+char	*ft_to_lower(char *str);
+void	add_struct(char *str, t_words **words, t_env *env_stack);
+char	*handle_single_parssing(char *result, char *str, int *i);
+int		delete_check_error(t_words **words, t_joins *stack_2);
+void	ft_open_red(int is, t_joins *tmp, int *i, t_words *words);
 void	ft_handle_proc_child(t_joins **head, int *pipes,
 			int *old, t_env **env);
-void	ft_run_commad_2(t_joins **head, t_env **env, char *type);
-void	ft_dup(t_joins **head, int *fd, int *old);
-int		ft_atoi1_check(char *str, int *i);
+void	ft_run_2(t_joins **head, t_env **env);
+void	check_run_2(char **environ, char *command, t_joins **head, t_env **env);
+void	ft_unlink_free(char *str);
+int		check_qoutes(char *string);
+void	ft_string_nul(char *string, t_env **env_stack);
+int		quotes(char *str);
+int		run_all_com(t_joins	**stack_2, t_env **env);
+int		run_pipes(t_joins	**stack_2, t_env **env);
+int		ft_space(char *str);
+int		ft_env_size_hide(t_env *env);
+int		ft_ctr_c_check(t_joins *head);
+int		ft_is_space(char *str);
 #endif

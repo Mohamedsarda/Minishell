@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:39:30 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:39:32 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-char	*ft_get_val_env(t_joins **head, t_env **env, char *key)
+static char	*ft_get_val_env(t_joins **head, t_env **env, char *key)
 {
 	t_env	*env_head;
 
@@ -15,7 +27,7 @@ char	*ft_get_val_env(t_joins **head, t_env **env, char *key)
 	return (NULL);
 }
 
-void	ft_create_newoldpwd(t_joins **head, t_env *pwd,
+static void	ft_create_newoldpwd(t_joins **head, t_env *pwd,
 	t_env *oldpwd, t_env **env)
 {
 	char	*newpwd;
@@ -42,7 +54,7 @@ void	ft_create_newoldpwd(t_joins **head, t_env *pwd,
 	free(newpwd);
 }
 
-void	ft_change_pwd(t_joins **head, t_env **env)
+static void	ft_change_pwd(t_joins **head, t_env **env)
 {
 	t_env	*oldpwd;
 	t_env	*pwd;
@@ -65,6 +77,7 @@ void	ft_cd(t_joins **head, t_env **env)
 {
 	char	*tmp;
 	char	*home;
+	char	*check;
 
 	tmp = NULL;
 	home = ft_get_val_env(head, env, "HOME");
@@ -78,11 +91,13 @@ void	ft_cd(t_joins **head, t_env **env)
 	tmp = (*head)->content[1];
 	if (!tmp || !tmp[0])
 		tmp = home;
-	if (chdir(tmp) != 0)
+	((1) && (check = test(ft_pwd(head, 1), "/"), check = test(check, tmp)));
+	if (chdir(tmp) != 0 || (access(check, F_OK) != 0))
 	{
 		ft_exit_status(env, "1");
 		perror("Minishell$ ");
 	}
 	else
 		ft_change_pwd(head, env);
+	free(check);
 }

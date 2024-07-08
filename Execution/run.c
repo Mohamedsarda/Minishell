@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:40:15 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:40:19 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-char	*get_path(t_env **env)
+static char	*get_path(t_env **env)
 {
 	char	*path;
 	t_env	*env_tmp;
@@ -22,24 +34,27 @@ char	*get_path(t_env **env)
 	return (path);
 }
 
-void	ft_check_slash(char *command, t_env **env)
+void	ft_check_run_norm_2(char **environ, char *command,
+	t_joins **head, char **tmp)
 {
-	int		i;
-	char	*err;
+	int	j;
 
-	(void)env;
-	i = 0;
-	while (command[i])
+	j = -1;
+	if (tmp == NULL || *tmp == NULL)
 	{
-		if (command[i] == '/')
-		{
-			err = ft_strjoin("Minishell$ : ", command);
-			perror(err);
-			free(err);
-			exit(127);
-		}
-		i++;
+		ft_putstr("Minishell$ ", 2);
+		ft_putstr(command, 2);
+		ft_putstr(": No such file or directory\n", 2);
+		exit(127);
 	}
+	while (tmp[++j])
+	{
+		tmp[j] = test(tmp[j], "/");
+		tmp[j] = test(tmp[j], (*head)->content[0]);
+		if (access(tmp[j], X_OK) == 0)
+			execve(tmp[j], (*head)->content, environ);
+	}
+	com_not_found(command);
 }
 
 char	**ft_create_env_from_stack(t_env *env)
@@ -48,16 +63,19 @@ char	**ft_create_env_from_stack(t_env *env)
 	int		size;
 	int		i;
 
-	size = ft_env_size(env);
+	size = ft_env_size(env) - ft_env_size_hide(env);
 	i = 0;
 	dst = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!dst)
 		return (NULL);
 	while (i < size)
 	{
-		dst[i] = ft_strjoin(env->key, "=");
-		dst[i] = test(dst[i], env->value);
-		i++;
+		if ((env->print == 1 && env->equal == 1))
+		{
+			dst[i] = ft_strjoin(env->key, "=");
+			dst[i] = test(dst[i], env->value);
+			i++;
+		}
 		env = env->next;
 	}
 	return (dst[i] = NULL, dst);

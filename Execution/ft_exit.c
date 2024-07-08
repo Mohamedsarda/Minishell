@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 22:39:55 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:39:56 by msarda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_sign(char **str)
@@ -14,7 +26,7 @@ int	ft_sign(char **str)
 	return (sign);
 }
 
-unsigned char	ft_atoi(char *str)
+static unsigned char	ft_atoi(char *str)
 {
 	size_t	nbr;
 	int		sign;
@@ -67,7 +79,7 @@ void	ft_one_args(char	*str, t_env **env, unsigned int nbr, t_joins **head)
 	char	*a;
 
 	a = NULL;
-	if (check_nmbr(str) == 1 || ft_atoi_checker(str) == 255)
+	if (check_nmbr(str) == 1 || ft_atoi_checker(str) == 255 || ft_space(str))
 	{
 		ft_putstr("Minishell$: exit: numeric argument required\n", 2);
 		ft_exit_status(env, "255");

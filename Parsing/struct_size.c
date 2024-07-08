@@ -1,28 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   struct_size.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/07 22:40:10 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:40:11 by msarda           ###   ########.fr       */
+/*   Created: 2024/07/07 22:42:01 by msarda            #+#    #+#             */
+/*   Updated: 2024/07/07 22:42:02 by msarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_pwd(t_joins	**stack_2, int is)
+int	ft_env_size(t_env *head)
 {
-	char	buffer[1024];
+	int	i;
 
-	getcwd(buffer, sizeof(buffer));
-	if (is)
-		return (ft_strdup(buffer));
-	else
+	i = 0;
+	while (head)
 	{
-		ft_putstr(buffer, (*stack_2)->out);
-		ft_putstr("\n", (*stack_2)->out);
+		i++;
+		head = head->next;
 	}
-	return (NULL);
+	return (i);
+}
+
+void	ft_next_node_joins(t_joins **head)
+{
+	t_joins	*stack;
+	int		i;
+
+	stack = (*head)->next;
+	i = 0;
+	if ((*head)->in > 2)
+		close((*head)->in);
+	if ((*head)->out > 2)
+		close((*head)->out);
+	if ((*head)->content)
+		while ((*head)->content[i])
+			free((*head)->content[i++]);
+	free((*head)->content);
+	free((*head));
+	(*head) = stack;
 }
