@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_stack_part5.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:41:36 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:41:38 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:24:40 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ int	ft_count_word_if_no_content(t_joins *tmp)
 	return (j);
 }
 
-void	ft_check_redi(char *ptr, int *x)
+int	ft_check_redi(char *ptr, int *x)
 {
 	if (ft_strcmp(ptr, ">") == 0 || ft_strcmp(ptr, "<") == 0
 		|| ft_strcmp(ptr, ">>") == 0)
-		*x += 2;
+		return (*x += 2, 1);
+	return (0);
 }
 
 char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
@@ -68,8 +69,10 @@ char	**ft_create_exe_dst(char **ptr, t_joins *tmp)
 		((1) && (j = 0, x = 0));
 		while (j < i)
 		{
-			ft_check_redi(ptr[x], &x);
-			if (tmp->content && ft_strlen(tmp->content[x]) == 0 && !tmp->quotes)
+			if (ft_check_redi(ptr[x], &x) == 1)
+				continue ;
+			else if (tmp->content
+				&& ft_strlen(tmp->content[x]) == 0 && !tmp->quotes)
 				x++;
 			else
 				dst[j++] = ft_strdup(ptr[x++]);

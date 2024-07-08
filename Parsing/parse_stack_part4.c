@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_stack_part4.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:41:31 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:41:34 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:13:58 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	ft_fail_open(t_joins	*tmp, t_env *env_stack, int i)
 	return (0);
 }
 
-void	ft_loop_con(t_env *env_stack, t_joins	*tmp, t_words *words)
+void	ft_loop_con(t_env *env_stack, t_joins	*tmp, t_words **words)
 {
 	int		i;
 
 	i = 0;
 	while (tmp->content[i])
 	{
-		if (hundle_error(words) == 10)
+		if (hundle_error((*words)) == 10)
 		{
 			ft_handle_error(env_stack, tmp);
 			break ;
@@ -71,8 +71,8 @@ void	ft_loop_con(t_env *env_stack, t_joins	*tmp, t_words *words)
 			ft_open_red(3, tmp, &i, words);
 		if (ft_fail_open(tmp, env_stack, i) == 1)
 			break ;
-		if (words)
-			words = words->next;
+		if ((*words))
+			(*words) = (*words)->next;
 		i++;
 	}
 }
@@ -87,7 +87,7 @@ void	open_files(t_joins **stack_2, t_words *words, t_env *env_stack)
 		if (hundle_error(words) == 10)
 			ft_handle_error(env_stack, tmp);
 		else
-			ft_loop_con(env_stack, tmp, words);
+			ft_loop_con(env_stack, tmp, &words);
 		while (words && words->type != PIPE)
 			words = words->next;
 		if (words)

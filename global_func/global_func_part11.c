@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global_func_part11.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:40:46 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:40:47 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:13:27 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_creat_list_no_herd(t_words *head, char **dst, int *i)
 	free_split(str);
 }
 
-void	ft_open_red(int is, t_joins *tmp, int *i, t_words *words)
+void	ft_open_red(int is, t_joins *tmp, int *i, t_words **words)
 {
 	if (is == 1)
 	{
@@ -118,6 +118,6 @@ void	ft_open_red(int is, t_joins *tmp, int *i, t_words *words)
 		tmp->out = open(tmp->content[++(*i)], O_CREAT
 				| O_RDWR | O_APPEND, 0644);
 	}
-	if (words)
-		words = words->next;
+	if ((*words))
+		(*words) = (*words)->next;
 }

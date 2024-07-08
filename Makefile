@@ -1,5 +1,5 @@
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 RM		= rm -rf
 SRCS	= Execution/all_commands.c        Execution/run.c                 Parsing/struct_size.c	\
 		Execution/echo.c                Parsing/creat_env_stack.c       Parsing/words_expan_dob.c	\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_stack_part3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msarda <msarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eel-ghal <eel-ghal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 22:41:29 by msarda            #+#    #+#             */
-/*   Updated: 2024/07/07 22:41:30 by msarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 00:23:21 by eel-ghal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ int	ft_herd_while_2(t_joins *stack_2, t_words *head, t_env **env, char *str)
 	char	*tmp;
 	char	*tmp_2;
 
+	tmp = head->word;
 	if (head->is == 1)
 		((1) && (tmp_2 = ft_strdup(head->word), tmp = dele_quotes(&tmp_2)));
-	if (!str || ((head->is && ft_strcmp(tmp, str) == 0)
-			|| ft_strcmp(head->word, str) == 0))
+	if (!str || ft_strcmp(tmp, str) == 0)
 	{
 		if (head->is)
 			free(tmp);
