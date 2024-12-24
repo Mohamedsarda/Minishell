@@ -84,7 +84,7 @@ $ exit
 
 ## Authors
 
-- Mohamed Sarda
+- [Mohamed Sarda](https://github.com/Mohamedsarda)
 - [El Hossein El Ghalbzouri](https://github.com/El-Hossein)
 
 ---
